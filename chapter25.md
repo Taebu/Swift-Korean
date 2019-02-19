@@ -291,7 +291,7 @@ let combinedVector = vector + anotherVector
 위에서 보여준 예는 2항 중간 연산자의 사용자 정의 구현을 설명한 것 입니다. 클래스와 구조체들은 표준 단항 연산자들의 구현을 제공해줄 수 있습니다. 단항 연산자들은 단일 타깃에 대해서 동작합니다. 만일 그것들이 그들의 타깃보다 앞서서 나타난다면(예를 들어 -a와 같은) 전위 연산자이고, 반대로 그들의 타깃 뒤에서 나타난다면(i++과 같은) 후위 연산자라고 말합니다.
 
 당신은 연산자 함수를 선언할 때 'func' 키워드 앞에 '@prefix' 또는 '@postfix' 속성을 사용함으로써 전위 또는 후위 단항 연산자를 구현합니다.
-```
+```swift
 @prefix func - (vector: Vector2D) -> Vector2D {
     return Vector2D(x: -vector.x, y: -vector.y)
 }
@@ -311,7 +311,7 @@ let alsoPositive = -negative
 복합 할당 연산자들은 다른 동작에 할당(=) 연산자를 결합한 것 입니다. 예를 들어, 덧셈 할당 연산자(+=)는 하나의 동작 안에 덧셈과 할당 연산을 합친 것 입니다. 복합 할당 연산자를 구현하는 연산자 함수는 '@assignment' 속성을 기술함으로써 결합 할당 연산자임을 알려주어야 합니다. 당신은 또한 복합 할당 연산자들의 왼쪽 입력 파라메터들을 'inout'으로써 표시해야만 합니다. 이것은 파라메터의 값이 연산자 함수 안에서 직접적으로 수정될 것이기 때문입니다.
 
 아래 예는 Vector2D 인스턴스들에 대해서 덧셈 할당 연산자 함수를 구현한 것 입니다.
-```
+```swift
 @assignment func += (inout left: Vector2D, right: Vector2D) {
     left = left + right
 }
@@ -324,7 +324,7 @@ original += vectorToAdd
 // original은 현재 (4.0, 6.0)의 값을 가집니다.
 ```
 당신은 '@prefix'또는 '@postfix' 속성 둘 중에 하나를 '@assignment'속성과 함께 결합할 수 있습니다. 이는 Vector2D 인스턴스에 대해서 전위 증가 연산자 (예로 ++a)의 구현에서 사용할 수 있습니다.
-```
+```swift
 @prefix @assignment func ++ (inout vector: Vector2D) -> Vector2D {
     vector += Vector2D(x: 1.0, y: 1.0)
     return vector
@@ -345,7 +345,7 @@ let afterIncrement = ++toIncrement
 사용자 정의 클래스와 구조체들은 동등 연산자들, 즉 "같음(equal to)" 연산자 (==)와 "다름" 연산자(!=)로써 알려져 있는 연산자들의 기본 구현들을 받지 못 합니다. Swift에서는 당신 자신의 사용자 정의 타입에 대해서 "같음"으로 인정될 수 있는 것에 대한 추측하는 것이 불가능합니다. 이것은 "같음"의 정의가 당신의 코드에서 이들 타입들이 수행하는 역할에 의존하기 때문입니다.
 
 사용자가 만든 타입의 동등성 검사를 위한 동등성 연산자를 사용하기 위해서는 다른 중위 연산자들에 대해서와 같이 연산자들의 구현을 제공해야 합니다.
-```
+```swift
 @infix func == (left: Vector2D, right: Vector2D) -> Bool {
     return (left.x == right.x) && (left.y == right.y)
 }
@@ -373,7 +373,7 @@ if twoThree == anotherTwoThree {
 operator prefix +++ {}
 ```
 위의 예는 '+++'라고 불리는 새로운 전위 연산자를 정의합니다. 이 연산자는 Swift에서 미리 정의된 의미를 가지고 있지 않습니다. 그래서 Vector2D 인스턴스들과 함께 동작하는 특정 컨텍스트 안에서 아래와 같이 의미를 부여는 자신 소유의 사용자 정의 연산자를 선언할 수 있습니다. 이 예제의 목적을 위해서, '+++'를 새로운 "전위 두 배 증가" 연산자로써 다룹니다. 그것은 이전에 정의했던 덧셈 할당 연산자를 통해 그 자신을 그 벡터에 더하므로 써, Vector2D 인스턴스의 x와 y값을 두 배가 증가 시킵니다.
-```
+```swift
 @prefix @assignment func +++ (inout vector: Vector2D) -> Vector2D {
     vector += vector
     return vector
@@ -406,23 +406,3 @@ let plusMinusVector = firstVector +- secondVector
 // plusMinusVector는 (4.0, -2.0)의 값들을 가지는 Vector2D 인스턴스입니다.
 ```
 이 연산자는 두 벡터의 x값들을 더하고 첫 번째 것의 y로부터 두 번째 벡터의 y값을 뺍니다. 그것은 본질적으로 덧셈 연산자이기 때문에, '+'나 '-'와 같은 기본 덧셈 중위 연산자들과 같은 결합순위와 우선순위(왼쪽, 그리고 140)가 주어집니다. 기본적인 Swift 연산자 우선순위 및 결합순위 설정에 대한 완벽한 목록에 대해서는 "Expressions"장을 참조하세요.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
