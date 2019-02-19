@@ -237,7 +237,7 @@ class Dice {
 
 여기 `LinearCongruentialGenerator` 인스턴스를 난수생성기로 받는 6면체의 `Dice` 클래스가 어떻게 사용되는지 예제가 있다.
 
-```
+```swift
 var d6 = Dice(sides: 6, generator: LinearCongruentialGenerator())
 for _ in 1...5 {
     println("랜덤한 주사위값은 \(d6.roll())")
@@ -394,7 +394,7 @@ extension Dice: TextRepresentable {
 이제 어떤 `Dice` 인스턴스들도 `TextRepresentable`로 처리할 수 있다. 
 
 
-```
+```swift
 let d12 = Dice(sides: 12, generator: LinearCongruentialGenerator())
 println(d12.asText())
 // "12면체 주사위" 출력
@@ -599,7 +599,7 @@ class Country: HasArea {
 
 여기 `Animal`이라는 클래스가 있고 `HasArea` 프로토콜에 일치하지 않는다.
 
-```
+```swift
 class Animal {
     var legs: Int
     init(legs: Int) { self.legs = legs }
@@ -672,7 +672,7 @@ Objective-C와 같이 사용하지 않더라도 선택적 요구사항을 사용
 
 아래 정의한 `Counter` 클래스는 `CounterDataSource?` 타입을 `dataSource`라는 선택적 속성으로 가지고 있다.
 
-```
+```swift
 @objc class Counter {
     var count = 0
     var dataSource: CounterDataSource?
