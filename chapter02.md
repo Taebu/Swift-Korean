@@ -2,7 +2,7 @@
 > Translator : FlashMaestro (masterofflash@nate.com)
 
 전통적으로 새로운 언어를 배울 때 첫번째 프로그램은 화면에 "Hello, world"란 구문을 출력해 보는 것입니다. Swift에서는 코드 한 줄로 이를 구현할 수 있습니다.
-``` 
+```swift
 println("Hello, world")
 ```    
 C나 Objective-C에서 코드를 작성해본적이 있다면 이런 문법이 매우 익숙할 것입니다. Swift에서는 이 한줄의 코드가 완전한 프로그램입니다. 입/출력이나 문자열을 다루기 위한 함수들 같은 기능들을 사용하기 위해 분리된 라이브러리를 볼러올(Import) 필요가 없습니다. 전역 범위(Global scope)에 해당하는 코드는 프로그램의 진입점(entry point)로 사용되기 때문에, main 함수는 필요하지 않습니다. 또한 모든 문장끝에 세미콜론을 쓸 필요도 없습니다.
@@ -92,7 +92,7 @@ shoppingList = [] // Went shopping and bought everything.
 ## 흐름 제어
 `if`와 `switch`를 사용해서 조건문을 만들 수 있고 `for-in`, `for`, `while`, `do-while`을 이용해서 반복문을 만들 수 있습니다. 조건문과 반복문을 괄호로 감싸는 것은 선택사항입니다. 단, 중괄호로 해당 문 안(body)의 코드를 감싸는 것은 필수입니다.
 
-```
+```swift
  let individualScores = [75, 43, 103, 87, 12]
  var teamScore = 0
  for score in individualScores {
@@ -127,7 +127,7 @@ teamScore
 
 `switch`문에는 정수 타입 값이나 동등 비교연산 뿐만 아니라 어떤 종류의 데이터든 사용할 수 있고 다양한 비교 연산자들을 사용할 수 있습니다.
 
-```
+```swift
   let vegetable = "red pepper"
   switch vegetable {
   case "celery":
@@ -271,7 +271,7 @@ increment(7)
 
 또 함수는 다른 함수를 인자로 받을 수 있습니다.
 
-```
+```swift
   func hasAnyMatches(list: Int[], condition: Int -> Bool) -> Bool {
       for item in list {
           if condition(item) {
@@ -289,7 +289,7 @@ increment(7)
 
 실제로 함수는 클로저(Closure)의 특별한 예입니다. 중괄호(`{}`)를 지정하지 않고도 클로저를 사용할 수 있습니다. `in` 키워드를 사용해 인자와 반환값 타입을 분리해 사용할 수도 있습니다.
 
-```
+```swift
   numbers.map({
       (number: Int) -> Int in
       let result = 3 * number
@@ -313,7 +313,7 @@ sort([1, 5, 3, 12, 2]) { $0 > $1 }
 
 클래스를 만들기 위해서는 클래스 이름과 함께 `class` 키워드를 사용하면 됩니다.클래스 컨텍스트(context) 내부를 제외하고 클래스 안에 속성을 선언하기 위해서는 상수나 변수를 선언하는 것과 똑같은 방식으로 쓰면 됩니다. 마찬가지로 메서드와 함수도 선언할 수 있습니다.
 
-```
+```swift
   class Shape {
     var numberOfSides = 0
     func simpleDescription() -> String {
@@ -334,7 +334,7 @@ sort([1, 5, 3, 12, 2]) { $0 > $1 }
 
 현재 상태의 `Shape` 클래스는 중요한 것이 빠져있습니다. 바로 클래스가 생성될 때 클래스를 초기화하기 위한 초기화자 입니다. `init` 키워드를 사용해 만들어 봅시다.
 
-```
+```swift
   class NamedShape {
       var numberOfSides: Int = 0
       var name: String
@@ -653,7 +653,7 @@ repeat("knock", 4)
 
 클래스, 열거형, 구조체와 마찬가지로 함수나 메서드를 제네릭 형태로 만들 수 있습니다. 
 
-```
+```swift
 // Reimplement the Swift standard library's optional type
 enum OptionalValue<T> {
     case None
