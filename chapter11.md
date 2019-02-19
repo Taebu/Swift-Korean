@@ -32,7 +32,7 @@ Swift에서 클래스와 구조체는 여러 공통점을 가지고 있습니다
 
 ### 정의 문법 (Definition Syntax)
 클래스와 구조체는 유사한 문법적 구조를 가지고 있습니다. 클래스는 `class` 키워드를 구조체는 `struct` 키워드를 사용합니다.  구조체와 클래스 모두 그들의 모든 정의는 중괄호({})내에 위치시킵니다.
-```
+```swift
 class SomeClass {
     // class definition goes here
 }
@@ -44,7 +44,7 @@ struct SomeStructure {
 새로운 클래스나 구조체를 정의할때마다 새로운 Swift의 타입을 효과적으로 정의 할 수있다. `String`, `Int`, 그리고 `Bool`와 같은 표준의 Swift타입과 동일한 대문자 사용법과 맞도록 타입들에게 `SomeClass`나 `SomeStructure`와 같은 `UserCamelCase`에 따른 이름을 주십시오. 역으로 프로퍼티와 메서드는 이들과 타입이름으로 구분이 되도록 `frameRate`나 `incrementCount`와 같은 `lowerCamelCase`에 따른 이름을 주십시오.
 
 클래스와 구조체 정의문의 예:
-```
+```swift
 struct Resolution {
 	var width = 0
 	var height = 0
@@ -66,7 +66,7 @@ class VideoMode {
 `Resolution` 구조체와 `VideoMode` 클래스는 오직 `Resolution`또는 `VideoMode`가 어떻게 보일지를 정의할뿐, 특정한 해상도나 비디오 모드를 표현하지는 않습니다. 그러기에, 여러분은 구조체나 클래스의 인스턴스를 만들 필요가 있습니다.
 
 구조체나 클래스 인스턴스를 생성하기 위한 문법은 매우 유사합니다:
-```
+```swift
 let someResolution = Resolution()
 let someVideoMode = VideoMode()
 ```
@@ -74,19 +74,19 @@ let someVideoMode = VideoMode()
 
 ### 프로퍼티 접근 (Accessing Properties)
 dot(.) 문법을 사용해서 인스턴스의 프로퍼티에 접근할 수 있습니다. dot 문법에서,  인스턴스 이름 뒤에 아무런 공간 없이 바로 dot(.)과 프로퍼티 네임을 적는것입니다.
-```
+```swift
 println("The width of someResolution is \(someResolution.width)")
 // prints "The width of someResolution is 0"
 ```
 이 예제에서 `someResolution.width`는 `someResolution`의 `width` 프로퍼티를 참조하고 기본 초기값인 0를 반환합니다.
 
 여러분은 원하는 정보를 찾기 위해 내부 프로퍼티로 계속 들어갈 수 있습니다. 예를 들면 `VideoMode`에 속한 `resolution` 프로퍼티내의 `width` 프로퍼티와 같이 말입니다.
-```
+```swift
 println("The width of someVideoMode is \(someVideoMode.resolution.width)")
 // prints "The width of someVideoMode is 0"
 ```
 dot 문법을 통해 변수 프로퍼티로서 새로운 값을 할당하는것도 가능합니다.
-```
+```swift
 someVideoMode.resolution.width = 1280
 println("The width of someVideoMode is now \(someVideoMode.resolution.width)")
 // prints "The width of someVideoMode is now 1280"
@@ -96,7 +96,7 @@ Objective-C와는 달리 Swift는 구조체 프로퍼티의 내부프로퍼티�
 
 ### 구조체 타입을 위한 멤버들의 초기화 (Memberwise Initializers for Structure Types)
 모든 구조체는 여러분이 새로은 구조체 인스턴스의 멤버 프로퍼티들을 초기화 할수있는 자동 생성된 멤버들의 initializer(memberwise initializer) 가지고 있습니다. 새로운 인스턴스의 프로퍼티들을 위한 초기값들은 이름을 통해서 멤버들의 initializer에게 전달 될 수 있습니다.
-```
+```swift
 let vga = Resolution(width: 640, height: 480)
 ```
 구조체와 다르게, 클래스 인스턴스는 기본 멤버들의 initializer를 받지 않습니다. Initializer의 자세한 사항은 [Initialization]()을 참조해주십시오.
@@ -109,7 +109,7 @@ let vga = Resolution(width: 640, height: 480)
 Swift에서 모든 구조체와 열거형은 값 타입입니다. 즉 여러분이 생성하는 모든 구조체와 열거형 인스턴스들, -그리고 프로퍼티로서 그들이 가지고 있는 모든 값 타입-은 여러분의 코드내에서 전달되는 경우에는 언제나 복사됩니다.
 
 앞의 예제에서 사용된 예제에서 `Resolution` 구조체의 사용에 대해서 더 생각해보자:
-```
+```swift
 let hd = Resolution(width: 1920, height: 1080)
 var cinema = hd
 ```
@@ -118,23 +118,23 @@ var cinema = hd
 그리고 `cinema`라는 변수를 선언하고 `hd` 상수의 현재 값으로 설정했습니다. `Resolution`이 구조체이기 때문에 존재하는 인스턴스의 복사본이 만들어지고, 이 새로운 복사본이 `cinema`에 할당됩니다. `hd`와 `cinema`가 현재 같은 넓이와 높이 값을 가지고 있다하더라도, 그들은 보이지 않는 곳에서는 완전히 다른 두 개의 인스턴스들입니다.
 
 다음은 `cinema`의 `width` 프로퍼티에 디지털 시네마 프로젝션을 위해 사용되는 slightly-wider 2K 표준값의(2048 픽셀 넓이와 1080 픽셀 높이)의 넓이로 수정합니다.
-```
+```swift
 cinema.width = 2048
 ```
 `cinema` 인스턴스의 `width` 프로퍼티를 체크하는 것으로 이 값이 정말로 2048로 변했음을 볼 수 있습니다.
-```
+```swift
 println("cinema is now \(cinema.width) pixels wide")
 // prints "cinema is now 2048 pixels wide"
 ```
 하지만 `hd` 인스턴스의 `width` 프로퍼티는 여전히 예전 값인 1920를 가지고 있습니다.
-```
+```swift
 println("hd is still \(hd.width) pixels wide")
 // prints "hd is still 1920 pixels wide"
 ```
 `cinema`에 `hd` 인스턴스를 할당할때 `hd`에 저장되어있던 프로퍼티의 값들이 새로 생성된 `cinema` 인스턴스로 복사가 이루어졌음을 알수 있습니다. 결과를 보면 동일한 값을 가지고 있는 완전히 분리된 인스턴스임을 알수 있습니다. 두 인스턴스는 서로 다른 인스턴스이기 때문에 `cinema`의 `width`를 2048로 할당하더라도 `hd` 인스턴스에 저장되어있는 width 값에는 어떠한 영향도 미치지 않습니다.
 
 열거형에도 동일한 법칙이 적용됩니다
-```
+```swift
 enum CompassPoint {
 	case North, South, East, West
 }
@@ -152,7 +152,7 @@ if rememberedDirection == .West {
 값 타입과 달리 참조 타입(reference type)은 함수로 전달되때나 상수나 변수에 할당될때 복사가 이루어지지 않습니다. 복사본 대신, 동일한 인스턴스의 레퍼런스(reference)가 사용됩니다.
 
 위에서 정의한 `VideoMode` 클래스의 사용을 통한 예제가 있습니다:
-```
+```swift
 let tenEighty = VideoMode()
 tenEighty.resolution = hd
 tenEighty.interlaced = true
@@ -162,14 +162,14 @@ tenEighty.frameRate = 25.0
 이 예제에서 우리는 `tenEighty`라는 상수를 선언하고 새로 생성된 `VideoMode` 클래스의 인스턴스를 할당합니다. 비디오 모드는 전에 설정했던 1920 x 1080의 HD 해상도의 복사본을 할당했습니다. 또한 interlaced를 설정하고 "1080i"라는 이름을 주었습니다. 마지막으로 frame rate는 프레임 레이트를 초당 25.0 프레임으로 설정했습니다.
 
 다음으로 `tenEighty`를 `alsoTenEighty`라는 새로운 상수에 할당하고, `alsoTenEighty`의 프레임 레이트의 값을 수정하겠습니다.
-```
+```swift
 let alsoTenEighty = tenEighty
 asloTenEighty.frameRate = 30.0
 ```
 클래스는 참조 타입이기때문에 `tenEighty`와 `alsoTenEighty`는  사실 동일한 `VideoMode` 인스턴스를 참조하고 있습니다. 실제적으로 그들은 단지 동일한 인스턴스를 참조하는 서로 다른 이름일뿐입니다.
 
 아래의 예제코드를 통해 `tenEighty`의 `framerate` 프로퍼티가 새로운 프레임 레이트 값인 30.0임을 확인할수 있습니다.
-```
+```swift
 println("The frameRate property of tenEighty is now \(tenEighty.frameRate)")
 // prints "The frameRate property of tenEighty is now 30.0"
 ```
@@ -184,7 +184,7 @@ println("The frameRate property of tenEighty is now \(tenEighty.frameRate)")
 * 동일하지 않은(Not identical to) (!==)
 
 두 상수나 변수가 동일한 인스턴스를 가리키는지 검사하기 위해 위의 두 연산자를 사용하십시오.
-```
+```swift
 if tenEighty === alsoTenEighty {
 	println("tenEighty and alsoTenEighty refer to the same Resolution instance.")
 }
@@ -232,14 +232,14 @@ Swift의 `Array`와 `Dictionary` 형은 구조체로 구현되어 있습니다. 
 만약 딕셔너리 인스턴스에 저장되어있는 키 또는 값이 값형식(구조체이거나 열거형)일 경우 그들 역시 할당될시나 함수의 호출시에 복제가 일어납니다. 이와는 다르게 만약 키 또는 값이 참조형식(클래스이거나 함수)일 경우에는 레퍼런스의 복제가 일어납니다. 하지만 이것은 그들이 참조하고 있는 클래스 인스턴스나 함수가 아닙니다. 이러한 딕셔너리의 키또는 값의 복제 방식은 구조체가 복사될때 구조체의 저장속성의 복제방식과 같습니다.
 
 밑의 예제에서는 네 사람의 이름과 나이를 갖는 `ages`라는 딕셔너리를 정의합니다. `copiedAges`라 명명된 새로운 변수에 이 `ages` 딕셔너리를 할당합니다. 할당후에 `ages`와 `copiedAges`는 서로 다른 딕셔너리입니다.
-```
+```swift
 var ages = ["Peter": 23, "Wei": 35, "Anish": 65, "Katya": 19]
 var copiedAges = ages
 ```
 이 딕셔너리의 키는 `String`타입이고 값은 `Int`타입입니다. 두 형은 Swift에서 값 타입입니다. 그러므로 딕셔너리의 복제가 일어날때 키와 값들 또한 복제됩니다.
 
 여러분은 두 딕셔너리중에 하나의 age값을 바꾸고 확인함으로써 `ages` 딕셔너리가 복제되었음을 증명할수 있습니다. 여러분이 `copiedAges` 딕셔너리의 `"Peter"`의 값을 24로 바꿔도 `ages` 딕셔너리의 반환값은 복제가 일어나기전과 동일한 23을 반환함을 알수 있습니다.
-```
+```swift
 copiedAges["Peter"] = 24
 println(ages["Peter"])
 // "23" 출력
@@ -250,13 +250,13 @@ Swift의 배열 타입의 할당과 복제방식은 딕셔너리 타입보다 �
 배열에서 복제는 여러분이 배열의 길이를 수정할 가능성이 있는 코드를 실행할때 일어납니다. 이것은 요소의 추가, 삽입, 삭제 또는 배열요소들의 범위를 바꾸기 위해 사용되어지는 범위지정된 subscript들을 포함합니다. 배열의 복제가 일어날때의 배열 요소들의 복제 작동방식은 [Assignment and Copy Behavior for Dictionaries]()에 설명된 딕셔너리의 키, 값의 복제와 동일합니다.
 
 아래 예제는 `a`라 명명된 변수에 `Int`값들을 갖는 새로운 배열을 할당합니다. 그리고 이 배열은 또다시 `b`와 `c`로 명명된 두 변수에 할당됩니다.
-```
+```swift
 var a = [1, 2, 3]
 var b = a
 var c = a
 ```
 여러분은 supscript 문법을 통해 a 또는 b 또는 c 배열의 첫번째 값을 구할수 있습니다.
-```
+```swift
 println(a[0])
 // 1
 println(b[0])
@@ -265,7 +265,7 @@ println(c[0])
 // 1
 ```
 만약 여러분이 supscript 문법을 통해 배열에 새로운 값을 할당하면 `a`, `b`, `c` 세개의 배열은 새로 할당된 값을 반환할것입니다. supcript 문법을 통한 단일 값의 수정은 배열의 길이를 변화시키지 않기때문에 배열의 요소에 새로운 값을 할당할때에는 복제가 일어나지 않습니다.
-```
+```swift
 a[0] = 42
 println(a[0])
 // 42
@@ -277,7 +277,7 @@ println(c[0])
 하지만 만약 여러분이 `a`배열에 새로운 요소를 추가한다면 여러분은 배열의 길이를 수정하게 됩니다. 이것은 Swift로 하여금 요소가 추가될시에 새로운 배열의 복제를 생성하게 합니다. 더욱이 `a`는 별도의 독립적인 원배열의 복제된 배열입니다.
 
 만약 여러분이 복제가 된후에 `a`배열의 요소를 수정하면 `a`는 여전히 원배열 요소를 참조하고 있는 `b`나 `c`와는 다른 값을 반환할것입니다.
-```
+```swift
 a.append(4)
 a[0] = 777
 println(a[0])
@@ -293,11 +293,11 @@ println(c[0])
 만약 여러 변수들이 동일한 배열을 참조하고 있고 여러분이 그중에 하나의 변수를 이용해서 `unshare`메소드를 호출했다면 그 배열은 복제가 됨으로써 그 변수가 그 변수만의 독립적인 배열의 복사를 가지게 됩니다. 하지만 그 변수가 그 배열에 대한 유일한 참조변수라면 복제가 일어나지 않습니다.
 
 위 예제코드의 마지막에 `b`와 `c`는 동일한 배열을 참조하고 있습니다 `b`배열 `unshare` 메소드를 호출해서 유니크한 배열을 만들도록 하겠습니다.
-```
+```swift
 b.unshare()
 ```
 만약 여러분이 `unshare` 메소드를 호출한뒤에 `b` 배열의 첫번째 요소의 값을 수정한다면 세 배열은 모두 다른 값을 보여줄겁니다.
-```
+```swift
 b[0] = -105
 println(a[0])
 // 777
@@ -310,7 +310,7 @@ println(c[0])
 식별 연산자(===와 !===)를 통해 하나 이상의 배열 또는 subarray들이 동일한 저장소와 요소들을 공유하는지를 확인할수 있습니다.
 
 아래 예제에서는 "동일한(identical to)" 연산자(===)를 사용해서 배열 `b`와 `c`가 여전히 배열요소들을 공유하는지 확인합니다.
-```
+```swift
 if b === c {
     println("b and c still share the same array elements.")
 } else {
@@ -319,7 +319,7 @@ if b === c {
 // prints "b and c now refer to two independent sets of array elements."
 ```
 또한 식별연산자를 사용해 subarray들이 동일한 요소를 공유하는지도 검사할수 있습니다. 아래 예제는 `b`의 동일한 subarray를 비교함으로써 그 둘이 동일한 요소를 참조하고 있음을 확인합니다.
-```
+```swift
 if b[0...1] === b[0...1] {
     println("These two subarrays share the same elements.")
 } else {
@@ -330,13 +330,13 @@ if b[0...1] === b[0...1] {
 ## 강제로 배열 복제하기 (Forcing a Copy of an Array)
 배열의 `copy` 메서드를 호출함으로 강제적으로 배열의 복제를 할수 있습니다. 이 메서드는 얕은복제(shallow copy)를 행하며 복사된 요소들을 갖는 새로운 배열을 반환합니다.
 아래 예제에서 우리는 `names`라는 배열을 정의하고 7명의 이름을 저장합니다. `copiedNames`로 명명된 새로운 변수에 `names`배열의 `copy`메소드를 호출하고 결과값을 할당합니다.
-```
+```swift
 var names = ["Mohsen", "Hilary", "Justyn", "Amy", "Rich", "Graham", "Vic"]
 var copiedNames = names.copy()
 ```
 여러분은 둘중 하나의 배열 요소의 값을 수정하고 다른 배열에서의 요소값을 확인함으로써 `names` 배열의 복제가 제대로 이루어졌는지 확인하실수 있습니다.
 만약 여러분이 `copiedNames` 배열의 첫번째 요소의 값을 `Mohsen`에서 `"Mo"`로 수정해도 `names`배열은 여전히 복제가 일어나기전의 원래 값인 `"Mohsen"`을 반환합니다.
-```
+```swift
 copiedNames[0] = "Mo"
 println(names[0])
 // "Mohsen" 출력
