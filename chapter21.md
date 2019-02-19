@@ -12,7 +12,7 @@
 
 블랙잭 게임에서 에이스 카드는 1또는 11의 값을 가지고 있습니다. 이러한 요소는 `Values`라는 구조체에 의해 표현됩니다. `Values` 구조체는 `Rank` 열거형 내부에 중첩되어 있습니다. 
 
-```
+```swift
 struct BlackjackCard {
     // nested Suit enumeration
     enum Suit: Character {
@@ -67,7 +67,7 @@ struct BlackjackCard {
 
 `BalckjackCard`구조체는 커스텀 이니셜라이저를 가지고 있지 않으므로, 앞 챕터의 [구조체 타입을 위한 멤버 단위의 이니셜라이저(Memberwise Initializers for Structure Types)](Intialization 챕터 쪽 링크필요)에서 설명한대로 암시적인 멤버단위 이니셜라이저(memberwise intializer)를 가지고 있습니다. 
 
-```
+```swift
 let theAceOfSpades = BlackjackCard(rank: .Ace, suit: .Spades)
 println("theAceOfSpades: \(theAceOfSpades.description)")
 // prints "theAceOfSpades: suit is ♠, value is 1 or 11
@@ -78,7 +78,7 @@ println("theAceOfSpades: \(theAceOfSpades.description)")
 ## 중첩 타입 참조하기 (Referring to Nested Types)
 자신이 정의된 문맥 외부에서 중첩타입을 사용하려면, 자기를 포함하고 있는(중첩하고 있는)타입의 이름을 그 이름앞에 붙입니다. 
 
-```
+```swift
 let heartsSymbol = BlackjackCard.Suit.Hearts.toRaw()
 // heartsSymbol is "♡"
 ```
