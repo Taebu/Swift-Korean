@@ -577,9 +577,10 @@ class SomeClass: NSObject {
         self.property = property
     }
 }
-```
+
 let selectorForMethod = #selector(SomeClass.doSomething(_:))
 let selectorForPropertyGetter = #selector(getter: SomeClass.property)
+```
 When creating a selector for a property’s getter, the property name can be a reference to a variable or constant property. In contrast, when creating a selector for a property’s setter, the property name must be a reference to a variable property only.
 
 The method name can contain parentheses for grouping, as well the as operator to disambiguate between methods that share a name but have different type signatures. For example:
@@ -649,106 +650,111 @@ GRAMMAR OF A KEY-PATH STRING EXPRESSION
 
 key-path-string-expression → #keyPath ( expression )
 
-Postfix Expressions
+### Postfix Expressions
 Postfix expressions are formed by applying a postfix operator or other postfix syntax to an expression. Syntactically, every primary expression is also a postfix expression.
 
 For information about the behavior of these operators, see Basic Operators and Advanced Operators.
 
 For information about the operators provided by the Swift standard library, see Operator Declarations.
 
-GRAMMAR OF A POSTFIX EXPRESSION
 
-postfix-expression → primary-expression
+> postfix-expression → primary-expression
 
-postfix-expression → postfix-expression postfix-operator
+> postfix-expression → postfix-expression postfix-operator
 
-postfix-expression → function-call-expression
+> postfix-expression → function-call-expression
 
-postfix-expression → initializer-expression
+> postfix-expression → initializer-expression
 
-postfix-expression → explicit-member-expression
+> postfix-expression → explicit-member-expression
 
-postfix-expression → postfix-self-expression
+> postfix-expression → postfix-self-expression
 
-postfix-expression → subscript-expression
+> postfix-expression → subscript-expression
 
-postfix-expression → forced-value-expression
+> postfix-expression → forced-value-expression
 
-postfix-expression → optional-chaining-expression
+> postfix-expression → optional-chaining-expression
 
-Function Call Expression
+### Function Call Expression
 A function call expression consists of a function name followed by a comma-separated list of the function’s arguments in parentheses. Function call expressions have the following form:
-
+```swift
 function name(argument value 1, argument value 2)
+```
 The function name can be any expression whose value is of a function type.
 
 If the function definition includes names for its parameters, the function call must include names before its argument values separated by a colon (:). This kind of function call expression has the following form:
 
 function name(argument name 1: argument value 1, argument name 2: argument value 2)
 A function call expression can include a trailing closure in the form of a closure expression immediately after the closing parenthesis. The trailing closure is understood as an argument to the function, added after the last parenthesized argument. The following function calls are equivalent:
-
+```swift
 // someFunction takes an integer and a closure as its arguments
 someFunction(x: x, f: {$0 == 13})
 someFunction(x: x) {$0 == 13}
+```
 If the trailing closure is the function’s only argument, the parentheses can be omitted.
-
+```swift
 // someMethod takes a closure as its only argument
 myData.someMethod() {$0 == 13}
 myData.someMethod {$0 == 13}
-GRAMMAR OF A FUNCTION CALL EXPRESSION
+```
 
-function-call-expression → postfix-expression function-call-argument-clause
 
-function-call-expression → postfix-expression function-call-argument-clause opt trailing-closure
+> function-call-expression → postfix-expression function-call-argument-clause
 
-function-call-argument-clause → ( ) | ( function-call-argument-list )
+> function-call-expression → postfix-expression function-call-argument-clause opt trailing-closure
 
-function-call-argument-list → function-call-argument | function-call-argument , function-call-argument-list
+> function-call-argument-clause → ( ) | ( function-call-argument-list )
 
-function-call-argument → expression | identifier : expression
+> function-call-argument-list → function-call-argument | function-call-argument , function-call-argument-list
 
-function-call-argument → operator | identifier : operator
+> function-call-argument → expression | identifier : expression
+
+> function-call-argument → operator | identifier : operator
 
 trailing-closure → closure-expression
 
-Initializer Expression
+### Initializer Expression
 An initializer expression provides access to a type’s initializer. It has the following form:
-
+```swift
 expression.init(initializer arguments)
+```
 You use the initializer expression in a function call expression to initialize a new instance of a type. You also use an initializer expression to delegate to the initializer of a superclass.
-
+```swift
 class SomeSubClass: SomeSuperClass {
     override init() {
         // subclass initialization goes here
         super.init()
     }
 }
+```
 Like a function, an initializer can be used as a value. For example:
-
+```swift
 // Type annotation is required because String has multiple initializers.
 let initializer: (Int) -> String = String.init
 let oneTwoThree = [1, 2, 3].map(initializer).reduce("", +)
 print(oneTwoThree)
 // Prints "123"
+```
 If you specify a type by name, you can access the type’s initializer without using an initializer expression. In all other cases, you must use an initializer expression.
-
+```swift
 let s1 = SomeType.init(data: 3)  // Valid
 let s2 = SomeType(data: 1)       // Also valid
 
 let s3 = type(of: someValue).init(data: 7)  // Valid
 let s4 = type(of: someValue)(data: 5)       // Error
-GRAMMAR OF AN INITIALIZER EXPRESSION
+```
 
-initializer-expression → postfix-expression . init
+> initializer-expression → postfix-expression . init
 
-initializer-expression → postfix-expression . init ( argument-names )
+> initializer-expression → postfix-expression . init ( argument-names )
 
-Explicit Member Expression
+### Explicit Member Expression
 An explicit member expression allows access to the members of a named type, a tuple, or a module. It consists of a period (.) between the item and the identifier of its member.
 
 expression.member name
 The members of a named type are named as part of the type’s declaration or extension. For example:
-
+```swift
 class SomeClass {
     var someProperty = 42
 }
@@ -759,12 +765,13 @@ The members of a tuple are implicitly named using integers in the order they app
 var t = (10, 20, 30)
 t.0 = t.1
 // Now t is (20, 20, 30)
+```
 The members of a module access the top-level declarations of that module.
 
 Types declared with the dynamicMemberLookup attribute include members that are looked up at runtime, as described in Attributes.
 
 To distinguish between methods or initializers whose names differ only by the names of their arguments, include the argument names in parentheses, with each argument name followed by a colon (:). Write an underscore (_) for an argument with no name. To distinguish between overloaded methods, use a type annotation. For example:
-
+```swift
 class SomeClass {
     func someMethod(x: Int, y: Int) {}
     func someMethod(x: Int, z: Int) {}
@@ -779,25 +786,27 @@ let b = instance.someMethod(x:y:)        // Unambiguous
 let d = instance.overloadedMethod        // Ambiguous
 let d = instance.overloadedMethod(x:y:)  // Still ambiguous
 let d: (Int, Bool) -> Void  = instance.overloadedMethod(x:y:)  // Unambiguous
+```
 If a period appears at the beginning of a line, it is understood as part of an explicit member expression, not as an implicit member expression. For example, the following listing shows chained method calls split over several lines:
-
+```swift
 let x = [10, 3, 20, 15, 4]
     .sorted()
     .filter { $0 > 5 }
     .map { $0 * 100 }
-GRAMMAR OF AN EXPLICIT MEMBER EXPRESSION
+ ```
 
-explicit-member-expression → postfix-expression . decimal-digits
 
-explicit-member-expression → postfix-expression . identifier generic-argument-clause opt
+> explicit-member-expression → postfix-expression . decimal-digits
 
-explicit-member-expression → postfix-expression . identifier ( argument-names )
+> explicit-member-expression → postfix-expression . identifier generic-argument-clause opt
 
-argument-names → argument-name argument-names opt
+> explicit-member-expression → postfix-expression . identifier ( argument-names )
 
-argument-name → identifier :
+> argument-names → argument-name argument-names opt
 
-Postfix Self Expression
+> argument-name → identifier :
+
+### Postfix Self Expression
 A postfix self expression consists of an expression or the name of a type, immediately followed by .self. It has the following forms:
 
 expression.self
@@ -829,7 +838,7 @@ expression!
 If the value of the expression is not nil, the optional value is unwrapped and returned with the corresponding non-optional type. Otherwise, a runtime error is raised.
 
 The unwrapped value of a forced-value expression can be modified, either by mutating the value itself, or by assigning to one of the value’s members. For example:
-
+```swift
 var x: Int? = 0
 x! += 1
 // x is now 1
@@ -837,6 +846,7 @@ x! += 1
 var someDictionary = ["a": [1, 2, 3], "b": [10, 20]]
 someDictionary["a"]![0] = 100
 // someDictionary is now ["a": [100, 2, 3], "b": [10, 20]]
+```
 GRAMMAR OF A FORCED-VALUE EXPRESSION
 
 forced-value-expression → postfix-expression !
@@ -850,7 +860,7 @@ The postfix ? operator makes an optional-chaining expression from an expression 
 Optional-chaining expressions must appear within a postfix expression, and they cause the postfix expression to be evaluated in a special way. If the value of the optional-chaining expression is nil, all of the other operations in the postfix expression are ignored and the entire postfix expression evaluates to nil. If the value of the optional-chaining expression is not nil, the value of the optional-chaining expression is unwrapped and used to evaluate the rest of the postfix expression. In either case, the value of the postfix expression is still of an optional type.
 
 If a postfix expression that contains an optional-chaining expression is nested inside other postfix expressions, only the outermost expression returns an optional type. In the example below, when c is not nil, its value is unwrapped and used to evaluate .property, the value of which is used to evaluate .performAction(). The entire expression c?.property.performAction() has a value of an optional type.
-
+```swift
 var c: SomeClass?
 var result: Bool? = c?.property.performAction()
 The following example shows the behavior of the example above without using optional chaining.
@@ -859,6 +869,7 @@ var result: Bool?
 if let unwrappedC = c {
     result = unwrappedC.property.performAction()
 }
+```
 The unwrapped value of an optional-chaining expression can be modified, either by mutating the value itself, or by assigning to one of the value’s members. If the value of the optional-chaining expression is nil, the expression on the right-hand side of the assignment operator is not evaluated. For example:
 ```swift
 func someFunctionWithSideEffects() -> Int {
@@ -874,6 +885,5 @@ someDictionary["a"]?[0] = someFunctionWithSideEffects()
 // someFunctionWithSideEffects is evaluated and returns 42
 // someDictionary is now ["a": [42, 2, 3], "b": [10, 20]]
 ```
-GRAMMAR OF AN OPTIONAL-CHAINING EXPRESSION
 
-optional-chaining-expression → postfix-expression ?
+> optional-chaining-expression → postfix-expression ?
