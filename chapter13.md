@@ -13,7 +13,7 @@
 여러분은 인스턴스 메소드를 해당 타입이 속한 괄호내에서 작성합니다. 인스턴스 메소드는 다른 인스턴스 메소드와 해당 타입의 속성에 대한 암시적 권한Implict access을 가지고 있습니다. 인스턴스 메소드는 오직 해당 타입이 속한 특정한 인스턴스에 의해서만 호출 될 수 있습니다. 이것은 속해있는 인스턴스 없이 독립적으로 호출 될 수 없습니다.
 
 여기 작업을 수행한 횟수를 세는, 카운터`Counter`클래스를 정의한 간단한 예제가 있습니다:
-```
+```swift
 class Counter {
   var count = 0
   func increment() {
@@ -36,7 +36,7 @@ class Counter {
 또한 `Counter`클래스는 현재 카운터 값을 추적하기 위해 변수 프로퍼티Property, `count`를 선언하였습니다.
 
 당신은 프로퍼티와 같은 점 문법으로 인스턴스 메소드를 호출합니다:
-```
+```swift
 let counter = Counter()
 // 초기 counter값은 0입니다
 counter.increment()
@@ -55,7 +55,7 @@ counter.reset()
 구체적으로, 스위프트는 메소드내 첫 번째 파라미터 이름은 기본적으로 지역 파라미터 이름으로 지정합니다, 그리고 두 번째 파라미터부터는 지역 파라미터와 외부 파라미터 둘다 지정합니다. 이 관습은 오브젝티브-C 메소드에서 형식적으로 이름을 짓고,  작성하던 것과 유사합니다. 그리고 파라미터 이름에 자격을 부여할 필요없이 알아보기 쉬운 메소드 호출을 만들 수 있습니다.
 
 `IncrementBy`메소드가 좀 더 복잡하게 정의된 또 다른 버전의 이 `Counter`클래스를 보십시오:
-```
+```swift
 class Counter {
   var count: Int = 0
   func incrementBy(amount: Int, numberOfTimes: Int) {
@@ -64,7 +64,7 @@ class Counter {
 }
 ```
 이 `incrementBy`메소드는 `amount`와 `numberofTimes`라는 두가지 파라미터를 가지고 있습니다. 기본적으로 스위프트는 `amount`를 지역 이름으로만 취급합니다, 하지만 `numberofTimes`는 지역 이름과 외부 이름 두가지 모두로서 취급합니다. 다음 예제와 같이 호출 할 수 있습니다:
-```
+```swift
 let counter = Counter()
 Counter.incrementBy(5, numberOfTimes: 3)
 // Counter value is now 15
@@ -90,7 +90,7 @@ Func incrementBy(amount: int, #numberOfTimes: int) {
 모든 인스턴스 타입은 인스턴스 자체와 명확하게 동일한, 셀프라고 불리는 명시적 프로퍼티를 가지고 있습니다. 이 명시적 셀프 프로퍼티는, 자신이 속한 인스턴스 메소드내에서 현재 인스턴스를 참조하는 데 사용 할 수 있습니다.
 
 다음 예제의 `increment`메소드는 그 와같이 작성되었습니다.
-```
+```swift
 func increment() {
 	self.count++;
 }
@@ -102,7 +102,7 @@ func increment() {
 인스턴스 메소드의 파라미터 이름이 해당 인스턴트의 속성과 동일한 이름을 가진 경우, 이 규칙의 주요 예외가 발생합니다. 이렇게 된다면, 파라미터 이름은 우선적으로 좀 더 확실하게 속성을 참조할 필요가 있습니다. 여러분은 `self`속성을 확실하게 사용해서 파라미터 이름과 프로퍼티 이름을 구분지을 수 있습니다.
 
 여기 `self`는 `x`라고 불리는 메소드 파라미터와 역시 `x`라고 불리는 인스턴스 파라미터 사이에서 명확하게 구분지어주고 있습니다.
-```
+```swift
 struct Point {
 	var x = 0.0, y = 0.0
 	func isToTheRightOfX(x: Double) -> Bool {
@@ -121,7 +121,7 @@ if somePoint.isToTheRightOfX(1.0) {
 구조체와 열거형는 값타입이다. 기본적으로 값타입의 프로퍼티는 인스턴스 메소드 안에서 변경될 수 없다.
 그러나 만약 특정 메소드 안에서 구고체나 열거형을 변경할 필요가 있다면, 그 메소드에 변화(`mutating`)동작을 선택할 수 있다.  그러면 메소드는 자신 안에서 해당 프로터리를 변화(즉, 변경)시킬 수 있고, 적용된 모든 변경은 메소드가 끝나면 원본 구조체에 쓰여지게 된다. 메소드는 내포된 `self` 프로퍼티에 완전히 새로운 인스턴스를 할당할 수도 있다. 
 어떤 메소드 `func`키워드 앞에 `mutating` 키워드를 둬서 이 동작을 선택할 수 있다.
-```
+```swift
 struct Point {
     var x = 0.0, y = 0.0
     mutating func moveByX(deltaX: Double, y deltaY: Double) {
@@ -136,7 +136,7 @@ println("The point is now at (\(somePoint.x), \(somePoint.y))")
 ```
 상단의 `Point`구조체는 `moveByX` 변화할 메소드로 정의했는데, 이는 `Point` 인스턴스를 특정 크기만큼 옮긴다. 그런 프로퍼티를 변경시킬 수 있게 만들기 위해서 `mutating` 키워드를 그 정의에 추가했다.
 구조체 타입의 상수에 변화메소드를 호출할 수 없다는 것을 유의해라. 왜냐하면 비록 해당 프로퍼티가 변수형태로 되어 있어도 그 프로퍼티는 변경될 수 없기 때문이다. [상수 구조체 인스턴스의 저장속성]()에 설명되어 있다.
-```
+```swift
 let fixedPoint = Point(x: 3.0, y: 3.0)
 fixedPoint.moveByX(2.0, y: 3.0)
 // this will report an error
@@ -144,7 +144,7 @@ fixedPoint.moveByX(2.0, y: 3.0)
 
 ### 변하는(`Mutating`) 메소드안에서 `self`에 할당하기
 변하는(`Mutating`) 메소드는 암시적으로 `self`프로퍼티에 완전한 새 인스턴스를 할당할 수도 있다. 위 예제에서 보여준 `Point`는 아래와 같이 재 작성해볼 수 있다.
-```
+```swift
 struct Point {
     var x = 0.0, y = 0.0
     mutating func moveByX(deltaX: Double, y deltaY: Double) {
@@ -154,7 +154,7 @@ struct Point {
 ```
 이 버전의 변하는 `moveByX` 메소드는 `x`값과 `y`값을 받아 대상 위치에 설정에 완전히 새로운 구조체를 만든다. 대안 버전의 메소드 호출 최종 결과는 이전 버전 호출에서와 정확하게 동일할 것이다.
 열거형에서 변하는 메소드는 동일 열거형에서 다른 구성원이 될 수 있게 암시적 `self` 매개변수를 설정할 수 있다.
-```
+```swift
 enum TriStateSwitch {
     case Off, Low, High
     mutating func next() {
@@ -183,7 +183,7 @@ ovenLight.next()
 오브젝티브씨에서는 오브젝티브씨 클래스를 위한 타입 단계 메소드만을 정의할 수 있었다. 스위프트에서는 모든 클래스, 구조체, 열거형에 타입 단계 메소드를 정의할 수 있다. 개별 타입 메소드는 지원하는 타입에 대해 명시적으로 범위를 지정한다.
 
 타입 메소드는 인스턴스 메소드처럼 점표기법(dot syntax)으로 호출한다. 그러나 타입에 대한 타입 메소드를 호출해야지 그 타입에 대한 인스턴스를 호출하는 것이 아니다. 여기에 어떻게 `SomeClass`라는 클래스에 타입 메소드를 호출하는지가 있다.
-```
+```swift
 class SomeClass {
     class func someTypeMethod() {
         // type method implementation goes here
@@ -194,7 +194,7 @@ SomeClass.someTypeMethod()
 타입 메소드 본체 안에서는 암시적 `self` 프로퍼티는 타입에 대한 인스턴스가 아니라 타입 그 자체를 가르킨다. 구조체와 열거형에서는 마치 인스턴스 프로퍼티와 인스턴스 메소드 매개변수에서 그랬던 것처럼 `static` 프로퍼티와 `static` 메소드 매개변수 사이의 명확하게 하기 위해 `self`를 쓸 수 있다라는 것을 뜻한다.
 좀 더 일반적으로, 어떤 타입 메소드의 본체 안에서 사용하는 제한없는 메소드와 프로퍼티는 다른 타입단계 메소드와 프로퍼티를 참조 할 것이다. 타입 메소드는 어떤 다른 타입 메소드의 이름과 함께 또다른 타입 메소드를 호출할 수 있다. 비슷하게, 구조체와 열거형 타입 메소드는 타입 이름 접두사 없이 정적 프로퍼티 이름을 사용해서 정적 프로퍼티에 접근할 수 이다.
 아래 예제는 여러 레벨이나 게임 단계를 통해 플레이어의 진척도를 추적하는 `LevelTracker`이란 구조체를 정의한다. 어떤 레벨을 끝낼때마다 그 레벨은 장비에 있는 모든 플레이어를 풀 수 있다.  `LevelTracker` 구조체는 정적 프로퍼티와 메소드를 사용해 게임이 풀리는 레벨에 도달했는지 여부를 추적한다. 또한 개별 플레이어의 현재 수준에 대해 또한 추적한다.
-```
+```swift
 struct LevelTracker {
     static var highestUnlockedLevel = 1
     static func unlockLevel(level: Int) {
@@ -219,7 +219,7 @@ struct LevelTracker {
 정적 프로퍼티와 타입 메소드에 추가로 `LevelTracker`은 개별 플레이어의 게임 전반에 걸친 진행 상태를 추적한다. 플레이어가 현재 진행하고 있는 레벨을 추적하기 위해 `currentLevel`이라는 인스턴스 프로퍼티를 사용한다.
 `currentLevel` 프로퍼티를 관리하는데 도움이 되고자, `LevelTracker`은 `advanceToLevel`이라는 인스턴스 메소드를 정의했다. `currentLevel`를 업데이트 하기 전에 이 메소드는 요청 받은 새 레벨이 이미 풀렸는지 아닌지를 확인한다. `advanceToLevel` 메소드는 실제로 `currentLevel`에 설정할 수 있는지 아닌지를 알려주기 위해 `Boolean`값을 반환한다.
 `LevelTracker` 구조체는 `Player` 클래스와 사용하는데, 아래 보여지는 것처럼, 개별 플레이어의 진행 상태를 추적하고 갱신한다.
-```
+```swift
 class Player {
     var tracker = LevelTracker()
     let playerName: String
@@ -234,14 +234,14 @@ class Player {
 ```
 `Player` 클래스는 플레이어의 진행상태를 추적하기 위해 `LevelTracker`의 새 인스턴스를 생성한다. 또한 `completedLevel`이란 메소드를 제공하는데 언제 플레이어가 특정 레벨을 완료했을 때 호출한다. 이 메소드는 모든 플레이어의 다음 레벨을 풀고 플레이어을 다음 레벨로 이동시키기 위해 진행 상태를 갱신한다. ( `advanceToLevel`의 `Boolean`반환값은 무시되는데 왜냐하면 레벨이란 이전줄의 `LevelTracker.unlockLevel`을 호출해서 풀렸는지를 알기 위함이기 때문이다.)
 신규 플레이어를 위해 `Player` 클래스의 인스턴스를 만들어서 플레이어가 레벨 1을 달성 했을때 어떤일이 벌어지는지 보여주겠다.
-```
+```swift
 var player = Player(name: "Argyrios")
 player.completedLevel(1)
 println("highest unlocked level is now \(LevelTracker.highestUnlockedLevel)")
 // prints "highest unlocked level is now 2"
 ```
 만약 게임에서 어떤 플레이어도 아직 풀지 못한 레벨로 옮기려는 두번째 플레이어를 생성한다면, 플레이어의 현재 레벨을 설정하려는 시도는 실패할 것이다.
-```
+```swift
 player = Player(name: "Beto")
 if player.tracker.advanceToLevel(6) {
     println("player is now on level 6")
