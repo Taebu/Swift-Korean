@@ -6,11 +6,9 @@ In Swift, there are four kinds of expressions: prefix expressions, binary expres
 
 Prefix and binary expressions let you apply operators to smaller expressions. Primary expressions are conceptually the simplest kind of expression, and they provide a way to access values. Postfix expressions, like prefix and binary expressions, let you build up more complex expressions using postfixes such as function calls and member access. Each kind of expression is described in detail in the sections below.
 
-GRAMMAR OF AN EXPRESSION
+> expression → try-operator opt prefix-expression binary-expressions opt
 
-expression → try-operator opt prefix-expression binary-expressions opt
-
-expression-list → expression | expression , expression-list
+> expression-list → expression | expression , expression-list
 
 ## Prefix Expressions
 Prefix expressions combine an optional prefix operator with an expression. Prefix operators take one argument, the expression that follows them.
@@ -21,13 +19,11 @@ For information about the operators provided by the Swift standard library, see 
 
 In addition to the standard library operators, you use & immediately before the name of a variable that’s being passed as an in-out argument to a function call expression. For more information and to see an example, see In-Out Parameters.
 
-GRAMMAR OF A PREFIX EXPRESSION
+> prefix-expression → prefix-operator opt postfix-expression
 
-prefix-expression → prefix-operator opt postfix-expression
+> prefix-expression → in-out-expression
 
-prefix-expression → in-out-expression
-
-in-out-expression → & identifier
+> in-out-expression → & identifier
 
 ### Try Operator
 A try expression consists of the try operator followed by an expression that can throw an error. It has the following form:
@@ -56,9 +52,7 @@ A try expression can’t appear on the right-hand side of a binary operator, unl
 
 For more information and to see examples of how to use try, try?, and try!, see Error Handling.
 
-GRAMMAR OF A TRY EXPRESSION
-
-try-operator → try | try ? | try !
+> try-operator → try | try ? | try !
 
 ## Binary Expressions
 Binary expressions combine an infix binary operator with the expression that it takes as its left-hand and right-hand arguments. It has the following form:
@@ -72,11 +66,14 @@ For information about the operators provided by the Swift standard library, see 
 > 
 > At parse time, an expression made up of binary operators is represented as a flat list. This list is transformed into a tree by applying operator precedence. For example, the expression 2 + 3 * 5 is initially understood as a flat list of five items, 2, +, 3, *, and 5. This process transforms it into the tree (2 + (3 * 5)).
 
-> GRAMMAR OF A BINARY EXPRESSION
 > binary-expression → binary-operator prefix-expression
+
 > binary-expression → assignment-operator try-operator opt prefix-expression
+
 > binary-expression → conditional-operator try-operator opt prefix-expression
+
 > binary-expression → type-casting-operator
+
 > binary-expressions → binary-expression binary-expressions opt
 
 ### Assignment Operator
@@ -92,9 +89,7 @@ The value of the expression is set to the value obtained by evaluating the value
 ```
 The assignment operator does not return any value.
 
-GRAMMAR OF AN ASSIGNMENT OPERATOR
-
-assignment-operator → =
+> assignment-operator → =
 
 ### Ternary Conditional Operator
 The ternary conditional operator evaluates to one of two given values based on the value of a condition. It has the following form:
@@ -105,7 +100,6 @@ If the condition evaluates to true, the conditional operator evaluates the first
 
 For an example that uses the ternary conditional operator, see Ternary Conditional Operator.
 
-> GRAMMAR OF A CONDITIONAL OPERATOR
 > conditional-operator → ? expression :
 
 Type-Casting Operators
@@ -143,7 +137,7 @@ The as! operator performs a forced cast of the expression to the specified type.
 
 For more information about type casting and to see examples that use the type-casting operators, see Type Casting.
 
-> GRAMMAR OF A TYPE-CASTING OPERATOR
+
 > type-casting-operator → is type
 > type-casting-operator → as type
 > type-casting-operator → as ? type
@@ -152,8 +146,6 @@ For more information about type casting and to see examples that use the type-ca
 ## Primary Expressions
 Primary expressions are the most basic kind of expression. They can be used as expressions on their own, and they can be combined with other tokens to make prefix expressions, binary expressions, and postfix expressions.
 
-
-> GRAMMAR OF A PRIMARY EXPRESSION
 > primary-expression → identifier generic-argument-clause opt
 > primary-expression → literal-expression
 > primary-expression → self-expression
@@ -172,7 +164,7 @@ A literal expression consists of either an ordinary literal (such as a string or
 
 Literal|	Type|	Value
 --|--|--
-`#file|	`String`	|The name of the file in which it appears.
+`#file`|	`String`	|The name of the file in which it appears.
 `#line`|	`Int`	|The line number on which it appears.
 `#column`|	`Int`	|The column number in which it begins.
 `#function`|	`String`|	The name of the declaration in which it appears.
@@ -190,55 +182,58 @@ func myFunction() {
 }
 ```
 An array literal is an ordered collection of values. It has the following form:
-
+```swift
 [value 1, value 2, ...]
+```
 The last expression in the array can be followed by an optional comma. The value of an array literal has type [T], where T is the type of the expressions inside it. If there are expressions of multiple types, T is their closest common supertype. Empty array literals are written using an empty pair of square brackets and can be used to create an empty array of a specified type.
-
+```swift
 var emptyArray: [Double] = []
+```
 A dictionary literal is an unordered collection of key-value pairs. It has the following form:
-
+```swift
 [key 1: value 1, key 2: value 2, ...]
+```
 The last expression in the dictionary can be followed by an optional comma. The value of a dictionary literal has type [Key: Value], where Key is the type of its key expressions and Value is the type of its value expressions. If there are expressions of multiple types, Key and Value are the closest common supertype for their respective values. An empty dictionary literal is written as a colon inside a pair of brackets ([:]) to distinguish it from an empty array literal. You can use an empty dictionary literal to create an empty dictionary literal of specified key and value types.
-
+```swift
 var emptyDictionary: [String: Double] = [:]
+```
 A playground literal is used by Xcode to create an interactive representation of a color, file, or image within the program editor. Playground literals in plain text outside of Xcode are represented using a special literal syntax.
 
 For information on using playground literals in Xcode, see Add a color, file, or image literal in Xcode Help.
 
-GRAMMAR OF A LITERAL EXPRESSION
+> literal-expression → literal
 
-literal-expression → literal
+> literal-expression → array-literal | dictionary-literal | playground-literal
 
-literal-expression → array-literal | dictionary-literal | playground-literal
+> literal-expression → #file | #line | #column | #function | #dsohandle
 
-literal-expression → #file | #line | #column | #function | #dsohandle
+> array-literal → [ array-literal-items opt ]
 
-array-literal → [ array-literal-items opt ]
+> array-literal-items → array-literal-item ,opt | array-literal-item , array-literal-items
 
-array-literal-items → array-literal-item ,opt | array-literal-item , array-literal-items
+> array-literal-item → expression
 
-array-literal-item → expression
+> dictionary-literal → [ dictionary-literal-items ] | [ : ]
 
-dictionary-literal → [ dictionary-literal-items ] | [ : ]
+> dictionary-literal-items → dictionary-literal-item ,opt | dictionary-literal-item , dictionary-literal-items
 
-dictionary-literal-items → dictionary-literal-item ,opt | dictionary-literal-item , dictionary-literal-items
+> dictionary-literal-item → expression : expression
 
-dictionary-literal-item → expression : expression
+> playground-literal → #colorLiteral ( red : expression , green : expression , blue : expression , alpha : expression )
 
-playground-literal → #colorLiteral ( red : expression , green : expression , blue : expression , alpha : expression )
+> playground-literal → #fileLiteral ( resourceName : expression )
 
-playground-literal → #fileLiteral ( resourceName : expression )
+> playground-literal → #imageLiteral ( resourceName : expression )
 
-playground-literal → #imageLiteral ( resourceName : expression )
-
-Self Expression
+## Self Expression
 The self expression is an explicit reference to the current type or instance of the type in which it occurs. It has the following forms:
-
+```swift
 self
 self.member name
 self[subscript index]
 self(initializer arguments)
 self.init(initializer arguments)
+```
 In an initializer, subscript, or instance method, self refers to the current instance of the type in which it occurs. In a type method, self refers to the current type in which it occurs.
 
 The self expression is used to specify scope when accessing members, providing disambiguation when there is another variable of the same name in scope, such as a function parameter. For example:
@@ -259,42 +254,44 @@ struct Point {
     }
 }
 ```
-GRAMMAR OF A SELF EXPRESSION
 
-self-expression → self | self-method-expression | self-subscript-expression | self-initializer-expression
+> self-expression → self | self-method-expression | self-subscript-expression | self-initializer-expression
 
-self-method-expression → self . identifier
+> self-method-expression → self . identifier
 
-self-subscript-expression → self [ function-call-argument-list ]
+> self-subscript-expression → self [ function-call-argument-list ]
 
-self-initializer-expression → self . init
+> self-initializer-expression → self . init
 
-Superclass Expression
+### Superclass Expression
 A superclass expression lets a class interact with its superclass. It has one of the following forms:
 
-super.member name
-super[subscript index]
-super.init(initializer arguments)
+> super.member name
+
+> super[subscript index]
+
+> super.init(initializer arguments)
+
 The first form is used to access a member of the superclass. The second form is used to access the superclass’s subscript implementation. The third form is used to access an initializer of the superclass.
 
 Subclasses can use a superclass expression in their implementation of members, subscripting, and initializers to make use of the implementation in their superclass.
 
-GRAMMAR OF A SUPERCLASS EXPRESSION
 
-superclass-expression → superclass-method-expression | superclass-subscript-expression | superclass-initializer-expression
+> superclass-expression → superclass-method-expression | superclass-subscript-expression | superclass-initializer-expression
 
-superclass-method-expression → super . identifier
+> superclass-method-expression → super . identifier
 
-superclass-subscript-expression → super [ function-call-argument-list ]
+> superclass-subscript-expression → super [ function-call-argument-list ]
 
-superclass-initializer-expression → super . init
+> superclass-initializer-expression → super . init
 
-Closure Expression
+## Closure Expression
 A closure expression creates a closure, also known as a lambda or an anonymous function in other programming languages. Like a function declaration, a closure contains statements, and it captures constants and variables from its enclosing scope. It has the following form:
-
+```swift
 { (parameters) -> return type in
     statements
 }
+```
 The parameters have the same form as the parameters in a function declaration, as described in Function Declaration.
 
 There are several special forms that allow closures to be written more concisely:
@@ -366,87 +363,88 @@ myFunction { [weak self] in print(self!.title) }    // weak capture
 myFunction { [unowned self] in print(self.title) }  // unowned capture
 ```
 You can also bind an arbitrary expression to a named value in a capture list. The expression is evaluated when the closure is created, and the value is captured with the specified strength. For example:
-
+```swift
 // Weak capture of "self.parent" as "parent"
+```
 myFunction { [weak parent = self.parent] in print(parent!.title) }
 For more information and examples of closure expressions, see Closure Expressions. For more information and examples of capture lists, see Resolving Strong Reference Cycles for Closures.
 
-GRAMMAR OF A CLOSURE EXPRESSION
+> closure-expression → { closure-signature opt statements opt }
 
-closure-expression → { closure-signature opt statements opt }
+> closure-signature → capture-list opt closure-parameter-clause throwsopt function-result opt in
 
-closure-signature → capture-list opt closure-parameter-clause throwsopt function-result opt in
+> closure-signature → capture-list in
 
-closure-signature → capture-list in
+> closure-parameter-clause → ( ) | ( closure-parameter-list ) | identifier-list
 
-closure-parameter-clause → ( ) | ( closure-parameter-list ) | identifier-list
+> closure-parameter-list → closure-parameter | closure-parameter , closure-parameter-list
 
-closure-parameter-list → closure-parameter | closure-parameter , closure-parameter-list
+> closure-parameter → closure-parameter-name type-annotation opt
 
-closure-parameter → closure-parameter-name type-annotation opt
+> closure-parameter → closure-parameter-name type-annotation ...
 
-closure-parameter → closure-parameter-name type-annotation ...
+> closure-parameter-name → identifier
 
-closure-parameter-name → identifier
+> capture-list → [ capture-list-items ]
 
-capture-list → [ capture-list-items ]
+> capture-list-items → capture-list-item | capture-list-item , capture-list-items
 
-capture-list-items → capture-list-item | capture-list-item , capture-list-items
+> capture-list-item → capture-specifier opt expression
 
-capture-list-item → capture-specifier opt expression
+> capture-specifier → weak | unowned | unowned(safe) | unowned(unsafe)
 
-capture-specifier → weak | unowned | unowned(safe) | unowned(unsafe)
-
-Implicit Member Expression
+### Implicit Member Expression
 An implicit member expression is an abbreviated way to access a member of a type, such as an enumeration case or a type method, in a context where type inference can determine the implied type. It has the following form:
-
+```swift
 .member name
+```
 For example:
-
+```swift
 var x = MyEnumeration.someValue
 x = .anotherValue
-GRAMMAR OF A IMPLICIT MEMBER EXPRESSION
+```
 
-implicit-member-expression → . identifier
+> implicit-member-expression → . identifier
 
-Parenthesized Expression
+### Parenthesized Expression
 A parenthesized expression consists of an expression surrounded by parentheses. You can use parentheses to specify the precedence of operations by explicitly grouping expressions. Grouping parentheses don’t change an expression’s type—for example, the type of (1) is simply Int.
 
-GRAMMAR OF A PARENTHESIZED EXPRESSION
+> parenthesized-expression → ( expression )
 
-parenthesized-expression → ( expression )
-
-Tuple Expression
+### Tuple Expression
 A tuple expression consists of a comma-separated list of expressions surrounded by parentheses. Each expression can have an optional identifier before it, separated by a colon (:). It has the following form:
-
+```swift
 (identifier 1: expression 1, identifier 2: expression 2, ...)
+```
 A tuple expression can contain zero expressions, or it can contain two or more expressions. A single expression inside parentheses is a parenthesized expression.
 
-NOTE
+> NOTE
+>
+> Both an empty tuple expression and an empty tuple type are written () in Swift. Because Void is a type alias for (), you can use it to write an empty tuple type. However, like all type aliases, Void is always a type—you can’t use it to write an empty tuple expression.
 
-Both an empty tuple expression and an empty tuple type are written () in Swift. Because Void is a type alias for (), you can use it to write an empty tuple type. However, like all type aliases, Void is always a type—you can’t use it to write an empty tuple expression.
 
-GRAMMAR OF A TUPLE EXPRESSION
 
-tuple-expression → ( ) | ( tuple-element , tuple-element-list )
+> tuple-expression → ( ) | ( tuple-element , tuple-element-list )
 
-tuple-element-list → tuple-element | tuple-element , tuple-element-list
+> tuple-element-list → tuple-element | tuple-element , tuple-element-list
 
-tuple-element → expression | identifier : expression
+> tuple-element → expression | identifier : expression
 
-Wildcard Expression
+### Wildcard Expression
 A wildcard expression is used to explicitly ignore a value during an assignment. For example, in the following assignment 10 is assigned to x and 20 is ignored:
-
+```swift
 (x, _) = (10, 20)
 // x is 10, and 20 is ignored
-GRAMMAR OF A WILDCARD EXPRESSION
+```
 
-wildcard-expression → _
 
-Key-Path Expression
+> wildcard-expression → _
+
+### Key-Path Expression
 A key-path expression refers to a property or subscript of a type. You use key-path expressions in dynamic programming tasks, such as key-value observing. They have the following form:
-
+```
 \type name.path
+```
 The type name is the name of a concrete type, including any generic parameters, such as String, [Int], or Set<Int>.
 
 The path consists of property names, subscripts, optional-chaining expressions, and forced unwrapping expressions. Each of these key-path components can be repeated as many times as needed, in any order.
@@ -454,7 +452,7 @@ The path consists of property names, subscripts, optional-chaining expressions, 
 At compile time, a key-path expression is replaced by an instance of the KeyPath class.
 
 To access a value using a key path, pass the key path to the subscript(keyPath:) subscript, which is available on all types. For example:
-
+```swift
 struct SomeStructure {
     var someValue: Int
 }
@@ -464,8 +462,9 @@ let pathToProperty = \SomeStructure.someValue
 
 let value = s[keyPath: pathToProperty]
 // value is 12
+```
 The type name can be omitted in contexts where type inference can determine the implied type. The following code uses \.someProperty instead of \SomeClass.someProperty:
-
+```swift
 class SomeClass: NSObject {
     @objc var someProperty: Int
     init(someProperty: Int) {
@@ -477,8 +476,9 @@ let c = SomeClass(someProperty: 10)
 c.observe(\.someProperty) { object, change in
     // ...
 }
+```
 The path can refer to self to create the identity key path (\.self). The identity key path refers to a whole instance, so you can use it to access and change all of the data stored in a variable in a single step. For example:
-
+```swift
 var compoundValue = (a: 1, b: 2)
 // Equivalent to compoundValue = (a: 10, b: 20)
 compoundValue[keyPath: \.self] = (a: 10, b: 20)
@@ -496,13 +496,15 @@ let nestedKeyPath = \OuterStructure.outer.someValue
 
 let nestedValue = nested[keyPath: nestedKeyPath]
 // nestedValue is 24
+```
 The path can include subscripts using brackets, as long as the subscript’s parameter type conforms to the Hashable protocol. This example uses a subscript in a key path to access the second element of an array:
-
+```swift
 let greetings = ["hello", "hola", "bonjour", "안녕"]
 let myGreeting = greetings[keyPath: \[String].[1]]
 // myGreeting is 'hola'
+```
 The value used in a subscript can be a named value or a literal. Values are captured in key paths using value semantics. The following code uses the variable index in both a key-path expression and in a closure to access the third element of the greetings array. When index is modified, the key-path expression still references the third element, while the closure uses the new index.
-
+```swift
 var index = 2
 let path = \[String].[index]
 let fn: ([String]) -> String = { strings in strings[index] }
@@ -520,8 +522,9 @@ print(greetings[keyPath: path])
 // Because 'fn' closes over 'index', it uses the new value
 print(fn(greetings))
 // Prints "안녕"
+```
 The path can use optional chaining and forced unwrapping. This code uses optional chaining in a key path to access a property of an optional string:
-
+```swift
 let firstGreeting: String? = greetings.first
 print(firstGreeting?.count as Any)
 // Prints "Optional(5)"
@@ -543,28 +546,28 @@ print(interestingNumbers[keyPath: \[String: [Int]].["hexagonal"]!.count])
 // Prints "7"
 print(interestingNumbers[keyPath: \[String: [Int]].["hexagonal"]!.count.bitWidth])
 // Prints "64"
+```
 For more information about using key paths in code that interacts with Objective-C APIs, see Using Objective-C Runtime Features in Swift. For information about key-value coding and key-value observing, see Key-Value Coding Programming Guide and Key-Value Observing Programming Guide.
 
-GRAMMAR OF A KEY-PATH EXPRESSION
+> key-path-expression → \ type opt . key-path-components
 
-key-path-expression → \ type opt . key-path-components
+> key-path-components → key-path-component | key-path-component . key-path-components
 
-key-path-components → key-path-component | key-path-component . key-path-components
+> key-path-component → identifier key-path-postfixes opt | key-path-postfixes
 
-key-path-component → identifier key-path-postfixes opt | key-path-postfixes
+> key-path-postfixes → key-path-postfix key-path-postfixes opt
 
-key-path-postfixes → key-path-postfix key-path-postfixes opt
+> key-path-postfix → ? | ! | self | [ function-call-argument-list ]
 
-key-path-postfix → ? | ! | self | [ function-call-argument-list ]
-
-Selector Expression
+## Selector Expression
 A selector expression lets you access the selector used to refer to a method or to a property’s getter or setter in Objective-C. It has the following form:
-
+```swift
 #selector(method name)
 #selector(getter: property name)
 #selector(setter: property name)
+```
 The method name and property name must be a reference to a method or a property that is available in the Objective-C runtime. The value of a selector expression is an instance of the Selector type. For example:
-
+```swift
 class SomeClass: NSObject {
     @objc let property: String
     @objc(doSomethingWithInt:)
@@ -574,39 +577,41 @@ class SomeClass: NSObject {
         self.property = property
     }
 }
+```
 let selectorForMethod = #selector(SomeClass.doSomething(_:))
 let selectorForPropertyGetter = #selector(getter: SomeClass.property)
 When creating a selector for a property’s getter, the property name can be a reference to a variable or constant property. In contrast, when creating a selector for a property’s setter, the property name must be a reference to a variable property only.
 
 The method name can contain parentheses for grouping, as well the as operator to disambiguate between methods that share a name but have different type signatures. For example:
-
+```swift
 extension SomeClass {
     @objc(doSomethingWithString:)
     func doSomething(_ x: String) { }
 }
+
 let anotherSelector = #selector(SomeClass.doSomething(_:) as (SomeClass) -> (String) -> Void)
+```
 Because a selector is created at compile time, not at runtime, the compiler can check that a method or property exists and that they’re exposed to the Objective-C runtime.
 
-NOTE
-
-Although the method name and the property name are expressions, they’re never evaluated.
+> NOTE
+> 
+> Although the method name and the property name are expressions, they’re never evaluated.
 
 For more information about using selectors in Swift code that interacts with Objective-C APIs, see Using Objective-C Runtime Features in Swift.
 
-GRAMMAR OF A SELECTOR EXPRESSION
+> selector-expression → #selector ( expression )
 
-selector-expression → #selector ( expression )
+> selector-expression → #selector ( getter: expression )
 
-selector-expression → #selector ( getter: expression )
+> selector-expression → #selector ( setter: expression )
 
-selector-expression → #selector ( setter: expression )
-
-Key-Path String Expression
+## Key-Path String Expression
 A key-path string expression lets you access the string used to refer to a property in Objective-C, for use in key-value coding and key-value observing APIs. It has the following form:
-
+```
 #keyPath(property name)
+```
 The property name must be a reference to a property that is available in the Objective-C runtime. At compile time, the key-path string expression is replaced by a string literal. For example:
-
+```swift
 class SomeClass: NSObject {
     @objc var someProperty: Int
     init(someProperty: Int) {
@@ -621,8 +626,9 @@ if let value = c.value(forKey: keyPath) {
     print(value)
 }
 // Prints "12"
+```
 When you use a key-path string expression within a class, you can refer to a property of that class by writing just the property name, without the class name.
-
+```swift
 extension SomeClass {
     func getSomeKeyPath() -> String {
         return #keyPath(someProperty)
@@ -630,6 +636,7 @@ extension SomeClass {
 }
 print(keyPath == c.getSomeKeyPath())
 // Prints "true"
+```
 Because the key path string is created at compile time, not at runtime, the compiler can check that the property exists and that the property is exposed to the Objective-C runtime.
 
 For more information about using key paths in Swift code that interacts with Objective-C APIs, see Using Objective-C Runtime Features in Swift. For information about key-value coding and key-value observing, see Key-Value Coding Programming Guide and Key-Value Observing Programming Guide.
