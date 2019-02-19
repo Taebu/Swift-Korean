@@ -12,7 +12,7 @@ expression → try-operator opt prefix-expression binary-expressions opt
 
 expression-list → expression | expression , expression-list
 
-Prefix Expressions
+## Prefix Expressions
 Prefix expressions combine an optional prefix operator with an expression. Prefix operators take one argument, the expression that follows them.
 
 For information about the behavior of these operators, see Basic Operators and Advanced Operators.
@@ -29,25 +29,29 @@ prefix-expression → in-out-expression
 
 in-out-expression → & identifier
 
-Try Operator
+### Try Operator
 A try expression consists of the try operator followed by an expression that can throw an error. It has the following form:
-
+```swift
 try expression
+```
 An optional-try expression consists of the try? operator followed by an expression that can throw an error. It has the following form:
-
+```swift
 try? expression
+```
 If the expression does not throw an error, the value of the optional-try expression is an optional containing the value of the expression. Otherwise, the value of the optional-try expression is nil.
 
 A forced-try expression consists of the try! operator followed by an expression that can throw an error. It has the following form:
-
+```swift
 try! expression
+```
 If the expression throws an error, a runtime error is produced.
 
 When the expression on the left-hand side of a binary operator is marked with try, try?, or try!, that operator applies to the whole binary expression. That said, you can use parentheses to be explicit about the scope of the operator’s application.
-
+```swift
 sum = try someThrowingFunction() + anotherThrowingFunction()   // try applies to both function calls
 sum = try (someThrowingFunction() + anotherThrowingFunction()) // try applies to both function calls
 sum = (try someThrowingFunction()) + anotherThrowingFunction() // Error: try applies only to the first function call
+```
 A try expression can’t appear on the right-hand side of a binary operator, unless the binary operator is the assignment operator or the try expression is enclosed in parentheses.
 
 For more information and to see examples of how to use try, try?, and try!, see Error Handling.
@@ -56,7 +60,7 @@ GRAMMAR OF A TRY EXPRESSION
 
 try-operator → try | try ? | try !
 
-Binary Expressions
+## Binary Expressions
 Binary expressions combine an infix binary operator with the expression that it takes as its left-hand and right-hand arguments. It has the following form:
 
 left-hand argument operator right-hand argument
@@ -64,61 +68,60 @@ For information about the behavior of these operators, see Basic Operators and A
 
 For information about the operators provided by the Swift standard library, see Operator Declarations.
 
-NOTE
+> NOTE
+> 
+> At parse time, an expression made up of binary operators is represented as a flat list. This list is transformed into a tree by applying operator precedence. For example, the expression 2 + 3 * 5 is initially understood as a flat list of five items, 2, +, 3, *, and 5. This process transforms it into the tree (2 + (3 * 5)).
 
-At parse time, an expression made up of binary operators is represented as a flat list. This list is transformed into a tree by applying operator precedence. For example, the expression 2 + 3 * 5 is initially understood as a flat list of five items, 2, +, 3, *, and 5. This process transforms it into the tree (2 + (3 * 5)).
+> GRAMMAR OF A BINARY EXPRESSION
+> binary-expression → binary-operator prefix-expression
+> binary-expression → assignment-operator try-operator opt prefix-expression
+> binary-expression → conditional-operator try-operator opt prefix-expression
+> binary-expression → type-casting-operator
+> binary-expressions → binary-expression binary-expressions opt
 
-GRAMMAR OF A BINARY EXPRESSION
-
-binary-expression → binary-operator prefix-expression
-
-binary-expression → assignment-operator try-operator opt prefix-expression
-
-binary-expression → conditional-operator try-operator opt prefix-expression
-
-binary-expression → type-casting-operator
-
-binary-expressions → binary-expression binary-expressions opt
-
-Assignment Operator
+### Assignment Operator
 The assignment operator sets a new value for a given expression. It has the following form:
 
+```swift
 expression = value
+```
 The value of the expression is set to the value obtained by evaluating the value. If the expression is a tuple, the value must be a tuple with the same number of elements. (Nested tuples are allowed.) Assignment is performed from each part of the value to the corresponding part of the expression. For example:
-
+```swift
 (a, _, (b, c)) = ("test", 9.45, (12, 3))
 // a is "test", b is 12, c is 3, and 9.45 is ignored
+```
 The assignment operator does not return any value.
 
 GRAMMAR OF AN ASSIGNMENT OPERATOR
 
 assignment-operator → =
 
-Ternary Conditional Operator
+### Ternary Conditional Operator
 The ternary conditional operator evaluates to one of two given values based on the value of a condition. It has the following form:
-
+```swift
 condition ? expression used if true : expression used if false
+```
 If the condition evaluates to true, the conditional operator evaluates the first expression and returns its value. Otherwise, it evaluates the second expression and returns its value. The unused expression is not evaluated.
 
 For an example that uses the ternary conditional operator, see Ternary Conditional Operator.
 
-GRAMMAR OF A CONDITIONAL OPERATOR
-
-conditional-operator → ? expression :
+> GRAMMAR OF A CONDITIONAL OPERATOR
+> conditional-operator → ? expression :
 
 Type-Casting Operators
 There are four type-casting operators: the is operator, the as operator, the as? operator, and the as! operator.
 
 They have the following form:
-
+```swift
 expression is type
 expression as type
 expression as? type
 expression as! type
+```
 The is operator checks at runtime whether the expression can be cast to the specified type. It returns true if the expression can be cast to the specified type; otherwise, it returns false.
 
 The as operator performs a cast when it is known at compile time that the cast always succeeds, such as upcasting or bridging. Upcasting lets you use an expression as an instance of its type’s supertype, without using an intermediate variable. The following approaches are equivalent:
-
+```swift
 func f(_ any: Any) { print("Function for Any") }
 func f(_ int: Int) { print("Function for Int") }
 let x = 10
@@ -131,6 +134,7 @@ f(y)
 
 f(x as Any)
 // Prints "Function for Any"
+```
 Bridging lets you use an expression of a Swift standard library type such as String as its corresponding Foundation type such as NSString without needing to create a new instance. For more information on bridging, see Working with Foundation Types.
 
 The as? operator performs a conditional cast of the expression to the specified type. The as? operator returns an optional of the specified type. At runtime, if the cast succeeds, the value of expression is wrapped in an optional and returned; otherwise, the value returned is nil. If casting to the specified type is guaranteed to fail or is guaranteed to succeed, a compile-time error is raised.
@@ -139,64 +143,52 @@ The as! operator performs a forced cast of the expression to the specified type.
 
 For more information about type casting and to see examples that use the type-casting operators, see Type Casting.
 
-GRAMMAR OF A TYPE-CASTING OPERATOR
+> GRAMMAR OF A TYPE-CASTING OPERATOR
+> type-casting-operator → is type
+> type-casting-operator → as type
+> type-casting-operator → as ? type
+> type-casting-operator → as ! type
 
-type-casting-operator → is type
-
-type-casting-operator → as type
-
-type-casting-operator → as ? type
-
-type-casting-operator → as ! type
-
-Primary Expressions
+## Primary Expressions
 Primary expressions are the most basic kind of expression. They can be used as expressions on their own, and they can be combined with other tokens to make prefix expressions, binary expressions, and postfix expressions.
 
-GRAMMAR OF A PRIMARY EXPRESSION
 
-primary-expression → identifier generic-argument-clause opt
+> GRAMMAR OF A PRIMARY EXPRESSION
+> primary-expression → identifier generic-argument-clause opt
+> primary-expression → literal-expression
+> primary-expression → self-expression
+> primary-expression → superclass-expression
+> primary-expression → closure-expression
+> primary-expression → parenthesized-expression
+> primary-expression → tuple-expression
+> primary-expression → implicit-member-expression
+> primary-expression → wildcard-expression
+> primary-expression → key-path-expression
+> primary-expression → selector-expression
+> primary-expression → key-path-string-expression
 
-primary-expression → literal-expression
-
-primary-expression → self-expression
-
-primary-expression → superclass-expression
-
-primary-expression → closure-expression
-
-primary-expression → parenthesized-expression
-
-primary-expression → tuple-expression
-
-primary-expression → implicit-member-expression
-
-primary-expression → wildcard-expression
-
-primary-expression → key-path-expression
-
-primary-expression → selector-expression
-
-primary-expression → key-path-string-expression
-
-Literal Expression
+### Literal Expression
 A literal expression consists of either an ordinary literal (such as a string or a number), an array or dictionary literal, a playground literal, or one of the following special literals:
 
-Literal	Type	Value
-#file	String	The name of the file in which it appears.
-#line	Int	The line number on which it appears.
-#column	Int	The column number in which it begins.
-#function	String	The name of the declaration in which it appears.
-#dsohandle	UnsafeRawPointer	The DSO (dynamic shared object) handle in use where it appears.
+Literal|	Type|	Value
+--|--|--
+`#file|	`String`	|The name of the file in which it appears.
+`#line`|	`Int`	|The line number on which it appears.
+`#column`|	`Int`	|The column number in which it begins.
+`#function`|	`String`|	The name of the declaration in which it appears.
+`#dsohandle`|	`UnsafeRawPointer`|	The DSO (dynamic shared object) handle in use where it appears.
+
 Inside a function, the value of #function is the name of that function, inside a method it is the name of that method, inside a property getter or setter it is the name of that property, inside special members like init or subscript it is the name of that keyword, and at the top level of a file it is the name of the current module.
 
 When used as the default value of a function or method parameter, the special literal’s value is determined when the default value expression is evaluated at the call site.
-
+```swift
 func logFunctionName(string: String = #function) {
     print(string)
 }
 func myFunction() {
     logFunctionName() // Prints "myFunction()".
 }
+```
 An array literal is an ordered collection of values. It has the following form:
 
 [value 1, value 2, ...]
@@ -250,21 +242,23 @@ self.init(initializer arguments)
 In an initializer, subscript, or instance method, self refers to the current instance of the type in which it occurs. In a type method, self refers to the current type in which it occurs.
 
 The self expression is used to specify scope when accessing members, providing disambiguation when there is another variable of the same name in scope, such as a function parameter. For example:
-
+```swift
 class SomeClass {
     var greeting: String
     init(greeting: String) {
         self.greeting = greeting
     }
 }
+```
 In a mutating method of a value type, you can assign a new instance of that value type to self. For example:
-
+```swift
 struct Point {
     var x = 0.0, y = 0.0
     mutating func moveBy(x deltaX: Double, y deltaY: Double) {
         self = Point(x: x + deltaX, y: y + deltaY)
     }
 }
+```
 GRAMMAR OF A SELF EXPRESSION
 
 self-expression → self | self-method-expression | self-subscript-expression | self-initializer-expression
@@ -309,7 +303,7 @@ A closure can omit the types of its parameters, its return type, or both. If you
 A closure may omit names for its parameters. Its parameters are then implicitly named $ followed by their position: $0, $1, $2, and so on.
 A closure that consists of only a single expression is understood to return the value of that expression. The contents of this expression are also considered when performing type inference on the surrounding expression.
 The following closure expressions are equivalent:
-
+```swift
 myFunction { (x: Int, y: Int) -> Int in
     return x + y
 }
@@ -321,19 +315,20 @@ myFunction { x, y in
 myFunction { return $0 + $1 }
 
 myFunction { $0 + $1 }
+```
 For information about passing a closure as an argument to a function, see Function Call Expression.
 
 Closure expressions can be used without being stored in a variable or constant, such as when you immediately use a closure as part of a function call. The closure expressions passed to myFunction in code above are examples of this kind of immediate use. As a result, whether a closure expression is escaping or nonescaping depends on the surrounding context of the expression. A closure expression is nonescaping if it is called immediately or passed as a nonescaping function argument. Otherwise, the closure expression is escaping.
 
 For more information about escaping closures, see Escaping Closures.
 
-Capture Lists
+## Capture Lists
 By default, a closure expression captures constants and variables from its surrounding scope with strong references to those values. You can use a capture list to explicitly control how values are captured in a closure.
 
 A capture list is written as a comma-separated list of expressions surrounded by square brackets, before the list of parameters. If you use a capture list, you must also use the in keyword, even if you omit the parameter names, parameter types, and return type.
 
 The entries in the capture list are initialized when the closure is created. For each entry in the capture list, a constant is initialized to the value of the constant or variable that has the same name in the surrounding scope. For example in the code below, a is included in the capture list but b is not, which gives them different behavior.
-
+```swift
 var a = 0
 var b = 0
 let closure = { [a] in
@@ -344,10 +339,11 @@ a = 10
 b = 10
 closure()
 // Prints "0 10"
+```
 There are two different things named a, the variable in the surrounding scope and the constant in the closure’s scope, but only one variable named b. The a in the inner scope is initialized with the value of the a in the outer scope when the closure is created, but their values are not connected in any special way. This means that a change to the value of a in the outer scope does not affect the value of a in the inner scope, nor does a change to a inside the closure affect the value of a outside the closure. In contrast, there is only one variable named b—the b in the outer scope—so changes from inside or outside the closure are visible in both places.
 
 This distinction is not visible when the captured variable’s type has reference semantics. For example, there are two things named x in the code below, a variable in the outer scope and a constant in the inner scope, but they both refer to the same object because of reference semantics.
-
+```swift
 class SimpleClass {
     var value: Int = 0
 }
@@ -361,12 +357,14 @@ x.value = 10
 y.value = 10
 closure()
 // Prints "10 10"
+```
 If the type of the expression’s value is a class, you can mark the expression in a capture list with weak or unowned to capture a weak or unowned reference to the expression’s value.
-
+```swift
 myFunction { print(self.title) }                    // implicit strong capture
 myFunction { [self] in print(self.title) }          // explicit strong capture
 myFunction { [weak self] in print(self!.title) }    // weak capture
 myFunction { [unowned self] in print(self.title) }  // unowned capture
+```
 You can also bind an arbitrary expression to a named value in a capture list. The expression is evaluated when the closure is created, and the value is captured with the specified strength. For example:
 
 // Weak capture of "self.parent" as "parent"
