@@ -14,7 +14,7 @@
 프로그래머는 저장 속성을 정의할 때 초기값을 지정할 수 있다. 이에 대해서는 "초기속성값" 챕터에서 설명되어있다. 저장된 속성의 초기값을 수정할 수도 있는데, 심지어 상수 저장속성마저도 수정이 가능하다. 이에 대해서는 "초기화시 상수속성수정/변경하기" 챕터에 설명되어있다.
 
 아래 예제는 `FixedLengthRange`라는 구조체를 정의한다. 이 구조체는 특정 범위의 정수들을 의미하는데, 이 범위는 한번 생성되면 수정되지 않는다.
-```
+```swift
 struct FixedLengthRange {
     var firstValue: Int
     let length: Int
@@ -33,7 +33,7 @@ rangeOfThreeItems.firstValue = 6
 
 상수로 선언된 구조체 인스턴스의 속성들은 변수속성이더라도 수정되지 않는다. 
 
-```
+```swift
 let rangeOfFourItems = FixedLengthRange(firstValue: 0, length: 4)
 // this range represents integer values 0, 1, 2, and 3
 rangeOfFourItems.firstValue = 6
@@ -54,7 +54,7 @@ rangeOfFourItems.firstValue = 6
 
 아래 예시는 복잡한 클래스의 불필요한 초기화를 피하기 위해 게으른 저장속성을 사용하고 있다. 예시된 코드는 `DataImporter` 클래스와 `DataManager` 클래스 정의의 일부분이다. 
 
-```
+```swift
 cclass DataImporter {
     /*
     DataImporter is a class to import data from an external file.
@@ -82,7 +82,7 @@ manager.data += "Some more data"
 `DataManage`r 인스턴스가 데이터를 관리할 때 파일에서 읽어오지 않는 경우도 있을 수 있다. 이런 경우엔 `DataManager`가 생성될때, `DataImporter` 인스턴스를  생성하는 것은 불필요하다. 대신에, `DataImporter` 인스턴스를 최초로 사용할때 생성되도록 하는 것이 더 좋다.
 
 게으른 속성(`@lazy`)으로 표시되어있기 때문에, `DataImporte`r 인스턴스인 `DataManager`의 `importer` 속성은 `fileName` 속성을 조회할 때와 같은 최초의 접근시 생성된다.
-```
+```swift
 println(manager.importer.fileName)
 // the DataImporter instance for the importer property has now been created
 // prints "data.txt"
@@ -97,7 +97,7 @@ Swift는 위의 개념들을 하나의 속성 선언에 통합시켰다. 스위�
 ## 계산속성 (Computed Properties)
 
 저장속성에 더해서, 클래스, 구조체 그리고 열거체에는 계산속성(Computed properties)를 정의할 수 있다. 계산속성은 실제로 값을 저장하지는 않고, 다른 속성이나 값들이 간접적으로 접근하여 값을 조회하거나 수정할 수 있는 getter와 선택적인 setter를 제공한다. 
-```
+```swift
 struct Point {
     var x = 0.0, y = 0.0
 }
@@ -145,7 +145,7 @@ println("square.origin is now at (\(square.origin.x), \(square.origin.y))")
 ### 속기식의 Setter 선언(Shorthand Setter Declaration)
 
 계산속성의 setter에 새로운 값이 저장될 이름이 명시되지 않으면 기본값으로 `newValue`를 사용한다. 속기식의 방식을 이용한 `Rect` 구조체의 새로운 버전은 다음과 같다:
-```
+```swift
 struct AlternativeRect {
     var origin = Point()
     var size = Size()
@@ -171,7 +171,7 @@ getter만 있고, setter가 없는 계산속성은 읽기전용 계산속성(rea
 읽기전용을 포함한 모든 계산속성은 반드시 `var` 키워드로 선언되어야한다. 왜냐하면, 계산속성의 값은 고정되지 않았기 때문이다. `let` 키워드는 초기화시 한번 지정되면 변경할 수 없다는 것을 표시하기 위해 상수속성 선언에만 사용해야한다. 
 
 읽기전용 계산속성의 선언은 단순히 `get` 키워드와 중괄호를 제거하면 된다. (역자 주 : 엄밀하게 말하자만, set 부분은 아예 없고, get 블록 내부의 코드가 한단계 바깥으로 나오는 형상)
-```
+```swift
 struct Cuboid {
     var width = 0.0, height = 0.0, depth = 0.0
     var volume: Double {
@@ -205,7 +205,7 @@ println("the volume of fourByFiveByTwo is \(fourByFiveByTwo.volume)")
 `willSet`과 `didSet` 감시자는 속성이 최초로 초기화될 때는 호출되지 않는다. 속성값이 초기화 문맥을 벗어나서 설정되는 경우에만 호출된다.
 
 `willSet`과 `didSet` 실제 예제가 있다. 아래 예는 `StepCounter`이라는 새 클래스를 정의하는데 이는 어떤 사람이 걷는 동안 걸은 전체 걸음 수를 추적한다. 이 클래스는 만보계나 다른 보수계로부터 입력 데이터를 받아 사용받아 일상 하루 동안 어떤 사람의 운동량을 추적할 것이다.
-```
+```swift
 class StepCounter {
     var totalSteps: Int = 0 {
     willSet(newTotalSteps) {
@@ -270,7 +270,7 @@ stepCounter.totalSteps = 896
 C나 Objective-C에서는 전역적인 static 변수의 타입을 가지는 static 상수와 변수를 정의할 수있다. 그러나 Swift에서는 타입 속성은  타입들의 바깥쪽 중괄호 안에 타입의 정의 부분을 적을 수 있다. 그리고 각 타입 속성은 그 타입이 지원하는 명시적인 scope를 가진다.
 
 `static`키워드를 가지고 값 타입의 타입 속성을 정의할 수 있고, `class`키워드를 이용해서 클래스 타입의 타입 속성을 정의할 수 있다. 아래의 예시는 저장되거나 혹은 계산된 타입 속성을 위한 문법들을 보여준다:
-```
+```swift
 struct SomeStructure {
     static var storedTypeProperty = "Some value."
     static var computedTypeProperty: Int {
@@ -296,7 +296,7 @@ class SomeClass {
 
 ### 타입 속성 조회와 설정 (Querying and Setting Type Properties)
 타입 속성은 인스턴스 속성처럼 닷 표기법을 이용해서 조회하고 설정한다. 그러나, 타입 속성이 _타입_의 인스턴스가 아니라 타입에 조회하고 설정한다. 예를들면:
-```
+```swift
 println(SomeClass.computedTypeProperty)
 // prints "42"
  
@@ -313,7 +313,7 @@ println(SomeStructure.storedTypeProperty)
 ![staticpropertiesvumeter_2x.png](https://raw.githubusercontent.com/lean-tra/Swift-Korean/master/images/staticpropertiesvumeter_2x.png)
 
 위에 표시된 오디오 채널은 `AudioChannel` 구조체의 인스턴스로 표현된다.
-```
+```swift
 struct AudioChannel {
     static let thresholdLevel = 10
     static var maxInputLevelForAllChannels = 0
@@ -345,12 +345,12 @@ struct AudioChannel {
 두가지 확인 사항 중 전자에서 `didSet` 관찰자는 `currentLevel`에 다른 값을 저장한다. 그렇지 않으면 또다시 관찰자가 호출되기 때문이다.
 
 스테레오 사운드 시스템의 오디오 레벨을 나타내기 위해 `leftChannel`, `rightChannel`이란 2개의 신규 오디오 채널을 만들기 위해 `AudioChannel` 구조체를 사용할 수 있다.
-```
+```swift
 var leftChannel = AudioChannel()
 var rightChannel = AudioChannel()
 ```
 만약 왼쪽 채널의 `currentLevel`를 7로 설정한다면 `maxInputLevelForAllChannels` 타입 속성이 `7`과 동일하게 갱신되는 것을 볼 수 있다.
-```
+```swift
 leftChannel.currentLevel = 7
 println(leftChannel.currentLevel)
 // prints "7"
@@ -358,7 +358,7 @@ println(AudioChannel.maxInputLevelForAllChannels)
 // prints "7"
 ```
 만약 오른쪽 채널의  `currentLevel`를 11로 설정하려고 하면, 오른쪽 채널의 `currentLevel`속성 은 10이라는 최대값에 상한선이 맞춰지는 것을 볼 수 있고`maxInputLevelForAllChannels`이란 타입 속성은 10이라는 상한선이 맞춰진다.
-```
+```swift
 rightChannel.currentLevel = 11
 println(rightChannel.currentLevel)
 // prints "10"
