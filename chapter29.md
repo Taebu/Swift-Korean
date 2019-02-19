@@ -700,7 +700,9 @@ The function name can be any expression whose value is of a function type.
 
 If the function definition includes names for its parameters, the function call must include names before its argument values separated by a colon (:). This kind of function call expression has the following form:
 
+```swift
 function name(argument name 1: argument value 1, argument name 2: argument value 2)
+```
 A function call expression can include a trailing closure in the form of a closure expression immediately after the closing parenthesis. The trailing closure is understood as an argument to the function, added after the last parenthesized argument. The following function calls are equivalent:
 ```swift
 // someFunction takes an integer and a closure as its arguments
@@ -775,8 +777,10 @@ class SomeClass {
 }
 let c = SomeClass()
 let y = c.someProperty  // Member access
-The members of a tuple are implicitly named using integers in the order they appear, starting from zero. For example:
+```
 
+The members of a tuple are implicitly named using integers in the order they appear, starting from zero. For example:
+```swift
 var t = (10, 20, 30)
 t.0 = t.1
 // Now t is (20, 20, 30)
@@ -862,7 +866,7 @@ someDictionary["a"]![0] = 100
 
 > forced-value-expression → postfix-expression !
 
-Optional-Chaining Expression
+### Optional-Chaining Expression
 An optional-chaining expression provides a simplified syntax for using optional values in postfix expressions. It has the following form:
 
 expression?
