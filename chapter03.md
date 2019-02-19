@@ -44,9 +44,9 @@ var x = 0.0, y = 0.0, z = 0.0
 상수나 변수를 만들 때 어떤 형태의 값이 저장될 지 명확하게 하기 위해 타입을 명시할 수 있습니다. 상수나 변수의 이름뒤에 콜론을 쓰고 한칸을 띄우고 사용하고 싶은 타입의 이름을 써서 타입을 명시할 수 있습니다.
 
 다음 예시는 `welcomeMessage`라는 변수에 `String`값이 저장될 수 잇다는 것을 표시하기 위해 타입 명시를 하는 것입니다.
-	
+```swift
     var welcomeMessage: String
-    
+```
 콜론은 "~타입 의"라는 의미를 가집니다. 따라서 위의 코드는 다음과 같이 해석할 수 있습니다.
 
 "`String`타입의 변수 `welcomeMessage`를 선언한다."
@@ -54,9 +54,9 @@ var x = 0.0, y = 0.0, z = 0.0
 "`String`타입의" 라는 말은 "어떤 `String`값이든 저장할 수 있다."라는 의미 입니다. "어떤타입의"(혹은 "어떤 종류의") 라는 것은 그것이 저장될 수 있다 라는 의미로 생각하면 됩니다.
 
 이제 `welcomeMessage`변수에는 오류없이 어떤 문자열 값이든 저장할 수 있습니다.
-
+```swift
 	welcomeMessage = "Hello"
-    
+```
 >노트
 연습중에 타입 명시를 해야하는 경우는 드물다. 만약 상수나 변수를 정의하는 지점에 초기값을 지정한다면, Swift는 그 상수나 변수를 위해 사용할 타입을 추측한다. 이것이 바로 `타입 세이프`와 `타입 추정`이다. 위의 예제에서 `welcomeMessage`에 초기값을 지정하지 않았다. 그래서 초기값으로 부터 타입을 추정하기 힘들기 때문에 타입을 명시해준 것이다.
 
@@ -127,19 +127,19 @@ println("The current value of friendlyWelcome is \(friendlyWelcome)")
 스스로 상기하기 위해서 혹은 메모하기 위해 코드내에 실행되지 않는 글을 쓰려고 할 때 주석을 사용할 수 있습니다. 작성한 코드를 컴파일 할 때 Swift의 컴파일러는 주석을 무시합니다.
 
 Swift의 주석은 C의 주석과 흡사합니다. 한줄 주석은 `/`(슬래시)를 두번 연속해서 쓰면 시작됩니다.
-```
+```swift
 // this is a comment
 ```
 또 여러줄 주석도 쓸 수 있습니다. 여러줄 주석은 슬래시와 별표를 쓰고(`/*`) 끝에는 별표와 슬래시(`*/`)를 순서대로 써주면 됩니다.
 
-```
+```swift
 /* this is also a comment,
 but written over multiple lines */
 ```
 
 C의 여러줄 주석과는 다르게 Swift에서는 여러줄 주석 안에 다른 여러줄 주석을 쓸 수 있습니다.  내부 여러줄 주석을 쓰려면 첫번째 여러줄 주석 부분을 시작하고 두번째 여러줄 주석을 첫번째 주석 안에서 시작합니다. 그리고 두번째 주석을 닫아준 후 첫번째 주석을 닫아주면 됩니다.
 
-```
+```swift
 /* this is the start of the first multiline comment
 /* this is the second, nested multiline comment */
 this is the end of the first multiline comment */
