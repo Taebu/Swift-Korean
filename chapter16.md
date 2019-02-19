@@ -16,7 +16,7 @@ _초기화_는 클래스, 구조체, 또는 열거형의 인스턴스를 사용�
 ### 이니셜라이져
 이니셜라이져는 특정 타입의 새 인스턴스를 만들 때 호출됩니다. 제일 단순한 형태의 이니셜라이저는, `init`키워드를 사용하며, 파라메터가 없는 인스턴스 메소드의 형태입니다.
 밑의 예제는 `Fahrenheit` 구조체를 정의하여 화씨 단위로 표현된 온도를 저장합니다. `Fahrenheit` 구조체는 `double` 타입의 `temperature` 저장 속성 단 하나만을 가지고 있습니다.
-```
+```swift
 struct Fahrenheit {
     var temperature: Double
     init() {
@@ -36,7 +36,7 @@ println("The default temperature is \(f.temperature)° Fahrenheit")
 만약 속성이 언제나 똑같은 초기값을 가진다면, 이니셜라이저 안에서 값을 설정하기보다는 기본 값을 주는 것이 낫습니다. 결과적으로는 같지만, 기본값이 속성의 선언에 더 근접해서 속성의 초기화를 합니다. 이로써 더 짧고 명확한 이니셜라이저를 작성할 수 있게 하고, 기본 값에서 속성의 타입을 개발자가 유추할 수 있게 합니다. 또한 기본값은 이 장의 뒤에서 설명되겠지만, 기본 이니셜라이저의 장점을 취하는 것과 이니셜라이저 상속을 쉽게 합니다.
 
 `temperatur` 속성을 선언할때 기본값을 제공하는 것을 통해, 위해서 보인 단순한 형태로 `Fahrenheit` 구조체를 다시 작성 할 수 있습니다.
-```
+```swift
 struct Fahrenheit {
     var temperature = 32.0
 }
@@ -48,7 +48,7 @@ struct Fahrenheit {
 ### 초기화 파라메터
 사용자 정의 초기화의 타입들과 값의 이름들을 정의하기 위해 이니셜라이저의 정의중 일부분으로 _초기화 파라메터_를 제공할 수 있습니다. 초기화 파라메터는 함수나 메소드의 파라메터와 같은 기능과 문법을 가지고 있습니다.
 다음의 예제는 섭씨 단위로 온도를 표현하여 저장하는 `Celsius` 구조체를 정의합니다. `Celsius` 구조체는 `init(fromFahrenheit:)`과 `init(fromKelvin:)` 두개의 이니셜라이저를 구현하여 다른 온도 단위에서 값을 받아와 새 인스턴스를 초기화합니다.
-```
+```swift
 struct Celsius {
     var temperatureInCelsius: Double = 0.0
     init(fromFahrenheit fahrenheit: Double) {
@@ -75,7 +75,7 @@ let freezingPointOfWater = Celsius(fromKelvin: 273.15)
 다음 예제는 `red`, `green`, `blue`를 상수 속성으로 가지는 `Color` 구조체를 정의합니다. 이 속성들은 `0.0` 부터 `1.0` 사이의 값을 저장하여 색안의 빨강, 초록, 파랑의 양을 나타냅니다.
 
 `Color` 구조체는 `Double` 타입의 적절하게 이름지어진 파라메터 3개를 가지는 이니셜라이저를 제공합니다.
-```
+```swift
 struct Color {
     let red = 0.0, green = 0.0, blue = 0.0
     init(red: Double, green: Double, blue: Double) {
@@ -86,11 +86,11 @@ struct Color {
 }
 ```
 새 `Color` 인스턴스를 만들때, 색의 세가지 구성요수를 외부 이름으로 사용하여 이니셜라이저를 호출 할 수 있습니다.
-```
+```swift
 let magenta = Color(red: 1.0, green: 0.0, blue: 1.0)
 ```
 이니셜라이저를 호출할때 외부 이름을 사용하지 않고 호출 할 수 없음에 주의하십시오. 외부 이름은 이니셜라이저 안에 반드시 언제나 사용되어야 하며, 생략하게 되면 컴파일 타임 에러를 냅니다.
-```
+```swift
 let veryGreen = Color(0.0, 1.0, 0.0)
 // this reports a compile-time error - external names are required
 ```
@@ -98,7 +98,7 @@ let veryGreen = Color(0.0, 1.0, 0.0)
 ### 옵셔널 속성 타입
 만약 저장 속성이 논리적으로 "값 없음"을 갖는게 허용이 된다면 - 어쩌면 초기화 과정중에 설정이 될 수 없다거나, 어느 순간 "값 없음"을 갖는게 허용이 되거나 - 그 속성을 옵셔널 타입으로 선언하십시오. 옵셔널 타입 속성은 자동적으로 `nil` 값으로 초기화가 됩니다.  그렇게 함으로써 해당 속성은 의도된 "아직 값 없음"을 초기화 과정중에 가지게 됩니다.
 이어지는 예제는 `response:`를 속성으로 갖는 `SurveyQuestion` 클래스를 정의합니다.
-```
+```swift
 class SurveyQuestion {
     var text: String
     var response: String?
@@ -123,7 +123,7 @@ cheeseQuestion.response = "Yes, I do like cheese."
 클래스 인스턴스는 상수 속성의 값을 오직 초기화 과정중에 해당 클래스에 의해서만 바꿀 수 있습니다. 상수 속성은 자식(sub) 클래스에 의해 변경될 수 없습니다.
 
 위 예제의 `SurveyQuestion` 클래스의 `text` 속성을 상수 속성으로 바꾸어 재작성 할 수 있습니다. 질문은 한번 `SurveyQuestion` 클래스가 생성되고 나면 변경 될 수 없다는 것을 알리기 위해서죠. `text` 속성이 지금은 상수라 할지라도, 클래스의 이니셜라이저 안에서는 여전히 변경될 수 있습니다.
-```
+```swift
 class SurveyQuestion {
     let text: String
     var response: String?
@@ -143,7 +143,7 @@ beetsQuestion.response = "I also like beets. (But not with cheese.)"
 ## 기본 이니셜라이저
 스위프트는 기본값을 모든 속성에 지정했지만 이니셜라이저를 가지지 않은 구조체나 베이스 클래스에 대해 _기본 이니셜라이저_를 제공합니다. 기본 이니셜라이저는 단순히 새 인스턴스를 만들고, 속성들을 각각의 기본값으로 설정합니다.
 이 예제는 구매 목록안의 아이템의 이름, 수량, 구매 상태를 캡슐화하는 `ShoppingListItem` 클래스를 정의합니다.
-```
+```swift
 class ShoppingListItem {
     var name: String?
     var quantity = 1
@@ -158,7 +158,7 @@ var item = ShoppingListItem()
 멤버 단위 이니셜라이저는 새 구조체 인스턴스의 멤버 속성을 초기화 하는 단축 표현(shorthand)입니다. 새 인스턴스의 속성들의 초기값은 멤버 단위 이니셜라이저의 이름을 통해 전달 될 수 있습니다.
 밑의 예제는 `Size` 구조체를 `width`와 `height` 속성 두개를 정의합니다. 두 속성은 전부 `0.0`이 할담 됨으로써 `Double` 타입임이 암시됩니다.
 두 속성 전부 기본값을 가지기에 `Size` 구조체는 자동적으로 `Size` 인스턴스를 초기화 할 수 있는 `init(width:heigh:)` 멤버 단위 이니셜라이저를 부여받게 됩니다.
-```
+```swift
 struct Size {
     var width = 0.0, height = 0.0
 }
@@ -175,7 +175,7 @@ let twoByTwo = Size(width: 2.0, height: 2.0)
 만약 사용자 정의 값 타입이 기본 이니셜라이저와 멤버 단위 이니셜라이저, 그리고 사용자 정의 이니셜라이저를 동시에 쓰길 원한다면 이니셜라이져를 값 타입의 원래 구현의 부분으로 작성하기 보다 확장(extension)으로 작성하십시오. 자세한 정보는 **확장**을 보세요.
 
 다음 예제는 사용자 정의 `Rect` 구조체를 정의하여 기하학적 사각형을 표현합니다. 이 예제는 `Size`와 `Point`, 두개의 지지(supporting) 구조체를 요구합니다. 두 구조체 모두 속성들의 기본값으로 `0,0`을 제공합니다.
-```
+```swift
 struct Size {
     var width = 0.0, height = 0.0
 }
@@ -184,7 +184,7 @@ struct Point {
 }
 ```
 `Rect` 구조체는 세가지 방법중 하나로 초기화 될 수 있습니다. 기본값인 0으로 초기화된 `origin`과 `size` 속성 값을 이용하여, 특정 기점(origin point)과 사이즈를 제공하여, 특정 중앙점과 사이즈를 제공하여. 이 초기화 옵션들은 `Rect` 정의 안에서 사용자 정의 이니셜라이저로서 표현됩니다.
-```
+```swift
 struct Rect {
     var origin = Point()
     var size = Size()
@@ -201,18 +201,18 @@ struct Rect {
 }
 ```
 첫번째 `Rect` 이니셜라이저인 `init()`은 기능적으로 사용자 정의 이니셜라이저를 가지지 않을때의 기본 이니셜라이저와 똑같습니다. 이 이니셜라이저는 빈 몸체를 가지며, 빈 중괄호 한쌍 `{}`으로 표현됩니다. 또한 아무런 초기화도 수행하지 않습니다. 이 이니셜라이져를 호출하면 `Rect` 인스턴스를 반환하며, 그 인스턴스의 `origin`과 `size`는 모두 속성에서 정의된 기본값인 `Point(x: 0.0, y:0,0)`과 `Size(width: 0.0, height: 0.0)`입니다.
-```
+```swift
 let basicRect = Rect()
 // basicRect's origin is (0.0, 0.0) and its size is (0.0, 0.0)
 ```
 두번째 `Rect` 이니셜라이져인 `init(origin:size:)`은 기능적으로 사용자 정의 이니셜라이저를 가지지 않을때의 멤버 단위 이니셜라이져와 동일합니다. 이 이니셜라이져는 단순히 `origin`과 `size` 인수를 알맞은 저장 변수에 할당합니다.
-```
+```swift
 let originRect = Rect(origin: Point(x: 2.0, y: 2.0),
     size: Size(width: 5.0, height: 5.0))
 // originRect's origin is (2.0, 2.0) and its size is (5.0, 5.0)
 ```
 세번째 `Rect` 이니셜라이저인 `init(center:size:)`은 조금 더 복잡합니다.  `center` 포인트와 `size`에서 계산한 적절한 기점에서 시작하게 됩니다. 그리고 나면 `init(origin:size:)` 이니셜라이져를 호출( 혹은 대리)합니다. 그 이니셜라이져는 알맞은 새 기점과 사이즈 값을 저장합니다.
-```
+```swift
 let centerRect = Rect(center: Point(x: 4.0, y: 4.0),
     size: Size(width: 3.0, height: 3.0))
 // centerRect's origin is (2.5, 2.5) and its size is (3.0, 3.0)
@@ -346,13 +346,13 @@ _편의 이니셜라이저_는 클래스를 지탱하는 두번째 이니셜라�
 
 ### 지정 이니셜라이저와 편의 이니셜라이저의 문법
 클래스의 지정 이니셜라이저는 값 타입을 위한 단순 이니셜라이저와 같은 방식으로 작성됩니다.
-```
+```swift
 init(parameters) {
     statements
 }
 ```
 편의 이니셜라이저는 `init` 키워드 앞에 `convenience` 키워드를 공백으로 구분하여 위치하게 하는 것을 제외하면 같은 방식으로 작성됩니다.
-```
+```swift
 convenience init(parameters) {
     statements
 }
@@ -361,7 +361,7 @@ convenience init(parameters) {
 ### 실제로 해보는 지정 이지셜라이저와 편의 이니셜라이저
 다음 예제는 이정 이니셜라이저와 편의 이니셜라이저, 그리고 자동적 이니셜라이저 상속을 실제로 해몹니다. 이 예제는  `Food`, `RecipeIngredient` 그리고 `ShoppingListItem` 클래스들의 상속 계층을 정의합니다. 그리고 클래스들 간의 이니셜라이저가 어떻게 상호작용하는지 보여줄 것입니다.
 상속 계층의 베이스 클래스는 `Food`입니다. 이 클래스는 음식의 이름을 캡슐화 합니다. `Food` 클래스는 `String` 타입의 `name` 속성을 도입합니다. 그리고 `Food` 인스턴스를 생성하는데 두 개의 이니셜라이저를 제공합니다.
-```
+```swift
 class Food {
     var name: String
     init(name: String) {
@@ -376,18 +376,18 @@ class Food {
 ![initializersexample01_2x.png](https://raw.githubusercontent.com/lean-tra/Swift-Korean/master/images/initializersexample01_2x.png)
 
 클래스는 기본 멤버 단위 이니셜라이저를 가지고 있지 않습니다. 그리고 `Food` 클래스는 단일 인자 `name`을 받는 지정 이니셜라이저를 제공합니다. 이 이니셜라이저는 특정 이름으로 `Food` 인스턴스를 생성하는데 사용될 수 있습니다.
-```
+```swift
 let namedMeat = Food(name: "Bacon")
 // namedMeat's name is "Bacon"
 ```
 `Food` 클래스가 제공하는 `init(name: String)` 이니셜라이저는 `Food` 인스턴스의 모든 저장 속성이 완전히 초기화 되는 것을 보장하기에 _지정_ 이니셜라이저 입니다. `Food` 클래스는 부모 클래스를 가지지 않습니다. 또한 `init(name: String)` 이니셜라이저도 초기화를 완료하기 위해 `super.init()`을 호출할 필요가 없습니다.
 `Food` 클래스는 인자가 없는 `init()` 편의 이니셜라이저 또한 제공합니다. `init()` 이니셜라이저는 `Food` 클래스의 `init(name: String)` 을 대리하여, `[Unnamed]`값을 가진 `name`을 이름의 기본 플레이스홀더(placeholder)로서 제공합니다.
-```
+```swift
 let mysteryMeat = Food()
 // mysteryMeat's name is "[Unnamed]"
 ```
 클래스 상속 계층에서 두번째 클래스는 `Food` 클래스의 자식 클래스인 `RecipeIngredient` 입니다. `RecipeIngredient` 클래스는 요리 조리법의 재료를 모델링합니다. 이 클래스는 (`Food`에서 상속받은 `name` 속성에 더해) `Int` 타입의 `quantity` 속성을 도입합니다. 그리고 `RecipeIngredient`를 생성하기 위한 이니셜라이저 두개를 제공합니다.
-```
+```swift
 class RecipeIngredient: Food {
     var quantity: Int
     init(name: String, quantity: Int) {
@@ -411,7 +411,7 @@ class RecipeIngredient: Food {
 이 예제에서 `RecipeIngredient`의 부모 클래스인 `Food`는 하나의 편의 이니셜라이저 `init()`을 제공합니다. 따라서 이 이니셜라이저는 `RecipeIngredient`에게 상속되게 됩니다. `init()`의 상속된 버전은 정확하게 `Food` 버전과 똑같은 기능을 합니다. 대리 수행하는 이니셜라이저`init(name: String)`을 `Food` 버전이 아니라 `RecipeIngredient` 버전을 사용하여 대리 한다는 것을 제외하면 말이죠.
 
 이 세 이니셜라이저를 새 `RecipeIngredient` 인스턴스를 생성하는데 전부 사용할 수 있습니다.
-```
+```swift
 let oneMysteryItem = RecipeIngredient()
 let oneBacon = RecipeIngredient(name: "Bacon")
 let sixEggs = RecipeIngredient(name: "Eggs", quantity: 6)
@@ -419,7 +419,7 @@ let sixEggs = RecipeIngredient(name: "Eggs", quantity: 6)
 클래스 상속 계층에서 세번째이자 마지막 클래스는 `RecipeIngredient`의 자식 클래스인 `ShoppingListItem`입니다. `ShoppingListItem`는 구매 목록에 있는 조리법의 재료를 모델링합니다.
 
 구매 목록에 있는 모든 품목(itme)들은 "unpurchased" 상태로 시작하게 됩니다. 이 사실을 표현하기 위해 `ShoppingListItem`은 기본값을 `false`로 가지는 `puchased` 불리언 속성을 도입합니다. `ShoppingListItem`은 또한 `ShoppingListItem` 인스턴스를 글로 설명하기 위해 산출한 `description` 속성을 추가합니다.
-```
+```swift
 class ShoppingListItem: RecipeIngredient {
     var purchased = false
     var description: String {
@@ -440,7 +440,7 @@ class ShoppingListItem: RecipeIngredient {
 ![initializersexample03_2x.png](https://raw.githubusercontent.com/lean-tra/Swift-Korean/master/images/initializersexample03_2x.png)
 
 `ShoppingListItem` 인스턴스를 만드는데 세개의 상속받은 이니셜라이저 전부를 이용할 수 있습니다.
-```
+```swift
 var breakfastList = [
     ShoppingListItem(),
     ShoppingListItem(name: "Bacon"),
@@ -464,7 +464,7 @@ for item in breakfastList {
 그러한 클로저나 함수들은 대개 속성의 타입과 같은 임시 값을 만들어서, 그 값을 원하는 초기 상태로 맞춰주고, 그 임시 값을 속성의 기본 값으로 사용되게 반환합니다.
 
 이 예제는 클로저가 어떻게 속성의 기본값을 제공할 수 있게 되는지 전체적인 뼈대를 보여줍니다.
-```
+```swift
 class SomeClass {
     let someProperty: SomeType = {
         // create a default value for someProperty inside this closure
@@ -485,7 +485,7 @@ class SomeClass {
 _체커_ 게임은 흑백 칸이 번갈아 있는 10 * 10 판 위에서 플레이합니다. 이 게임판을 표현하기 위해 `Checkerboard` 구조체는 길이가 100이고, `Bool` 값을 가지는 `boardColors`라는 단일 속성을 가집니다. 배열에서 `ture` 값은 검은 칸을 표현하고, `false` 값은 흰색 칸을 표현합니다. 배열의 첫번째 아이템은 게임판에서 제일 좌상단의 칸을 표현하고, 마지막 아이템은 제일 게임판에서 우하단의 칸을 표현합니다.
 
 `boardColors` 배열은 색상 값을 설정하기 위해 클로저를 사용하여 초기화가 됩니다.
-```
+```swift
 struct Checkerboard {
     let boardColors: Bool[] = {
         var temporaryBoard = Bool[]()
@@ -505,7 +505,7 @@ struct Checkerboard {
 }
 ```
 새 `Checkerboard` 인스턴스가 생성될때, 해당 클로저가 실행되어 `boardColors`의 기본 값이 계산되고 반환됩니다. 위 예제에서 보이는 클로저는 게임판 위의 각각의 칸에 알맞은 색을 계산하여 임시 배열인 `temporaryBoard`에 설정합니다. 그리고 설정이 끝나면 이 임시 배열은 클로저의 반환값으로서 반환이 됩니다. 이 반환된 배열 값은 `boardColors` 에 저장이 되고, 기능성 함수 `squareIsBlackAtRow`에 의해 조회 될 수 있습니다.
-```
+```swift
 let board = Checkerboard()
 println(board.squareIsBlackAtRow(0, column: 1))
 // prints "true"
