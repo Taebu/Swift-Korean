@@ -21,7 +21,7 @@ Swift는 C에서 발견되는 모든 비트 연산자들을 지원합니다. 이
 ![bitwisenot_2x.png](https://raw.githubusercontent.com/lean-tra/Swift-Korean/master/images/bitwisenot_2x.png)
 
 비트 NOT 연산자는 전위연산자입니다. 그리고 공백없이, 연산하는 값 바로 앞에 나타납니다.
-```
+```swift
 let initialBits: UInt8 = 0b00001111
 let invertedBits = ~initialBits  // equals 11110000
 ```
@@ -37,11 +37,11 @@ UInt8 정수들은 8개의 비트를 가지며, 0에서부터 255까지의 임�
 
 
 아래의 예에서, firstSixBits변수와 lastSixBits양쪽의 값들은 4개의 중간 비트가 1로 되어있습니다. 비트 AND 연산자는 그들을 부호 없는 십진수 60과 동일한 숫자인 00111100로 만들도록 조합합니다.
-```
+```swift
 let firstSixBits: UInt8 = 0b11111100
 let lastSixBits: UInt8  = 0b00111111
 let middleFourBits = firstSixBits & lastSixBits  // equals 00111100
-```
+```swift
 ### 비트 OR 연산자
 
 비트 OR 연산자(|)는 두 수의 비트들을 비교합니다. 만일 다음처럼 입력 수들 중에 어떤 하나가 비트 1이면, 연산자는 해당 위치의 비트가 1로 설정된 새로운 수를 돌려줍니다.
@@ -49,7 +49,7 @@ let middleFourBits = firstSixBits & lastSixBits  // equals 00111100
 ![bitwiseor_2x.png](https://raw.githubusercontent.com/lean-tra/Swift-Korean/master/images/bitwiseor_2x.png)
 
 아래의 예제에서, someBits와 moreBits의 값은 서로 다른 위치에 비트 1을 가지고 있습니다. 비트 OR 연산자는 그들을 부호 없는 십진수 254와 동일한 숫자인 11111110으로 만들어지도록 조합합니다.
-```
+```swift
 let someBits: UInt8 = 0b10110010
 let moreBits: UInt8 = 0b01011110
 let combinedbits = someBits | moreBits  // equals 11111110
@@ -61,7 +61,7 @@ let combinedbits = someBits | moreBits  // equals 11111110
 ![bitwisexor_2x.png](https://raw.githubusercontent.com/lean-tra/Swift-Korean/master/images/bitwisexor_2x.png)
 
 아래 예에서, firstBits와 otherBits 각각의 값들은 하나의 위치에서 1로 설정된 하지만 다른 변수에서는 그렇지 않은 비트를 가집니다. 비트 XOR 연산자는 그것들의 출력 값에서 이들 비트들의 양쪽을 1로 설정합니다. firstBits와 otherBits에서 모든 다른 비트들은 같으며, 이것은 다음과 같이 출력 값에서 0으로 나타납니다.
-```
+```swift
 let firstBits: UInt8 = 0b00010100
 let otherBits: UInt8 = 0b00000101
 let outputBits = firstBits ^ otherBits  // equals 00010001
@@ -87,7 +87,7 @@ let outputBits = firstBits ^ otherBits  // equals 00010001
 ![bitshiftunsigned_2x.png](https://raw.githubusercontent.com/lean-tra/Swift-Korean/master/images/bitshiftunsigned_2x.png)
 
 여기서는 Swift 코드 안에서 어떻게 비트 쉬프트를 하는지를 다음의 실제 코드로 보여줍니다.
-```
+```swift
 let shiftBits: UInt8 = 4   // 00000100 in binary
 shiftBits << 1             // 00001000
 shiftBits << 2             // 00010000
@@ -96,7 +96,7 @@ shiftBits << 6             // 00000000
 shiftBits >> 2             // 00000001
 ```
 당신은 다음과 같이 다른 데이터 타입들 안에 있는 값들을 부호화하기 위해서 그리고 복호화하기 위해서 비트 쉬프트를 사용할 수 있습니다.
-```
+```swift
 let pink: UInt32 = 0xCC6699
 let redComponent = (pink & 0xFF0000) >> 16    // redComponent is 0xCC, or 204
 let greenComponent = (pink & 0x00FF00) >> 8   // greenComponent is 0x66, or 102
@@ -152,7 +152,7 @@ let blueComponent = pink & 0x0000FF           // blueComponent is 0x99, or 153
 만일 당신이 해당 타입의 변수가 가질 수 없는 값을 정수 상수 또는 변수에 숫자의 대입을 시도한다면, 기본적으로 Swift는 유효하지 않은 값이 생성되기를 허락하기 보다는 오류를 보고 합니다. 이 행동은 당신이 너무 크거나 너무 작은 숫자들을 가지고 작업할 때 추가적인 안전함(extra safety)을 당신에게 제공합니다.
 
 예를 들어, Int16 정수 타입은 -32768부터 32767까지의 임의의 부호 있는 정수를 가지고 있을 수 있습니다. UInt16 상수 또는 변수에 이 범위를 벗어나는 수를 설정하려고 노력하는 것은 오류를 일으킵니다.
-```
+```swift
 var potentialOverflow = Int16.max
 // potentialOverflow는 3276과 동일합니다. 이것은 Int16이 가질 수 있는 가장 큰 값입니다.
 potentialOverflow += 1
@@ -171,7 +171,7 @@ potentialOverflow += 1
 ### 값 오버플로우
 
 여기서는 오버플로우 덧셈 연산자(&+)를 사용하여, 부호 없는 값이 오버플로우가 허용될 때 무슨 일이 일어나는지에 대한 예를 보여줍니다.
-```
+```swift
 var willOverflow = UInt8.max
 // willOverflow는 255와 동일합니다. 이것은 UInt8이 가질 수 있는 최대 값입니다.
 willOverflow = willOverflow &+ 1
@@ -188,7 +188,7 @@ UInt8가 유지할 수 있는 가장 작은 수는 0(즉, 8비트 이진 형태�
 ![overflowunsignedsubtraction_2x.png](https://raw.githubusercontent.com/lean-tra/Swift-Korean/master/images/overflowunsignedsubtraction_2x.png)
 
 다음은 Swift코드 에서 어떻게 보이는 지를 나타냅니다.
-```
+```swift
 var willUnderflow = UInt8.min
 // willUnderflow는 UInt8이 유지할 수 있는 가장 작은 값인 0이 됩니다.
 willUnderflow = willUnderflow &- 1
@@ -198,7 +198,7 @@ willUnderflow = willUnderflow &- 1
 ![overflowsignedsubtraction_2x.png](https://raw.githubusercontent.com/lean-tra/Swift-Korean/master/images/overflowsignedsubtraction_2x.png)
 
 다음은 Swift코드에서의 표현입니다.
-```
+```swift
 var signedUnderflow = Int8.min
 // signedUnderflow는 -128과 같습니다. 이는 Int8이 가질 수 있는 가장 작은 값입니다.
 signedUnderflow = signedUnderflow &- 1
@@ -264,7 +264,7 @@ Swift의 연산자 우선순위와 결합순위 규칙은 C와 Objective-C에서
 아래의 예는 사용자 정의 구조에 대해서 산술 덧셈 연산자(+)를 어떻게 구현할 수 있는지를 보여줍니다. 산술 덧셈 연산자는 두 개의 대상에서 동작하기 때문에 2항 연산자이며, 그것이 이들 두 개의 대상 사이에서 나타나기 때문에 중간연산자라고 불릴 수 있습니다.
 
 예는 2차원 위치 벡터 (x, y)에 대한 Vector2D 구조체를 정의합니다. 여기서 Vector2D 구조체의 인스턴스들을 함께 더하기 위한 연산자 함수의 정의가 뒤따릅니다.
-```
+```swift
 struct Vector2D {
     var x = 0.0, y = 0.0
 }
@@ -277,7 +277,7 @@ struct Vector2D {
 이 구현에서, 입력 파라메터들은 '+' 연산자의 왼쪽과 오른쪽에 있는 타깃들을 Vector2D 인스턴스로 표현하는 left와 right라는 변수로 이름 지어져 있습니다. 이 함수는 새로운 Vector2D 인스턴스를 돌려줍니다. 새로운 인스턴스의 x와 y는 더해지는 두 개의 Vector2D 인스턴스들로부터 x속성들의 합과 y속성들의 합으로써 초기화 됩니다.
 
 함수는 Vector2D 구조체상의 하나의 함수로써가 아닌, 전역적으로 정의됩니다. 그것은 존재하는 Vector2D 인스턴스들 사이의 중간 연산자로써 사용되기 위해서 입니다.
-```
+```swift
 let vector = Vector2D(x: 3.0, y: 1.0)
 let anotherVector = Vector2D(x: 2.0, y: 4.0)
 let combinedVector = vector + anotherVector
@@ -299,7 +299,7 @@ let combinedVector = vector + anotherVector
 위의 예는 Vector2D 인스턴스에 대해서 단항 뺄셈 연산자(-a)를 구현합니다. 단항 뺄셈 연산자는 전위 연산자이고, 그래서 이 함수는 '@prefix'속성으로 전위연산자임을 알려주어야 합니다.
 
 간단한 수치 값들에 대해서, 단항 뺄셈 연산자는 양수를, 부호를 뒤집을 때 같아지는 음수로 변환합니다. Vector2D에 대한 동일한 구현은 x와 y속성들 양쪽에 이 동작을 수행합니다.
-```
+```swift
 let positive = Vector2D(x: 3.0, y: 4.0)
 let negative = -positive
 // 음수는 (-3.0, -4.0)의 값을 가지는 Vector2D 인스턴스가 됩니다.
@@ -317,7 +317,7 @@ let alsoPositive = -negative
 }
 ```
 덧셈 연산자는 더 먼저 정의되었기 때문에, 당신은 덧셈 절차를 여기서 다시 구현할 필요가 없습니다. 대신에 덧셈 할당 연산자 함수는 존재하는 덧셈 연산자 함수의 이점을 가져오고, 그것은 왼쪽 값을 오른쪽 값과 더하여 왼쪽 값에 설정하기 위해서 그것을 사용합니다.
-```
+```swift
 var original = Vector2D(x: 1.0, y: 2.0)
 let vectorToAdd = Vector2D(x: 3.0, y: 4.0)
 original += vectorToAdd
@@ -331,7 +331,7 @@ original += vectorToAdd
 }
 ```
 위의 전위 증가 연산자 함수는 초기에 정의된 덧셈 할당 연산자의 이득을 취합니다. 그것은 그것이 불려진 곳 상에서 x값과 y값으로 1.0을 가지는 Vector2D를 더합니다. 그리고 결과를 돌려줍니다.
-```
+```swift
 var toIncrement = Vector2D(x: 3.0, y: 4.0)
 let afterIncrement = ++toIncrement
 // toIncrement는 지금 (4.0, 5.0)의 값을 가집니다.
@@ -356,7 +356,7 @@ let afterIncrement = ++toIncrement
 위의 예는 두 개의 Vector2D 인스턴스가 동등함 값을 가지는지에 대해서 검사하기 위해서 "같음" 연산자(==)를 구현하는 것입니다. Vector2D의 컨텍스트에서 그것은 "같음"을 "양쪽 인스턴스가 같은 x값과 y값들을 가진다"는 의미로써 고려되는 것이 이치에 맞습니다. 그래서 이것은 연산자 구현에 의해서 사용된 논리입니다. 예는 또한 "같지 않음" 연산자(!=)를 구현합니다. 이것은 간단하게 "같음" 연산자의 결과에 역을 돌려줍니다.
 
 당신은 지금 두 개의 Vector2D 인스턴스들이 같은지 아닌지를 검사하는데 이들 연산자들을 사용할 수 있습니다.
-```
+```swift
 let twoThree = Vector2D(x: 2.0, y: 3.0)
 let anotherTwoThree = Vector2D(x: 2.0, y: 3.0)
 if twoThree == anotherTwoThree {
@@ -369,7 +369,7 @@ if twoThree == anotherTwoThree {
 당신은 Swift에 의해서 제공되는 표준 연산자들뿐만이 아니라 당신 소유의 사용자 정의 연산자들을 선언하고 구현할 수 있습니다. 사용자 정의 연산자들은 문자들 / = - + * % < > ! & | ^ . ~.를 가지고 단지 정의될 수 있습니다.
 
 새로운 연산자들은 연산자 키워드를 사용하여 전역 수준에서 정의되고, 전위, 중위 또는 후위로써 정의될 수 있습니다.
-```
+```swift
 operator prefix +++ {}
 ```
 위의 예는 '+++'라고 불리는 새로운 전위 연산자를 정의합니다. 이 연산자는 Swift에서 미리 정의된 의미를 가지고 있지 않습니다. 그래서 Vector2D 인스턴스들과 함께 동작하는 특정 컨텍스트 안에서 아래와 같이 의미를 부여는 자신 소유의 사용자 정의 연산자를 선언할 수 있습니다. 이 예제의 목적을 위해서, '+++'를 새로운 "전위 두 배 증가" 연산자로써 다룹니다. 그것은 이전에 정의했던 덧셈 할당 연산자를 통해 그 자신을 그 벡터에 더하므로 써, Vector2D 인스턴스의 x와 y값을 두 배가 증가 시킵니다.
@@ -380,7 +380,7 @@ operator prefix +++ {}
 }
 ```
 '+++'의 이 구현은 Vector2D에 대해서 '++'의 구현과 매우 비슷합니다. 단지 이 연산자 함수가 Vector2D(1.0, 1.0)을 더하는 것 보다, 벡터를 그 자신에 더한다는 것을 제외하고는 같습니다.
-```
+```swift
 var toBeDoubled = Vector2D(x: 1.0, y: 4.0)
 let afterDoubling = +++toBeDoubled
 // toBeDoubled는 지금 (2.0, 8.0)의 값들을 가집니다.
@@ -395,7 +395,7 @@ let afterDoubling = +++toBeDoubled
 결합 방법에 대한 조건은 특별히 이야기되지 않는다면 아무 쪽도 아닌 게 기본입니다. 우선순위의 경우 특별히 이야기되지 않는다면 100이 기본입니다.
 
 다음의 예제는 '+-'라고 불리는 새로운 사용자 정의 중위 연산자를 정의합니다. 이때 이 연산자는 왼쪽 결합이며 140의 우선순위를 가집니다.
-```
+```swift
 operator infix +- { associativity left precedence 140 }
 func +- (left: Vector2D, right: Vector2D) -> Vector2D {
     return Vector2D(x: left.x + right.x, y: left.y - right.y)
