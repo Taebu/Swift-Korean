@@ -30,7 +30,7 @@
 
 아래는 `String` 타입의 값들을 저장하는 `shoppingList`라는 배열을 생성하는 예제이다.
 
-```
+```swift
 var shoppingList: String[] = ["Eggs", "Mink"]
 
 // shoppingList has been initialized with two initial items
@@ -45,7 +45,7 @@ var shoppingList: String[] = ["Eggs", "Mink"]
 
 스위프트의 타입 추정 덕분에 당신은 배열 표현식을 이용하여 같은 타입을 갖는 변수를 초기화 시킨다면 배열 타입을 쓸 필요가 없다. 따라서, `shoppingList` 변수의 초기화는 아래와 같이 좀 더 간결한 형태로도 가능하다.
 
-```
+```swift
 var shoppingList = ["Eggs", "Mink"]
 ```
 
@@ -58,14 +58,14 @@ var shoppingList = ["Eggs", "Mink"]
 
 배열 안에 값이 몇 개나 있는지를 확인하기 위해 읽기 전용 속성인 `count` 프로퍼티를 사용한다:
 
-```
+```swift
 println("The shopping list contains \(shoppingList.count) items.")
 // prints "The shopping list contains 2 items."
 ```
 
 불리언 값을 반환하는 `isEmpty` 프로퍼티를 이용하면 `count` 프로퍼티 값이 `0`인지 아닌지 곧바로 확인할 수 있다:
 
-```
+```swift
 if shoppingList.isEmpty {
     println("The shopping list is empty.")
 } else {
@@ -77,28 +77,28 @@ if shoppingList.isEmpty {
 
 새로운 값을 배열의 마지막에 추가하는 것은 `append` 메소드를 이용하면 된다:
 
-```
+```swift
 shoppingList.append("Flour")
 // shoppingList now contains 3 items, and someone is making pancakes
 ```
 
 추가 할당 연산자인 `+=`를 이용하여 배열의 마지막에 새로운 값을 추가할 수도 있다.
 
-```
+```swift
 shoppingList += "Baking Powder"
 // shoppingList now contains 4 items
 ```
 
 같은 타입을 갖는 배열 표현식을 이용하여 한꺼번에 추가시킬 수도 있다:
 
-```
+```swift
 shoppingList += ["Chocolate Spread", "Cheese", "Butter"]
 // shoppingList now contains 7 items
 ```
 
 배열로부터 값을 찾는 것은 배열 변수 바로 뒤에 대괄호를 사용해서 찾고자 하는 값의 인덱스값을 이용하면 된다:
 
-```
+```swift
 var firstItem = shoppingList[0]
 
 // firstItem is equal to "Eggs"
@@ -108,7 +108,7 @@ var firstItem = shoppingList[0]
 
 Subscript 문법을 사용하면 지정한 인덱스에 이미 존재하는 값을 바꿀 수도 있다:
 
-```
+```swift
 shoppingList[0] = "Six eggs"
 
 // the first item in the list is now equal to "Six eggs" rather than "Eggs"
@@ -116,7 +116,7 @@ shoppingList[0] = "Six eggs"
 
 Subscript 문법을 이용하면 범위를 줘서 한꺼번에 값을 바꿀 수도 있다. 심지어는 바꾸려고 하는 범위가 실제 값의 크기와 달라도 그게 가능하다. 아래 예제는 `shoppingList` 배열에 있는 "`Chocolate Spread`", "`Cheese`", "`Butter`" 값을 "`Bananas`", "`Apples`"으로 바꾸어 버린다:
 
-```
+```swift
 shoppingList[4...6] = ["Bananas", "Apples"]
 
 // shoppingList now contains 6 items
@@ -127,7 +127,7 @@ Subscript 문법을 사용해서 새 값을 배열의 마지막에 추가하는 
 
 특정한 인덱스에 배열 값을 넣고 싶다면 배열의 `insert(atIndex:)` 메소드를 이용한다:
 
-```
+```swift
 shoppingList.insert("Maple Syrup", atIndex: 0)
 // shoppingList now contains 7 items
 // "Maple Syrup" is now the first item in the list
@@ -137,7 +137,7 @@ shoppingList.insert("Maple Syrup", atIndex: 0)
 
 비슷한 방식으로 배열에서 값을 지울 수도 있다. `removeAtIndex` 메소드를 이용하면 되는데, 이 메소드는 배열내 주어진 인덱스에서 특정 값을 지우고 난 후 그 지워진 값을 반환한다. 이 지워진 값은 필요하지 않다면 무시해도 좋다.
 
-```
+```swift
 let mapleSyrup = shoppingList.removeAtIndex(0)
 
 // the item that was at index 0 has just been removed
@@ -147,7 +147,7 @@ let mapleSyrup = shoppingList.removeAtIndex(0)
 
 배열에서 값을 지우고난 다음에 생기는 공백은 자동으로 지워진다. 따라서, `0` 인덱스에 해당하는 값은 이제 "`Six eggs`"이다:
 
-```
+```swift
 firstItem = shoppingList[0]
 
 // firstItem is now equal to "Six eggs"
@@ -155,7 +155,7 @@ firstItem = shoppingList[0]
 
 만약 배열의 마지막 값을 지우고 싶다면 `removeLast` 메소드를 이용한다. 이 메소드를 이용하면 `removeAtIndex` 메소드를 `count` 프로퍼티와 함께 사용하는 불필요한 수고를 피할 수 있다. `removeAtIndex` 메소드와 마찬가지로 `removeLast` 메소드 역시 지워진 값을 반환한다:
 
-```
+```swift
 let apples = shoppingList.removeLast()
 
 // the last item in the array has just been removed
@@ -167,7 +167,7 @@ let apples = shoppingList.removeLast()
 
 `for-in` 반복문을 사용하면 배열 안의 모든 값들에 접근할 수 있다:
 
-```
+```swift
 for item in shoppingList {
 println(item)
 }
@@ -181,7 +181,7 @@ println(item)
 
 만약 배열 안의 개별적인 값들과 그에 해당하는 인덱스가 함께 필요하다면 전역 함수인 `enumerate`를 사용해서 배열을 돌릴 수 있다. `enumerate` 함수는 배열내 각각의 값에 대해 인덱스와 결합한 튜플 값을 반환한다. 반복문을 돌리는 도중 이 튜플을 변수나 상수로 분리하여 사용할 수 있다:
 
-```
+```swift
 for (index, value) in enumerate(shoppingList) {
 println("Item \(index + 1): \(value)")
 }
@@ -200,7 +200,7 @@ println("Item \(index + 1): \(value)")
 
 배열의 초기화 문법을 이용하면 초기값 할당 없이 특정 타입을 가진 빈 배열을 만들 수 있다:
 
-```
+```swift
 var someInts = Int[]()
 println("someInts is of type Int[] with \(someInts.count) items.")
 
@@ -211,7 +211,7 @@ println("someInts is of type Int[] with \(someInts.count) items.")
 
 또한 만약 컨텍스트 상에서 함수의 인자라든가 이미 타입 선언이 된 변수 혹은 상수라든가 하는 식으로 해서 이미 타입 정보를 갖고 있다면, 빈 배열을 곧바로 빈 배열 표현식을 이용하여 만들 수 있다. 빈 배열 표현식은 `[]`와 같이 대괄호만을 이용한다:
 
-```
+```swift
 someInts.append(3)
 // someInts now contains 1 value of type Int
 someInts = []
@@ -220,21 +220,21 @@ someInts = []
 
 스위프트의 `Array` 타입도 특정 크기와 기본 값을 갖는 배열을 만들 수 있는 생성자를 제공한다. 배열에 들어갈 수 있는 값의 갯수(`count` 인자)와 기본 값(`repeatedValue` 인자)을 생성자에 제공하여 배열을 만들 수 있다:
 
-```
+```swift
 var threeDoubles = Double[](count: 3, repeatedValue: 0.0)
 // threeDoubles is of type Double[], and equals [0.0, 0.0, 0.0]
 ```
 
 생성자를 사용할 때 기본 값에서 타입을 추정하기 때문에 배열 생성시 굳이 타입 지정을 할 필요가 없다:
 
-```
+```swift
 var anotherThreeDoubles = Array(count: 3, repeatedValue: 2.5)
 // anotherThreeDoubles is inferred as Double[], and equals [2.5, 2.5, 2.5]
 ```
 
 마지막으로 이미 존재하는 같은 타입의 두 배열을 `+` 연산자를 통해 합치는 것만으로 새로운 배열을 생성할 수도 있다. 이렇게 만들어진 새로운 배열의 타입은 합치기 전 두 배열의 타입으로부터 추정 가능하다:
 
-```
+```swift
 var sixDoubles = threeDoubles + anotherThreeDoubles
 
 // sixDoubles is inferred as Double[], and equals [0.0, 0.0, 0.0, 2.5, 2.5, 2.5]
@@ -264,7 +264,7 @@ _딕셔너리_는 같은 타입을 가진 여러개의 값을 저장하는 하�
 
 아래 예제는 국제공항들의 이름들을 저장하는 딕셔너리를 생성한다. 이 딕셔너리에서 키 값은 국제공항 코드 (IATA 코드)를 나타내는 세글자 코드이며 밸류는 공항의 이름이다:
 
-```
+```swift
 var airports: Dictionary<String, String> = ["TYO": "Tokyo", "DUB": "Dublin"]
 ```
 
@@ -279,7 +279,7 @@ var airports: Dictionary<String, String> = ["TYO": "Tokyo", "DUB": "Dublin"]
 
 배열과 같이 딕셔너리 표현식의 키/밸류 쌍이 갖는 타입이 일정하다면 딕셔너리 타입을 정의할 필요가 없다. `aiports`의 초기화는 아래와 같은 축약 형태로 표현할 수 있다:
 
-```
+```swift
 var airports = ["TYO": "Tokyo", "DUB": "Dublin"]
 ```
 
@@ -290,21 +290,21 @@ var airports = ["TYO": "Tokyo", "DUB": "Dublin"]
 
 딕셔너리는 메소드와 프로퍼티를 통해 접근과 수정이 가능하다. 혹은 subscript 문법을 사용할 수도 있다. 배열과 같이 딕셔너리 안에 값이 몇 개나 있는지를 확인하기 위해 읽기 전용 속성인 `count` 프로퍼티를 사용한다: 
 
-```
+```swift
 println("The dictionary of airports contains \(airports.count) items.")
 // prints "The dictionary of airports contains 2 items."
 ```
 
 딕셔너리에 새 아이템을 추가하기 위해 subscript 문법을 사용할 수 있다. 같은 타입의 새 키를 subscript 인덱스로 사용하여 같은 타입의 새로운 밸류를 할당한다:
 
-```
+```swift
 airports["LHR"] = "London"
 // the airports dictionary now contains 3 items
 ```
 
 Subscript 문법을 사용하여 특정 키에 물려 있는 값을 변경시킬 수도 있다:
 
-```
+```swift
 airports["LHR"] = "London Heathrow"
 // the value for "LHR" has been changed to "London Heathrow"
 ```
@@ -313,7 +313,7 @@ airports["LHR"] = "London Heathrow"
 
 `updateValue(forKey:)` 메소드는 딕셔너리의 밸류 타입에 해당하는 `Optional` 값을 반환한다. 예를 들어 어떤 딕셔너리가 `String` 밸류를 저장한다면 이 메소드는 `String?` 타입 또는 "Optional `String`" 타입의 밸류를 반환한다. 이 Optional 밸류는 만약 키가 이미 있었다면 수정하기 이전 밸류를, 아니라면 `nil`을 갖는다:
 
-```
+```swift
 if let oldValue = airports.updateValue("Dublin International", forKey: "DUB") {
    println("The old value for DUB was \(oldValue).")
 }
@@ -322,7 +322,7 @@ if let oldValue = airports.updateValue("Dublin International", forKey: "DUB") {
 
 Subscript 문법을 이용하면 특정 키 값에 대응하는 밸류를 딕셔너리에서 찾을 수 있다. 값이 존재하지 않는 키를 요청할 수 있기 때문에 딕셔너리는 딕셔너리의 밸류 타입에 해당하는 Optional 밸류를 반환한다. 만약 딕셔너리가 요청한 키에 대응하는 밸류를 갖고 있다면, Subscript 는 그 키에 대응하는 밸류를 Optional 밸류를 반환한다. 아니라면 Subscript는 `nil`을 반환한다:
 
-```
+```swift
 if let airportName = airports["DUB"] {
     println("The name of the airport is \(airportName).")
 } else {
@@ -333,7 +333,7 @@ if let airportName = airports["DUB"] {
 
 Subscript 문법을 이용해 `nil` 값을 특정 키에 할당하는 것으로 딕셔너리에서 키/밸류 쌍을 삭제할 수 있다:
 
-```
+```swift
 airports["APL"] = "Apple International"
 // "Apple International" is not the real airport for APL, so delete it
 airports["APL"] = nil
@@ -342,7 +342,7 @@ airports["APL"] = nil
 
 또는 키/밸류 쌍을 딕셔너리에서 삭제할 때 `removeValueForKey` 메소드를 이용할 수 있다. 이 메소드는 키/밸류 쌍을 삭제하고 삭제된 값을 반환하거나 값이 없다면 `nil`을 반환한다:
 
-```
+```swift
 if let removedValue = airports.removeValueForKey("DUB") {
     println("The removed airport's name is \(removedValue).")
 } else {
@@ -356,7 +356,7 @@ if let removedValue = airports.removeValueForKey("DUB") {
 `for-in` 반복문을 사용하면 딕셔너리 안의 모든 키/밸류 쌍에 접근할 수 있다. 딕셔너리 각각의 아이템은 `(key, value)` 튜플을 반환하고, 반복문을 돌리는 도중 이 튜플의 멤버들을 분리하여 임시 상수 혹은 변수에 할당하여 사용할 수 있다:
 
 
-```
+```swift
 for (airportCode, airportName) in airports {
     println("\(airportCode): \(airportName)")
 }
@@ -368,7 +368,7 @@ for (airportCode, airportName) in airports {
 
 또한 딕셔너리의 `keys`, `values` 프로퍼티를 이용하면 키 또는 밸류 컬렉션을 반복문으로 돌릴 수 있다:
 
-```
+```swift
 for airportCode in airports.keys {
     println("Airport code: \(airportCode)")
 }
@@ -384,7 +384,7 @@ for airportName in airports.values {
 
 만약 딕셔너리의 키 콜렉션, 밸류 콜렉션을 `Array` 인스턴스를 이용하고 싶다면, 딕셔너리의 `keys`, `values` 프로퍼티를 배열로 초기화하여 사용할 수 있다:
 
-```
+```swift
 let airportCodes = Array(airports.keys)
 // airportCodes is ["TYO", "LHR"]
 
@@ -400,7 +400,7 @@ let airportNames = Array(airports.values)
 
 배열과 마찬가지로 초기화 문법을 이용하여 비어있는 딕셔너리 타입을 만들 수 있다:
 
-```
+```swift
 var namesOfIntegers = Dictionary<Int, String>()
 // namesOfIntegers is an empty Dictionary<Int, String>
 ```
@@ -409,7 +409,7 @@ var namesOfIntegers = Dictionary<Int, String>()
 
 만약 컨텍스트에서 이미 해당 타입에 대한 정보를 제공한다면 빈 딕셔너리 표현식을 이용하여 딕셔너리를 초기화하여 만들 수 있다. 빈 딕셔너리 표현식은 `[:]` 으로 나타낼 수 있다:
 
-```
+```swift
 namesOfIntegers[16] = "sixteen"
 // namesOfIntegers now contains 1 key-value pair
 namesOfIntegers = [:]
