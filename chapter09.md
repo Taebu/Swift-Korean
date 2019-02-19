@@ -31,7 +31,7 @@ Swift 의 표준 라이브러리는 당신에 제공한 정렬 클로저(sorting
 아래의 클로저 표현식 예는 `string` 값으로 구성된 배열을 알파벳 역순으로 정렬합니다.
 
 이 배열이 정렬될 배열입니다:
-```
+```swift
 let names = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
 ```
 `sorted` 함수는 두 매개변수를 받습니다.
@@ -42,7 +42,7 @@ let names = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
 이 예제는 `String` 값들의 배열을 정렬하므로, 정렬 클로저는 타입 `(String, String) -> Bool` 타입의 함수가 되어야 합니다.
 
 정렬 클로저를 제공하는 한가지 방법은 정확한 타입과 함께 일반적인 함수를 작성하고, 이 함수를 `sorted` 함수의 두번째 인자로 사용하는 방법입니다.
-```
+```swift
 func backwards(s1: String, s2: String) -> Bool {
 	return s1 > s2
 }
@@ -55,7 +55,7 @@ var reversed = sorted(names, backwards)
 
 ### 클로저 표현식 문법  (Closure Expression Syntax)
 클로저 표현식 문법은 아래의 일반 형식을 따릅니다:
-```
+```swift
 { ( parameters ) -> return type in 
 	statements
 }
@@ -63,7 +63,7 @@ var reversed = sorted(names, backwards)
 클로저 표현식 문법은  상수 인자, 변수 인자 및 `inout` 인자를 사용할 수 있습니다. 기본 값은 주어지지 않습니다. 만약 당신이 가변 인자에 이름을 주고 마지막 매개 변수에 위치할 경우 가변 인자도 사용할 수 있습니다. 튜플 또한 인자 타입 및 반환 타입으로 사용할 수 있습니다.
 
 아래의 예는 앞에서 소개한 `backwards` 함수의 클로저 표현 판입니다.
-```
+```swift
 reversed = sorted(names, { (s1: String, s2: String) -> Bool in
 	return s1 > s2
 })
@@ -73,7 +73,7 @@ reversed = sorted(names, { (s1: String, s2: String) -> Bool in
 클로저의 내용은 `in` 키워드로 시작합니다. 이 키워드는 클로저의 인자 및 반환 타입 정의가 끝났으며, 클로저의 내용이 시작됨을 지시합니다.
 
 클로저의 내용이 매우 짧기 때문에, 심지어 한 줄에도 쓸 수 있습니다.
-```
+```swift
 reversed = sorted(names, { (s1: String, s2: String) - > Bool in return s1 > s2 } )
 ```
 이 구문은 `sorted` 함수의 전체적인 호출이 똑같이 유지됨을 보여줍니다. 괄호쌍은 여전히 함수의 전체 인자를 감싸고 있습니다. 그러나 그 중 하나의 인자는 이제 인라인 클로저입니다.
@@ -81,7 +81,7 @@ reversed = sorted(names, { (s1: String, s2: String) - > Bool in return s1 > s2 }
 ### 컨텍스트로부터 타입 유추하기 (Inferring Type From Context)
 
 정렬 클로저가 함수의 인자로 전달되기 때문에, Swift는 클로저의 인자 타입과 `sorted` 함수의 두번째 인자의 타입으로부터 반환되는 값의 타입을 유추할 수 있습니다. 이 인자는 `(String, String) -> Bool` 타입의 함수를 기대합니다. 이는 `String, String` 및 `Bool` 타입이 클로저 표현형의 정의의 일부로 쓰일 필요가 없음을 의미합니다. 모든 타입이 유추 가능하기 때문에, 반환 화살표 (->) 와 인자 이름을 감싼 괄호 또한 제외할 수 있습니다.
-```
+```swift
 reversed = sorted(names, { s1, s2 in return s1 > s2 } )
 ```
 인라인 클로저 표현 형태로 클로저를 함수에 전달할 경우 인자와 반환 값의 타입을 유추하는 것이 언제나 가능합니다. 결과적으로, 인라인 클로저를 최대한의 형태로 명시적으로 기술할 일은 거의 없을 것입니다.
@@ -91,7 +91,7 @@ reversed = sorted(names, { s1, s2 in return s1 > s2 } )
 ### 단일 표현식 클로저로부터의 암시적 반환 ( Implicit Returns from Single-Expression Closures)
 
 단일 표현식 클로저는 앞의 예에서 정의할 때 `return` 키워드를 생략하여 단일 표현식의 결과를 암시적으로 반환할 수 있습니다. 
-```
+```swift
 reversed = sorted(names, { s1, s2 in s1 > s2 } )
 ```
 sorted 함수의 두번째 인자의 함수 형은 클로저가 `Bool` 값을 반드시 반환해야 함을 명확하게 해 줍니다. 클로저의 내용이 `Bool` 값을 반환하는 단일 표현식 `(s1 > s2)` 이기 때문에, 이 경우 애매모호함이 발생하지 않으며, `return` 키워드는 생략이 가능합니다.
@@ -100,14 +100,14 @@ sorted 함수의 두번째 인자의 함수 형은 클로저가 `Bool` 값을 �
 Swift는 자동으로 단축 인자 이름을 인라인 클로저에 제공하며, 클로저의 인자들을 `$0`, `$1`, `$2` 등등의 방식으로 참조할 수 있습니다. 
 
 만약 이러한 단축 인자 이름들을 클로저 표현식에서 사용할 경우, 클로저 인자 리스트를 클로저의 정의에서 생략할 수 있으며, 단축 인자들의 번호 및 타입은 기대되는 함수 타입으로부터 추정될 것입니다. 클로저 표현식이 클로저 내용에 완전히 표현될 수 있으므로 `in` 키워드 또한 생략할 수 있습니다:
-```
+```swift
 reversed = sorted(names, { $0 > $1 } )
 ```
 여기서 `$0` 와 `$1` 은 클로저의 첫번째와 두번째 `String` 매개변수를 가리킵니다.
 
 ### 연산자 함수들 ( Operator Functions )
 사실 위의 클로저 표현식은 _더 짧아질 수도_ 있습니다. Swift 의 `String` 타입은 `String`에 특화된 크기 비교 연산자 (>) 를 두 `String` 인자를 갖는 함수로 정의하고 있으며, `Bool` 타입을 반환합니다. 이 연산자는 `sorted` 함수의 두번째 인자를 위해 필요한 함수형과 정확히 일치합니다. 그러므로, 이 크기 비교 연산자를 바로 전달하면 Swift 는 사용자가 `String` 전용의 구현체를 사용하려고 한다고 유추합니다.
-```
+```swift
 reversed = sorted(names, > )
 ```
 연산자 함수에 대해 더 많은 내용은 [연산자 함수]() 항목을 참조하시기 바랍니다.
@@ -115,7 +115,7 @@ reversed = sorted(names, > )
 ## 후행 클로저 ( Trailing Closures )
 
 만약 클로저 표현식을 함수에 함수의 마지막 인자로 전달할 때 클로저 표현식이 긴 경우, 대신에 후행 클로저 (Trailing closure) 를 작성하는 것이 유용할 수 있습니다. 후행 클로저는 함수 호출 괄호의 밖 (또는 뒤) 에 쓰여져서 함수를 지원하는 클로저 표현식입니다.
-```
+```swift
 func someFunctionThatTakesAClosure(closure: () -> ()) {
 	// function body goes here
 }
@@ -135,7 +135,7 @@ someFunctionThatTakesAClosure() {
 클로저 표현식이 함수의 하나뿐인 인자이며 이 표현식을 후행 클로저로 작성할 경우, 함수를 호출할때 함수 이름의 뒤에 괄호쌍 () 을 쓸 필요는 없습니다.
 
 위의 [클로저 표현식 문법]()의 문자열 정렬 클로저는 `sorted` 함수의 괄호 밖에 후행 클로저로 작성될 수도 있습니다.
-```
+```swift
 reversed = sorted(names) { $0 > $1 }
 ```
 후행 클로저는 클로저가 충분히 길어서 줄 안이나 한 줄 정도로 기술할 수 없는 경우에 아주 유용합니다. 예를 들어, Swift의 `Array` 타입은 클로저 표현식을 하나의 인자로 받는 `map` 메소드를 제공합니다. 클로저는 행렬 안의 각 아이템마다 한 번씩 호출되고, 그 아이템의 (다른 타입일 수도 있는) 새롭게 매핑된 값을 반환합니다. 매핑의 동작과 반환값의 타입은 클로저에 의하여 지정됩니다.
@@ -143,7 +143,7 @@ reversed = sorted(names) { $0 > $1 }
 `map` 메소드는 제공된 클로저를 각 행렬 항목마다 적용한 후, 새롭게 매핑된 값들이 원래 행렬의 해당 값들의 순서와 같도록 배치된 새 행렬을 반환합니다.
 
 `Int` 값들로 구성된 행렬을 `String` 값들로 구성된 행렬로 변환하는 map 메소드를 후행 클로저와 함께 사용하는 예를 보겠습니다. 행렬 `[16,58,510]` 이 새로운 행렬인 `["OneSix", "FiveEight", "FiveOneZero"]` 를 생성하기 위해 사용되었습니다.
-```
+```swift
 let digitNames = [
 	0: "Zero", 1: "One", 2: "Two",   3: "Three", 4: "Four",
 	5: "Five", 6: "Six", 7: "Seven", 8: "Eight", 9: "Nine"
@@ -153,7 +153,7 @@ let numbers = [16, 58, 510]
 위의 코드는 정수와 그 수들의 영어 표현사이의 매핑 사전을 생성합니다. 또한 문자열로 변환될 정수 행렬도 정의합니다.
 
 이제 `numbers` 행렬을 `map` 메소드에 후행 클로저를 클로저 표현식으로 전달하는 방법으로 `String` 값의 행렬을 생성하기 위해 사용할 수 있습니다. `map` 메소드가 단 하나의 인자만을 받으므로 `numbers.map` 을 호출할 때 `map` 뒤에 어떤 괄호도 필요하지 않음을 기억하세요. 후행 클로저가 이 인자로 제공됩니다.
-```
+```swift
 let strings = numbers.map {
 	(var number) -> String in
 	var output = ""
@@ -190,7 +190,7 @@ let strings = numbers.map {
 Swift에서 클로저의 가장 간단한 형태는 다른 함수의 본문 안에 작성된 중첩 함수입니다. 중첩 함수는 바깥 함수의 모든 인자를 획득할 수 있으며, 또한 바깥 함수 내에서 정의된 모든 상수 및 변수를 획득할 수 있습니다.
 
 아래는 `Incrementor`라는 중첩 함수를 포함한 `makeIncrementor` 예입니다. 중첩된 `incrementor` 함수는 `runningTotal` 및 `amount` 의 두 값을 자신을 둘러싼 컨텍스트로부터 획득합니다. 이 두 값을 획득한 후, `incrementor`는 호출될 때 마다 `runningTotal` 을 `mount` 만큼 증가시키는 클로저로써 `makeIncrementor` 로부터 반환됩니다.
-```
+```swift
 func makeIncrementor(forIncrement amount: Int) -> () -> Int {
 	var runningTotal = 0
 	func incrementor() -> Int {
@@ -209,7 +209,7 @@ func makeIncrementor(forIncrement amount: Int) -> () -> Int {
 `makeIncrementor` 는 `incrementor`라는 실제 증가를 수행하는 중첩 함수를 정의합니다. 이 함수는 간단하게 amount 를 runningTotal 에 더하고, 결과값을 반환합니다.
 
 고립된 상황을 생각해보면, 중첩함수 `incrementor`는 독특하게 보입니다.
-```
+```swift
 func incrementor() -> Int {
 	runningTotal += amount
 	return runningTotal
@@ -225,11 +225,11 @@ func incrementor() -> Int {
 Swift는 어떤 변수가 참조 로 획득되고 어떤 변수가 복사값으로 획득될지 판단합니다. 사용자는 `amount` 및 `runningTotal` 이 `incrementor` 중첩 함수에서 쓰일지의 여부를 명기할 필요가 없습니다. Swift는 또한 `runningTotal` 이 더이상 `incrementor` 함수로부터 필요로하지 않을 때 폐기하는 모든 메모리 관리 과정을 담당합니다.
 
 `makeIncrementor` 의 사용 예입니다.
-```
+```swift
 let incrementByTen = makeIncrementor(forIncrement: 10)
 ```
 이 예제는 호출될 때 마다  `runningTotal`에 10씩을 더하는 증가 함수를 참조하는 `incrementByTen` 을 정의합니다. 이 함수를 여러번 부르면 동작을 볼 수 있습니다.
-```
+```swift
 incrementByTen()
 // returns a value of 10
 incrementByTen()
@@ -238,7 +238,7 @@ incrementByTen()
 // returns a value of 30
 ```
 만약 새로운 `incrementor` 를 생성할 경우, 그 `incrementor`는 새롭고 독립적인 `runningTotal` 변수로의 참조를 갖게 됩니다. 아래의 예제에서, `incrementBySeven`은 새로운 `runningTotal` 변수의 참조를 획득하며, 이 변수는 `incrementByTen`에서 획득한 변수와 연결되지 않습니다.
-```
+```swift
 let incrementBySeven = makeIncrementor(forIncrement: 7)
 incrementBySeven()
 // returns a value of 7
@@ -254,7 +254,7 @@ incrementByTen()
 함수나 클로저를 상수에 할당하는 것은, 실제로는 그 상수에 함수나 클로저를 가리키는 참조를 할당하는 것입니다. 위의 예에서, `incrementByTen`이 참조하는 것은 클로저를 가리키는 상수이며, 클로저 그 자체의 내용은 아닙니다.
 
 이는 또한 클로저를 두 개의 다른 상수나 변수에 할당하면, 두 상수나 변수들이 동일한 클로저를 참조하게 되는 것을 의미합니다.
-```
+```swift
 let alsoIncrementByTen = incrementByTen
 alsoIncrementByTen()
 // returns a value of 50
