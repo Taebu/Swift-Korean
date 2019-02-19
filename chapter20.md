@@ -13,7 +13,7 @@ Swift에서 타입 변환은 `is`와 `as`라는 연산자로 구현할 수 있�
 아래의 세가지의 코드조각(code snippets)는 타입 캐스팅이 사용되는 예제를 보여주기 위한 계층적인 클래스들과 각각의 클래스들의 인스턴스를 포함하는 배열(array)를 정의하고 있습니다.
 첫번째 코드 조각은 `MediaItem`이라는 새로운 기본 클래스(base class)를 정의하고 있습니다. 이 클래스는 디지털 미디어 라이브러리에 있는 모든 아이템들을 위한 기본적인 기능을 제공합니다. 특히   `String` 타입의 `name` 속성(Property)를 선언하고, `init name` initializer를 통해서 초기화 합니다(이것은 모든 미디어 아이템(영화나 노래)들이 이름을 가지고 있다고 가정합니다)
 
-```
+```swift
 class MediaItem {
 	var name: String
 	init(name: String) {
@@ -23,7 +23,7 @@ class MediaItem {
 ```
 
 다음 코드 조각은 `MediaItem`의 두가지 하위클래스(subclasses)들입니다. 첫번째 하위클래스인 `Moive`는 내부적으로 영화에 관한 추가적인 데이터를 가지고 있는데. 이는 `director`라는 속성 및 초기화 부분을 `MediaItem`클래스의 initalizer의 윗부분에 추가하는것으로 더할 수 있으며. 두번째 하위 클래스인 `Song`도 `artist` 속성의 관한 내용을 선언하고 base class의 윗부분에서 이를 초기화 한다:
-```
+```swift
 class Movie: MediaItem { 
 	var director: String
 	init(name: String, director: String) {
@@ -43,7 +43,7 @@ class Song: MediaItem {
 마지막 코드조각은 2개의 `Movie` 인스탄스와 3개의 `Song` 인스턴스를 포함하는 `library`로 불리는 상수형 배열(constant array)를 만든다.
 `library` 배열의 타입은 각각의 배열 내부의 콘텐츠를 초기화 하는 타입으로 추정할 수 있다.
 Swift의 타입 체커는 `Movie`나 `Song`이 공통의 상위 클래스(superclass)인 `MediaItem`을 가진다고 추정할 수 있고, 따라서 `library`의 타입은  `MediaItem[]`로 추정할 수 있다 :
-```
+```swift
 let library = [
 	Movie(name: "Casablanca", director: "Michael Curtiz"),
 	Song(name: "Blue Suede Shoes", artist: "Elvis Presley"),
@@ -59,7 +59,7 @@ let library = [
 
 어떠한 인스턴스가 확실히 하위클래스 타입인지 아닌지를 체크하기 위해서는 타입 체크 연산자인 `is`를 이용합니다. 이 타입체크용 연산자는 만일 해당 인스탄스가 해당 하위 클래스라면 `true`를, 아니라면 `false`를 반환합니다.
 아래의 예시는 `library` 배열에 있는 `Movie`의 인스턴스의 수와 `Song`의 인스턴스의 수를 세기 위한 `movieCount`와 `songCount`라는 두개의 변수를 선언하는 것을 보여줍니다.
-```
+```swift
 var movieCount = 0
 var songCount = 0
 
@@ -86,7 +86,7 @@ println("Media library contains \(movieCount) movies and \(songCount) songs")
 오직 당신이 다운캐스트가 항상 성공할 것이라는 확신이 있다면 타입 변환 연산자인 `as`를 이용하는 forced form을 사용할 수 있다. 위의 연산자를 사용하는 form은 만일 올바르지 않은 클래스 타입으로 다운캐스팅을 시도했을 시에 런타임 에러를 발생시킨다.
 아래에 `library` 내의 각 `MediaItem`을 반복해가면서 각 아이템들을 위한 적절한 설명을 출력하는 예시를 만들었다. 이를 위해서 각 아이템이 단순히 `MediaItme`이 아닌 진정으로 `Movie`나 `Song`인지 억세스 해볼 필요가 있다. 이를 위해서 설명을 출력하기 위해서 `Movie`나 `Song`의 `director`나 `artist` 속성에 접근할수 있게 할 필요가 있다.
 예시에서 배열내의 각각의 item은 `Movie`이거나 `Song`이라고 생각된다. 당신은 각각의 아이템이 실제 어떠한 클래스인지 미리 알 수가 없습니다. 그러므로 optional form을 위한 `as?` 연산자를 사용하여 루프를 통해 각 케이스마다 다운캐스팅을 체크하는 것이 적절합니다:
-```
+```swift
 for item in library {
 	if let movie = item as? Movie {
 		println("Movie: '\(movie.name)', dir. \(movie.director)")
@@ -124,7 +124,7 @@ Swift는 특정한 타입을 가지지 않는 상태로 작업하기 위한 두�
 
 Cocoa APIS를 이용하여 작업을 할때, 보통 `AnyObject`[] 타입의 배열을(`AnyObject` 타입의 값을 가진 배열) 받는것이 일반적입니다. 이것은 Objective-C가 명시적인 타입의 배열을 가지지 못하기 때문입니다. 그러나 당신이 종종  당신이 알고있는 API가 제공하는 배열을 포함한 여러가지 정보를 포함한 오브젝트들의 타입에 대해서 자신이 있을 수 있다.
 이러한 상황에서, 당신은 optional unwrapping이 필요하지 않은 경우에 한하여 배열의 각각의 아이템을 특정한 클래스의 타입으로 바꾸는 다운캐스팅을하기 위한 타입 변환 연산자 `as`로 강제로 변경한 형태를 사용할 수 있습니다.
-```
+```swift
 let someObjects: AnyObject[] = [
 	Movie(name: "2001: A Space Odyssey", director: "Stanley Kubrick"),
 	Movie(name: "Moon", director: "Duncan Jones"),
@@ -132,7 +132,7 @@ let someObjects: AnyObject[] = [
 ]
 ```
 이 배열은 오로지 `Moive` 인스턴스만 가지는 것을 이미 알고 있으므로, 당신은 다운캐스팅 및 타입 변환 연산자 `as`를 이용하여 non-optional `Moive`로 강제로 형태를 바꾸는 unwrap를 할 수 있습니다.
-```
+```swift
 for object in someObjects {
 	let movie = object as Movie
 	println("Movie: '\(movie.name)', dir. \(movie.director)")
@@ -142,7 +142,7 @@ for object in someObjects {
 // Movie: 'Alien', dir. Ridley Scott
 ```
 루프를 조금더 짧게 만들기 위해서, 각 아이템을 다운캐스팅하는 대신에 `someObjects` 배열을 `Movie[]` 타입으로 다운 캐스팅 할 수도 있습니다:
-```
+```swift
 for movie in someObjects as Movie[] {
 	println("Movie: '\(movie.name)', dir. \(movie.director)")
 }
@@ -153,7 +153,7 @@ for movie in someObjects as Movie[] {
 ## Any
 
 이곳에 non-class타입을 포함한 여러가지 다른 타입을 섞어서 작업하기 위한 `Any`를 사용한 예제가 있다. 이 예제는 `Any`타입의 값을 저장할 수 있는 `things`이라는 한 배열을 생성한다.
-```
+```swift
 var things = Any[]()
  
 things.append(0)
@@ -168,7 +168,7 @@ things.append(Movie(name: "Ghostbusters", director: "Ivan Reitman"))
 당신은 `Any`나 `AnyObject`로 알고있는 변수에서 특정한 타입의 상수나 변수 찾기 위한 스위치 구문의 `case` 항목에 `is`와 `as` 연산자를 사용할수 있습니다.
 아래의 예제는 아이템들의 `things` 배열의 각 아이템을 반복하면서 스위치 문을 통해서 각각의 타입을 요청한다.
 몇몇의 `switch`문의 `case`항목에서 비교항목과 동일한 값과 타입을 가지는 상수의 경우는 해당 값과 형태를 출력한다:
-```
+```swift
 for thing in things {
     switch thing {
     case 0 as Int:
