@@ -16,7 +16,7 @@
 
 ## ARC in Action
 여기 자동 참조 계수가 어떻게 작동하는지에 대한 예제가 있습니다. 이 예제는 `name` 이라는 저장된 상수 속성을 정의하는 단순한 클래스 `Person`을 보여줍니다.
-```
+```swift
 class Person {
     let name: String
     init(name: String) {
@@ -31,31 +31,31 @@ class Person {
 `Person` 클래스는 `name` 속성을 설정하고 초기화가 진행중임을 알리는 메시지를 출력하는 이니셜라이져(initializer)를 가지고 있습니다. 또한 `Person` 클래스는 인스턴스가 할당 해제될 때 메시지를 출력하는 디이니셜라이져(deinitializer)를 갖고 있습니다.
 다음 코드 조각들은 `Person?` 타입의 변수 3개를 정의하고 있습니다. 이 뒤에 `Person`의 새 인스턴스들의 복수 참조에 사용하기 위한 것입니다. 타입은 `Person`이 아닌 `Person?`인 옵셔널(Optional) 타입이기 때문에, 변수들은 자동적으로 `nil`로 초기화가 되며, 지금은 `Person` 인스턴스를 참조하지 않습니다.
 
-```
+```swift
 var reference1: Person?
 var reference2: Person?
 var reference3: Person?
 ```
 이제 새로운 `Person` 인스턴스를 생성하여 변수 3개중에 하나에 할당할 수 있습니다.
-```
+```swift
 reference1 = Person(name: "John Appleseed")
 // prints "John Appleseed is being initialized"
 ```
  `"John Appleseed is being initialized"`라는 메시지가 `Person` 클래스의 이니셜라이져가 호출될 때 출력된다는 점에 주의합니다. 이것으로 초기화가 제대로 됐음을 확인할 수 있습니다.
 `reference1` 변수에 `Person`의 새 인스턴스가 할당 되었기 때문에, `reference1`과 `Person` 인스턴스 사이에 강한 참조가 생깁니다. 그리고 최소한 하나의 강한 참조가 있어서 ARC는 `Person`이 메모리에 유지되는 것과, 할당 해제 되지 않음을 확인 합니다.
 만약 같은 `Person` 인스턴스를 두개 변수에 더 할당하면, 두개의 강한 참조가 더 생깁니다.
-```
+```swift
 reference2 = reference1
 reference3 = reference1
 ```
 이제 하나의 `Person` 인스턴스에 대한 강한 참조는 3개입니다.
 원래의 참조를 포함한 변수들 중에 `nil`을 2개 할당함으로써 2개의 강한 참조를 부순다면, 하나의 강한 참조가 남게 되며, 여전히 `Person` 인스턴스는 할당해제 되지 않습니다.
-```
+```swift
 reference1 = nil
 reference2 = nil
 ```
 세번째 강한 참조가 사라져 명확하게 `Person` 인스턴스가 더 이상 사용되지 않기 전까지 ARC는 `Person` 인스턴스를 할당 해제 하지 않습니다. 
-```
+```swift
 reference3 = nil
 // prints "John Appleseed is being deinitialized"
 ```
@@ -64,7 +64,7 @@ reference3 = nil
 하지만 _절대로_ 강한 참조의 갯수가 0으로 떨어지지 않게 코드를 작성하는 것이 가능합니다. 두개의 클래스 인스턴스가 서로를 강하게 잡고 있을때 그 현상이 발생합니다. 인스턴스 서로가 서로를 살게끔 유지하는 것이죠. 이를 _강한 참조 순환(strong referecne cycle)_이라고 합니다.
 강한 참조 순환을 풀려면 클래스간의 관계를 강한 참조 대신 약한(weak) 참조나 미소유 참조(unowned references)로 대체해야 합니다. 이 과정은 __Resolving Strong Reference Cycles __에 설명이 되어있습니다. 하지만 강한 참조 순환을 푸는걸 배우기 전에, 어떻게 순환이  생기는지 이해하는것이 좋습니다.
 이 예제는 강한 참조 순환이 어떻게 의도치 않게 생기는지 보여줍니다. 이 예제는 아파트 블록과 거기에 사는 사람을 모델링하는 `Person`과 `Apartment` 두개의 클래스를 정의합니다.
-```
+```swift
 class Person {
     let name: String
     init(name: String) { self.name = name }
@@ -83,12 +83,12 @@ class Apartment {
 비슷하게, 모든 `Apartment` 인스턴스는 `Int` 타입의 `number` 속성을 가지고 있고, 추가적으로 최초에 `nil`이 할당된 `tenant` 속성을 가지고 있습니다. `tenant` 속성은 옵셔널입니다. 어떤 아파트는 사람이 살지 않을 수도 있기 때문입니다.
 두 클래스 전부 디이니셜라이저를 정의하여 클래스 인스턴스가 디이니셜라이(역주: 혹은 할당 해제) 된다는 사실을 출력하고있습니다. 이로 인해 `Person`과 `Apartment` 인스턴스가 기대한대로 할당 해제가 되는걸 볼 수 있습니다.
 다음 코드 조각은 `john`과 `number73`이라는 변수를 정의하고 있습니다. 이 변수들에 밑의 `Apartment`와 `Person` 인스턴스를 설정할겁니다. 두 변수는 옵셔널이기에 초기값으로 `nil`을 가집니다.
-```
+```swift
 var john: Person?
 var number73: Apartment?
 ```
 이제 `Person`과 `Apartment`의 인스턴스를 생성해서 `john`과 `number73` 변수에 할당 할 수 있습니다.
-```
+```swift
 john = Person(name: "John Appleseed")
 number73 = Apartment(number: 73)
 ```
@@ -96,7 +96,7 @@ number73 = Apartment(number: 73)
 ![referencecycle01_2x.png](https://raw.githubusercontent.com/lean-tra/Swift-Korean/master/images/referencecycle01_2x.png)
 
 이제 두 인스턴스를 서로 연결하여 사람(person)이 아파트를 가지고, 아파트가 사람을 가지게 할 수 있습니다. 여기서 느낌표(`!`)는 `john`과 `number73` 인스턴스 안에 저장된 옵셔널(optional) 변수를 드러내어 접근할 수 있게 하는 것입니다. 그렇게 인스턴스의 속성은 다음과 같이 설정 될 수 있습니다.
-```
+```swift
 john!.apartment = number73
 number73!.tenant = john
 ```
@@ -104,7 +104,7 @@ number73!.tenant = john
 ![referencecycle02_2x.png](https://raw.githubusercontent.com/lean-tra/Swift-Korean/master/images/referencecycle02_2x.png)
 
 안타깝게도 이러한 두 인스턴스간의 연결은 서로간의 강한 참조 순환을 발생시킵니다. `Person` 인스턴스는 `Apartment` 인스턴스에 대한 강한 참조를 가지고 있고, `Apartment` 인스턴스는 `Person` 인스턴스에 대한 강한 참조를 가지게 됩니다. 그러므로 `john`과 `number73` 변수만을 이용하여 강한 참조를 없애려할때, 참조 계수는 0으로 떨어지지 않으며 ARC에 의해 인스턴스가 할당해제 되지 않습니다.
-```
+```swift
 john = nil
 number73 = nil
 ```
@@ -129,7 +129,7 @@ _약한 참조_는 인스턴스가 다른 인스턴스를 참조하는데 강하
 약한 참조는 "값 없음"을 가지는게 허용되기에, 약한 참조는 언제나 옵셔널 타입으로 선언되어야 합니다. 옵셔널 타입은 스위프트에서 "값 없음"을 표현하는데 선호되는 방식입니다.
 약한 참조는 인스턴스를 강하게 참조 하고 있지 않기 때문에 약한 참조를 통해 참조를 하고 있는 동안 할당 해제가 될 가능성이 있습니다. 때문에 ARC는 약한 참조가 참조하고 있던 인스턴스가 할당 해제 되면 참조를 자동으로 `nil`로 설정합니다. 다른 옵셔널 값들처럼, 약한 참조의 값이 존재하는지를 체크할 수 있습니다. 그렇기 때문에 존재하지 않는 잘못된 인스턴스를 참조하는 일은 일어나지 않습니다. (역주: 아예 `nil`을 참조하는 것과, 있어야 할 자리에 엉뚱한게 있는 것을 참조 하는 것이 다르기에 위의 문장이 나온듯 싶습니다. C에서 포인터를 이용해 강제로 다른 부분을 읽는 것을 생각하면 될것 같습니다.)
 밑의 예제는 위의 예제와 똑같지만 중요한 한가지가 다른 `Person`과 `Apartment`입니다. 이번에는 `Apartment` 타입의 `tenant` 속성이 약한 참조로 선언되어 있습니다.
-```
+```swift
 class Person {
     let name: String
     init(name: String) { self.name = name }
@@ -145,7 +145,7 @@ class Apartment {
 }
 ```
 `john`과 `number73` 두 변수의 강한 참조와 두 인스턴스간의 연결은 이전엔 다음과 같았습니다.
-```
+```swift
 var john: Person?
 var number73: Apartment?
  
@@ -162,7 +162,7 @@ number73!.tenant = john
 ![weakreference02_2x.png](https://raw.githubusercontent.com/lean-tra/Swift-Korean/master/images/weakreference02_2x.png)
 
 `Person` 인스턴스에 대한 강한 참조가 더이상 없기에 인스턴스는 할당해제 됩니다.
-```
+```swift
 john = nil
 // prints "John Appleseed is being deinitialized"
 ```
@@ -170,7 +170,7 @@ john = nil
 ![weakreference03_2x.png](https://raw.githubusercontent.com/lean-tra/Swift-Korean/master/images/weakreference03_2x.png)
 
 `Apartment`에 대한 강한 참조가 더이상 없기 때문에, 이 인스턴스 역시 할당 해제 됩니다.
-```
+```swift
 number73 = nil
 // prints "Apartment #73 is being deinitialized"
 ```
@@ -188,7 +188,7 @@ number73 = nil
 `Customer`와 `CreditCard` 의 관계는 위의 약한 참조 예제에서 살펴본  `Person`과 `Apartment`의 관계와는 조금 다릅니다. 이 데이터 모델에서  고객은 신용 카드를 가질수도 있고 안가질수도 있습니다. 하지만 신용 카드는 _언제나_ 고객과 연관이 됩니다. 그것을 표현하기 위해 `Customer` 클래스는 `card` 속성을 옵셔널 로 가지지만, `CredicCard` 클래스는 `customer` 를 논옵셔널(non-optional) 속성으로 가집니다.
 게다가 새로운 `CreditCard` 인스턴스는 오직 `number`값과 `customer` 인스턴스를 `CreditCard`의 맞춤(custom) 이니셜라이저를 통해서만 생성될 수 있습니다. 이를 통해 `CreditCard` 인스턴스가 생성될 때는 언제나 `credit` 인스턴스와 연관이 됨을 보증할 수 있습니다.
 신용카드는 언제나 고객을 가지기 때문에 `customer` 속성을 미소유 참조로 설정하여 강한 참조 순환을 피할 수 있습니다.
-```
+```swift
 class Customer {
     let name: String
     var card: CreditCard?
@@ -209,11 +209,11 @@ class CreditCard {
 }
 ```
 다음 코드 조각은 옵셔널 `Customer` 변수인 `john`을 정의하여 특정한 고객의 정보를 참조하게 하였습니다. 이 변수는 옵셔널 변수임으로 `nil`을 초기값으로 갖습니다.
-```
+```swift
 var john: Customer?
 ```
 이제 `Customer` 인스턴스를 생성하여 인스턴스의 `card` 속성에 할당할 `CreditCard` 인스터스의 초기화에 이용할 수 있습다.
-```
+```swift
 john = Customer(name: "John Appleseed")
 john!.card = CreditCard(number: 1234_5678_9012_3456, customer: john!)
 ```
@@ -225,7 +225,7 @@ john!.card = CreditCard(number: 1234_5678_9012_3456, customer: john!)
 ![unownedreference02_2x.png](https://raw.githubusercontent.com/lean-tra/Swift-Korean/master/images/unownedreference02_2x.png)
 
 `Customer` 인스턴스에 대한 강한 참조가 더이상 존재하지 않게되어 인스턴스는 할당 해제 됩니다. 이 일이 일어난 뒤에, `CreditCard` 인스턴스에 대한 강한 참조 역시 더이상 존재하지 않기에 이 또한 할당 해제 됩니다.
-```
+```swift
 john = nil
 // prints "John Appleseed is being deinitialized"
 // prints "Card #1234567890123456 is being deinitialized"
@@ -239,7 +239,7 @@ john = nil
 하지만 여기에 세번째 시나리오가 있습니다. _양 쪽_의 속성이 모두 언제나 값을 가져야 하며, 속성은 초기화 완료 이후에 `nil` 이 되면 안되는 시나리오입니다.  이 시나리오에서는 한쪽 클래스의 미소유 속성과 다른 쪽 클래스의 암시적으로 드러난 옵셔널 속성이 유용합니다.
 이는 양쪽의 속성이 초기화가 한번 완료된 이후에 옵셔널 속성을 드러낼 필요 없이 직접 접근이 될 수 있게 하며, 참조 순환이 일어나지 않게 합니다. 이번 섹션(section)은 이런 관계를 어떻게 설정하는지 보일 것입니다.
 밑의 예제는 두개의 클래스 `Country`와 `City`를 정의합니다. 각각의 클래스는 서로의 클래스 인스턴스를 속성으로 저장합니다. 이 데이터 모델에서, 모든 나라들은 언제나 수도를 가지며, 모든 도시는 반드시 나라에 소속되어야합니다. 이를 표현하기 위해서 `Country`는 `capitalCity`속성을 가지고, `City` 클래스는 `country` 속성을 가집니다.
-```
+```swift
 class Country {
     let name: String
     let capitalCity: City!
@@ -263,7 +263,7 @@ class City {
 이 요구에 대처하기 위해  `Country`의 `capitalCity` 속성을 암시적으로 드러난 옵셔널 속성으로 선언합니다. 그러기 위해서 타입 표시의 끝에 느낌표를 붙이면 됩니다(`City!`). 이는 `capitalCity`가 다른 옵셔널 값들처럼 `nil`을 기본값으로 가짐을 뜻하지만, **암시적으로 드러난 옵셔널**에서 설명한 것과 같이 접근하는데 드러내야할 필요가 없습니다.
 `capitalCity`가 기본값으로 `nil`을 가지기에, 새 `Country` 인스턴스는 `Country` 인스턴스의 `name` 속성이 이니셜라이저 안에서 설정 되었을때를 완전히 완전히 초기화 된 순간이라고 간주합니다. 이는 `Country` 이니셜라이저가 암시적으로 `name`속성이 설정 되는 순간부터 `self` 속성을 참조하고 넘겨줄 수 있다는 것을 뜻합니다. 그렇기에  `Country`의 이니셜라이저는 자신의 `capitalCity` 속성을 설정할때 `self`를 `City` 이니셜라이저의 파라메터로 넘겨줄 수 있습니다.
 이 모든 것은 강한 참조 순환을 만들지 않고 `Country`와 `City` 인스턴스를 한 문장(statement)안에서 만들 수 있다는 것을 뜻합니다. 그리고 느낌표를 통해 옵셔널 값을 드러내지 않고 `capitalCity` 속성에 직접 접근 할 수 있습니다.
-```
+```swift
 var country = Country(name: "Canada", capitalName: "Ottawa")
 println("\(country.name)'s capital city is called \(country.capitalCity.name)")
 // prints "Canada's capital city is called Ottawa"
@@ -276,7 +276,7 @@ println("\(country.name)'s capital city is called \(country.capitalCity.name)")
 이 강한 참조 순환은 클로저가 클래스와 같이 _참조 타입_ 이기 떄문에 일어납니다. 클로저를 속성에 할당하면, _참조_를 클로저에 할당하는 것이 됩니다. 본질적으로, 이는 위에서 말한 문제와 같은 문제입니다. 두개의 강한 참조가 서로를 살아있게 만듭니다. 하지만 이번엔 두개의 클래스 인스턴스가 아니라, 하나의 클래스 인스턴스와 클로저가 서로를 살아있게 합니다.
 스위프트는 이 문제에 대해  _클로저 획득 목록_이라는 우아한 방법을 제공합니다. 하지만 클로저 획득 목록을 이용하여 강한 참조 순환을 부수는 방법을 배우기 전에, 어떻게 순환이 야기되는지 이해하는 것이 좋습니다.
 밑의 예제는 `self`를 클로저가 참조하면서 어떻게 강한 참조 순환이 생겨나는지 보여줍니다. 이 예제는`HTMLElement` 클래스를 정의해서 HTML 문서와 그 안에 포함된 개개의 요소를 모델링하고 있습니다.
-```
+```swift
 class HTMLElement {
     
     let name: String
@@ -310,7 +310,7 @@ class HTMLElement {
 
 `HTMLElement` 클래스는 하나의 이니셜라이저를 제공하여 `name` 인자와 필요하다면 `text` 인자를 받아 새 요소를 초기화합니다. 또한 이 클래스는 디이니셜라이저를 정의하여 `HTMLElement`가 할당 해제 될 때 메시지를 출력하게 합니다.
 여기 `HTMLElement` 클래스를 생성하여 새 인스턴스가 어떻게 출력을 하는지 예제가 있습니다.
-```
+```swift
 var paragraph: HTMLElement? = HTMLElement(name: "p", text: "hello, world")
 println(paragraph!.asHTML())
 // prints "<p>hello, world</p>"
@@ -328,7 +328,7 @@ println(paragraph!.asHTML())
 
 만약 `paragraph` 변수를 `nil`로 설정하고, 이 `HTMLElement`에 대한 강한 참조를 부순다면, `HTMLElement` 인스턴스나 그 클로저는 할당 해제되지 않습니다. 강한 참조 순환이 있기 때문입니다.
 
-```
+```swift
 paragraph = nil
 ```
 `HTMLElement`의 디이니셜라이저가 아무런 메시지도 출력하지 않았음에 주의하세요. 이는 곧  `HTMLElement` 인스턴스가 할당 해제 되지 않았음을 의미합니다.
@@ -343,14 +343,14 @@ paragraph = nil
 획득 목록의 각각의 아이템은 `self`나 `someInstance`같은 클래스 인스턴스와 참조간의 약한 참조 또는 미소유 참조의 쌍입니다. 각 쌍들은 대괄호안에 쓰여지며, 콤마로 구분됩니다.
 
 획득 목록은 클로저에 파라메터 목록이나 반환 타입이 있다면 그 앞에 위치시킵니다.
-```
+```swift
 @lazy var someClosure: (Int, String) -> String = {
     [unowned self] (index: Int, stringToProcess: String) -> String in
     // closure body goes here
 }
 ```
 만약 클로저의 파라메터 목록이나 반환 타입이 문맥에서 암시되어 특별히 정해지지 않았다면, 획득 목록은 클로저의 시작 부분인 `in` 바로 앞에 둡니다.
-```
+```swift
 @lazy var someClosure: () -> String = {
     [unowned self] in
     // closure body goes here
@@ -364,7 +364,7 @@ paragraph = nil
 만약 획득된 참조가 절대로 `nil`이 되지 않는다면, 그 참조는 약한 참조보다 미소유 참조로 해야할것입니다.
 
 미소유 참조는 위의 `HTMLElement` 예제에서 강한 참조 순환을 풀기에 적절한 획득 방법입니다. 다음은 `HTMLElement` 클래스가 순환을 어떻게 피해야 할지 보여줍니다.
-```
+```swift
 class HTMLElement {
     
     let name: String
@@ -394,7 +394,7 @@ class HTMLElement {
 위의 `HTMLElement` 구현은 이전의 구현과 동일합니다. `asHTML` 클로저의 획득 목록 부분을 제외하면 말이죠. 이 경우에 획득 목록은 `[unowned self],`며, 이는 "인스턴스를 강한 참조가 아닌 미소유 참조로서 획득한다"라 할 수 있습니다.
 
 이제 이전처럼 `HTMLElement` 인스턴스를 생성하여 출력할 수 있습니다.
-```
+```swift
 var paragraph: HTMLElement? = HTMLElement(name: "p", text: "hello, world")
 println(paragraph!.asHTML())
 // prints "<p>hello, world</p>"
@@ -403,7 +403,7 @@ println(paragraph!.asHTML())
 ![closurereferencecycle02_2x.png](https://raw.githubusercontent.com/lean-tra/Swift-Korean/master/images/closurereferencecycle02_2x.png)
 
 이번의 클로저에 의한 `self` 획득은 미소유 참조입니다. 그렇기에 획득한 `HTMLElement` 인스턴스를 강하게 유지하지 않습니다. 만약 `paragraph` 변수의 강한 참조를 `nil`로 설정한다면, `HTMLElement` 인스턴스는 할당 해제가 될 것입니다. 밑의 예제에서 보이는 것처럼 디이니셜라이저 메시지를 출력하면서 말이죠.
-```
+```swift
 paragraph = nil
 // prints "p is being deinitialized"
 ```
