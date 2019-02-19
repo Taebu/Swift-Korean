@@ -7,7 +7,7 @@ In Swift, there are four kinds of expressions: prefix expressions, binary expres
 Prefix and binary expressions let you apply operators to smaller expressions. Primary expressions are conceptually the simplest kind of expression, and they provide a way to access values. Postfix expressions, like prefix and binary expressions, let you build up more complex expressions using postfixes such as function calls and member access. Each kind of expression is described in detail in the sections below.
 
 > expression → try-operator opt prefix-expression binary-expressions opt
-
+> 
 > expression-list → expression | expression , expression-list
 
 ## Prefix Expressions
@@ -20,9 +20,9 @@ For information about the operators provided by the Swift standard library, see 
 In addition to the standard library operators, you use & immediately before the name of a variable that’s being passed as an in-out argument to a function call expression. For more information and to see an example, see In-Out Parameters.
 
 > prefix-expression → prefix-operator opt postfix-expression
-
+> 
 > prefix-expression → in-out-expression
-
+> 
 > in-out-expression → & identifier
 
 ### Try Operator
@@ -67,13 +67,13 @@ For information about the operators provided by the Swift standard library, see 
 > At parse time, an expression made up of binary operators is represented as a flat list. This list is transformed into a tree by applying operator precedence. For example, the expression 2 + 3 * 5 is initially understood as a flat list of five items, 2, +, 3, *, and 5. This process transforms it into the tree (2 + (3 * 5)).
 
 > binary-expression → binary-operator prefix-expression
-
+> 
 > binary-expression → assignment-operator try-operator opt prefix-expression
-
+> 
 > binary-expression → conditional-operator try-operator opt prefix-expression
-
+> 
 > binary-expression → type-casting-operator
-
+> 
 > binary-expressions → binary-expression binary-expressions opt
 
 ### Assignment Operator
@@ -139,24 +139,38 @@ For more information about type casting and to see examples that use the type-ca
 
 
 > type-casting-operator → is type
+> 
 > type-casting-operator → as type
+> 
 > type-casting-operator → as ? type
+>
 > type-casting-operator → as ! type
 
 ## Primary Expressions
 Primary expressions are the most basic kind of expression. They can be used as expressions on their own, and they can be combined with other tokens to make prefix expressions, binary expressions, and postfix expressions.
 
 > primary-expression → identifier generic-argument-clause opt
+> 
 > primary-expression → literal-expression
+> 
 > primary-expression → self-expression
+> 
 > primary-expression → superclass-expression
+> 
 > primary-expression → closure-expression
+> 
 > primary-expression → parenthesized-expression
+> 
 > primary-expression → tuple-expression
+> 
 > primary-expression → implicit-member-expression
+> 
 > primary-expression → wildcard-expression
+> 
 > primary-expression → key-path-expression
+> 
 > primary-expression → selector-expression
+> 
 > primary-expression → key-path-string-expression
 
 ### Literal Expression
@@ -202,27 +216,27 @@ A playground literal is used by Xcode to create an interactive representation of
 For information on using playground literals in Xcode, see Add a color, file, or image literal in Xcode Help.
 
 > literal-expression → literal
-
+> 
 > literal-expression → array-literal | dictionary-literal | playground-literal
-
+> 
 > literal-expression → #file | #line | #column | #function | #dsohandle
-
+> 
 > array-literal → [ array-literal-items opt ]
-
+> 
 > array-literal-items → array-literal-item ,opt | array-literal-item , array-literal-items
-
+> 
 > array-literal-item → expression
-
+> 
 > dictionary-literal → [ dictionary-literal-items ] | [ : ]
-
+> 
 > dictionary-literal-items → dictionary-literal-item ,opt | dictionary-literal-item , dictionary-literal-items
-
+> 
 > dictionary-literal-item → expression : expression
-
+> 
 > playground-literal → #colorLiteral ( red : expression , green : expression , blue : expression , alpha : expression )
-
+> 
 > playground-literal → #fileLiteral ( resourceName : expression )
-
+> 
 > playground-literal → #imageLiteral ( resourceName : expression )
 
 ## Self Expression
@@ -267,9 +281,9 @@ struct Point {
 A superclass expression lets a class interact with its superclass. It has one of the following forms:
 
 > super.member name
-
+> 
 > super[subscript index]
-
+> 
 > super.init(initializer arguments)
 
 The first form is used to access a member of the superclass. The second form is used to access the superclass’s subscript implementation. The third form is used to access an initializer of the superclass.
@@ -278,11 +292,11 @@ Subclasses can use a superclass expression in their implementation of members, s
 
 
 > superclass-expression → superclass-method-expression | superclass-subscript-expression | superclass-initializer-expression
-
+> 
 > superclass-method-expression → super . identifier
-
+> 
 > superclass-subscript-expression → super [ function-call-argument-list ]
-
+> 
 > superclass-initializer-expression → super . init
 
 ## Closure Expression
@@ -370,27 +384,27 @@ myFunction { [weak parent = self.parent] in print(parent!.title) }
 For more information and examples of closure expressions, see Closure Expressions. For more information and examples of capture lists, see Resolving Strong Reference Cycles for Closures.
 
 > closure-expression → { closure-signature opt statements opt }
-
+> 
 > closure-signature → capture-list opt closure-parameter-clause throwsopt function-result opt in
-
+> 
 > closure-signature → capture-list in
-
+> 
 > closure-parameter-clause → ( ) | ( closure-parameter-list ) | identifier-list
-
+> 
 > closure-parameter-list → closure-parameter | closure-parameter , closure-parameter-list
-
+> 
 > closure-parameter → closure-parameter-name type-annotation opt
-
+> 
 > closure-parameter → closure-parameter-name type-annotation ...
-
+> 
 > closure-parameter-name → identifier
-
+> 
 > capture-list → [ capture-list-items ]
-
+> 
 > capture-list-items → capture-list-item | capture-list-item , capture-list-items
-
+> 
 > capture-list-item → capture-specifier opt expression
-
+> 
 > capture-specifier → weak | unowned | unowned(safe) | unowned(unsafe)
 
 ### Implicit Member Expression
@@ -425,9 +439,9 @@ A tuple expression can contain zero expressions, or it can contain two or more e
 
 
 > tuple-expression → ( ) | ( tuple-element , tuple-element-list )
-
+> 
 > tuple-element-list → tuple-element | tuple-element , tuple-element-list
-
+> 
 > tuple-element → expression | identifier : expression
 
 ### Wildcard Expression
@@ -550,13 +564,13 @@ print(interestingNumbers[keyPath: \[String: [Int]].["hexagonal"]!.count.bitWidth
 For more information about using key paths in code that interacts with Objective-C APIs, see Using Objective-C Runtime Features in Swift. For information about key-value coding and key-value observing, see Key-Value Coding Programming Guide and Key-Value Observing Programming Guide.
 
 > key-path-expression → \ type opt . key-path-components
-
+> 
 > key-path-components → key-path-component | key-path-component . key-path-components
-
+> 
 > key-path-component → identifier key-path-postfixes opt | key-path-postfixes
-
+> 
 > key-path-postfixes → key-path-postfix key-path-postfixes opt
-
+> 
 > key-path-postfix → ? | ! | self | [ function-call-argument-list ]
 
 ## Selector Expression
@@ -601,9 +615,9 @@ Because a selector is created at compile time, not at runtime, the compiler can 
 For more information about using selectors in Swift code that interacts with Objective-C APIs, see Using Objective-C Runtime Features in Swift.
 
 > selector-expression → #selector ( expression )
-
+> 
 > selector-expression → #selector ( getter: expression )
-
+> 
 > selector-expression → #selector ( setter: expression )
 
 ## Key-Path String Expression
@@ -642,13 +656,11 @@ Because the key path string is created at compile time, not at runtime, the comp
 
 For more information about using key paths in Swift code that interacts with Objective-C APIs, see Using Objective-C Runtime Features in Swift. For information about key-value coding and key-value observing, see Key-Value Coding Programming Guide and Key-Value Observing Programming Guide.
 
-NOTE
+> NOTE
+> 
+> Although the property name is an expression, it is never evaluated.
 
-Although the property name is an expression, it is never evaluated.
-
-GRAMMAR OF A KEY-PATH STRING EXPRESSION
-
-key-path-string-expression → #keyPath ( expression )
+> key-path-string-expression → #keyPath ( expression )
 
 ### Postfix Expressions
 Postfix expressions are formed by applying a postfix operator or other postfix syntax to an expression. Syntactically, every primary expression is also a postfix expression.
@@ -659,21 +671,21 @@ For information about the operators provided by the Swift standard library, see 
 
 
 > postfix-expression → primary-expression
-
+> 
 > postfix-expression → postfix-expression postfix-operator
-
+> 
 > postfix-expression → function-call-expression
-
+> 
 > postfix-expression → initializer-expression
-
+> 
 > postfix-expression → explicit-member-expression
-
+> 
 > postfix-expression → postfix-self-expression
-
+> 
 > postfix-expression → subscript-expression
-
+> 
 > postfix-expression → forced-value-expression
-
+> 
 > postfix-expression → optional-chaining-expression
 
 ### Function Call Expression
@@ -701,15 +713,15 @@ myData.someMethod {$0 == 13}
 
 
 > function-call-expression → postfix-expression function-call-argument-clause
-
+> 
 > function-call-expression → postfix-expression function-call-argument-clause opt trailing-closure
-
+> 
 > function-call-argument-clause → ( ) | ( function-call-argument-list )
-
+> 
 > function-call-argument-list → function-call-argument | function-call-argument , function-call-argument-list
-
+> 
 > function-call-argument → expression | identifier : expression
-
+> 
 > function-call-argument → operator | identifier : operator
 
 trailing-closure → closure-expression
@@ -746,7 +758,7 @@ let s4 = type(of: someValue)(data: 5)       // Error
 ```
 
 > initializer-expression → postfix-expression . init
-
+> 
 > initializer-expression → postfix-expression . init ( argument-names )
 
 ### Explicit Member Expression
@@ -797,13 +809,13 @@ let x = [10, 3, 20, 15, 4]
 
 
 > explicit-member-expression → postfix-expression . decimal-digits
-
+> 
 > explicit-member-expression → postfix-expression . identifier generic-argument-clause opt
-
+> 
 > explicit-member-expression → postfix-expression . identifier ( argument-names )
-
+> 
 > argument-names → argument-name argument-names opt
-
+> 
 > argument-name → identifier :
 
 ### Postfix Self Expression
@@ -815,21 +827,18 @@ The first form evaluates to the value of the expression. For example, x.self eva
 
 The second form evaluates to the value of the type. Use this form to access a type as a value. For example, because SomeClass.self evaluates to the SomeClass type itself, you can pass it to a function or method that accepts a type-level argument.
 
-GRAMMAR OF A SELF EXPRESSION
+> postfix-self-expression → postfix-expression . self
 
-postfix-self-expression → postfix-expression . self
-
-Subscript Expression
+### Subscript Expression
 A subscript expression provides subscript access using the getter and setter of the corresponding subscript declaration. It has the following form:
-
+```
 expression[index expressions]
+```
 To evaluate the value of a subscript expression, the subscript getter for the expression’s type is called with the index expressions passed as the subscript parameters. To set its value, the subscript setter is called in the same way.
 
 For information about subscript declarations, see Protocol Subscript Declaration.
 
-GRAMMAR OF A SUBSCRIPT EXPRESSION
-
-subscript-expression → postfix-expression [ function-call-argument-list ]
+> subscript-expression → postfix-expression [ function-call-argument-list ]
 
 Forced-Value Expression
 A forced-value expression unwraps an optional value that you are certain is not nil. It has the following form:
@@ -847,9 +856,8 @@ var someDictionary = ["a": [1, 2, 3], "b": [10, 20]]
 someDictionary["a"]![0] = 100
 // someDictionary is now ["a": [100, 2, 3], "b": [10, 20]]
 ```
-GRAMMAR OF A FORCED-VALUE EXPRESSION
 
-forced-value-expression → postfix-expression !
+> forced-value-expression → postfix-expression !
 
 Optional-Chaining Expression
 An optional-chaining expression provides a simplified syntax for using optional values in postfix expressions. It has the following form:
