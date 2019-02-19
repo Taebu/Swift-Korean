@@ -1,7 +1,7 @@
 # 31 선언 (Declarations)
 > Translator : 이름 (메일주소)
 
-#Declarations
+# Declarations
 
 A declaration introduces a new name or construct into your program. For example, you use declarations to introduce functions and methods, to introduce variables and constants, and to define enumeration, structure, class, and protocol types. You can also use a declaration to extend the behavior of an existing named type and to import symbols into your program that are declared elsewhere.
 
