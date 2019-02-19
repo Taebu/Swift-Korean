@@ -16,13 +16,13 @@ Swift 의 확장이 할수있는 것:
 
 ## 확장 문법
 `extension` 키워드로 확장을 선언합니다:
-```
+```swift
 extension SomeType {
     // SomeType에 추가할 새 기능
 }
 ```
 확장은 기존의 타입을 하나 이상의 프로토콜을 적용하기 위해서 확장시킬 수 있습니다. 이 경우 클래스 또는 구조체와 같은 방식으로 적용시킬 프로토콜 이름을 적습니다:
-```
+```swift
 extension SomeType: SomeProtocol, AnotherProtocol {
     // 프로토콜의 요구사항을 이곳에 구현
 }
@@ -31,7 +31,7 @@ extension SomeType: SomeProtocol, AnotherProtocol {
 
 ## 연산 속성
 확장은 연산 인스턴스 속성과 연산 타입 속성을 기존의 타입에 추가할 수 있습니다. 이 예제는 거리 단위를 제공하기 위해 다섯개의 연산 인스턴스 속성을 Swift의 내장 `Double` 타입에 추가합니다. 
-```
+```swift
 extension Double {
     var km: Double { return self * 1_000.0 }
     var m: Double { return self }
@@ -54,7 +54,7 @@ println("Three feet is \(threeFeet) meters")
 
 이 속성들은 읽기 전용 속성이고 간결함을 위해 `get` 키워드 없이 사용될 수 있습니다. 속성들의 반환 값은 `Double` 형이기 때문에 `Double` 을 사용하는 어느 곳에서나 수학적 계산과 함께 사용 될 수 있습니다.
 
-```
+```swift
 let aMarathon = 42.km + 195.m
 println("A marathon is \(aMarathon) meters long")
 // prints "A marathon is 42195.0 meters long"
@@ -74,7 +74,7 @@ println("A marathon is \(aMarathon) meters long")
 
 아래의 예제는 직사각형을 나타내기 위한 커스텀 `Rect` 구조체를 정의합니다. 또한 모든 속성의 기본값이 `0.0`인 `Size`와 `Point`구조체를 정의합니다. 
 
-```
+```swift
 struct Size {
     var width = 0.0, height = 0.0
 }
@@ -89,14 +89,14 @@ struct Rect {
 
 [Default Initailizers]() 에서 언급했던 것처럼 `Rect` 구조체는 모든 속성의 기본값을 제공하기 때문에 기본 이니셜라이저와 memberwise 이니셜라이저를 자동으로 받습니다. 이 이니셜라이저들은 새로운 `Rect` 인스턴스를 생성하기 위해 사용될 수 있습니다.
 
-```
+```swift
 let defaultRect = Rect()
 let memberwiseRect = Rect(origin: Point(x: 2.0, y: 2.0),
     size: Size(width: 5.0, height: 5.0))
 ```
 
 `Rect` 구조체에 특정 중심점과 크기를 받기 위한 추가 이니셜라이저를 제공하기 위해 확장할 수 있습니다.
-```
+```swift
 extension Rect {
     init(center: Point, size: Size) {
         let originX = center.x - (size.width / 2)
@@ -108,7 +108,7 @@ extension Rect {
 
 이 새 이니셜라이저는 처음에 제공된 `center` 값과 `size`값을 기반으로 적절한 origin point를 계산합니다. 그 다음 구조체의 자동 memberwise 이니셜라이저 `init(origin:size:)`를 호출하여 새 origin 과 size 값을 적절한 속성에 저장합니다.
 
-```
+```swift
 let centerRect = Rect(center: Point(x: 4.0, y: 4.0),
     size: Size(width: 3.0, height: 3.0))
 // centerRect's origin is (2.5, 2.5) and its size is (3.0, 3.0)
@@ -119,7 +119,7 @@ let centerRect = Rect(center: Point(x: 4.0, y: 4.0),
 
 ## 메소드
 확장은 기존 타입에 새 인스턴스 메소드와 타입 메소드를 추가할 수 있습니다. 다음 예제는 새 인스턴스 메소드  `repetitions` 를 `Int` 타입에 추가합니다:
-```
+```swift
 extension Int {
     func repetitions(task: () -> ()) {
         for i in 0..self {
@@ -156,7 +156,7 @@ extension Int {
 
 아래 예제는 원래의 값을 제곱하는 새 mutating 메소드 `square` 를 Swift의 `Int`타입에 추가합니다. 
 
-```
+```swift
 extension Int {
     mutating func square() {
         self = self * self
@@ -175,7 +175,7 @@ someInt.square()
 
 ... 기타 등등:
 
-```
+```swift
 extension Int {
     subscript(digitIndex: Int) -> Int {
         var decimalBase = 1
@@ -205,7 +205,7 @@ extension Int {
 
 ## Nested Types
 확장은 새 Nested 타입을 기존 클래스, 구조체, enumeration에 추가할 수 있습니다.
-```
+```swift
 extension Character {
     enum Kind {
         case Vowel, Consonant, Other
@@ -229,7 +229,7 @@ extension Character {
 
 이제 `Character` 값에서 nested enumeration 을 사용할 수 있습니다.
 
-```
+```swift
 func printLetterKinds(word: String) {
     println("'\(word)' is made up of the following kinds of letters:")
     for character in word {
