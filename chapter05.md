@@ -19,7 +19,7 @@ Foundation 과 Cocoa 에 대한 자세한 정보는 [Using Swift With Cocoa and 
 코드 내에서 미리 정의된 `String` 값인 리터럴등을 포함할 수 있습니다. 문자열 리터럴이란 큰따옴표로 둘러싸인 텍스트 문자의 고정된 순서입니다.
 
 문자열 리터럴은 상수나 변수의 초기값을 제공하는것에 사용될 수 있습니다.
-```
+```swift
 let someString = "Some string literal value"
 ```
 
@@ -35,7 +35,7 @@ Swift는 초기화된 문자열 리터럴 값으로 `someString` 상수에 대�
 아래의 코드는 여러 종류의 특수문자의 예를 나타냅니다.
 `wiseWords` 상수는 두 개의 이스케이프 문자가 포함되어 있습니다. `dollarSign` 과 `blackHeart` 및 `sparklingHeart` 상수는 세 가지 다른 유니코드 스칼라 문자 형식을 보여줍니다.
 
-```
+```swift
 let wiseWords = "\"Imagination is more important than knowledge\" - Einstein"
 // "Imagination is more important than knowledge" - Einstein
 let dollarSign = "\x24"        // $,  Unicode scalar U+0024
@@ -47,7 +47,7 @@ let sparklingHeart = "\U0001F496"  // 💖, Unicode scalar U+1F496
 
 긴 문자열을 만들기 위한 포인트를 위해 빈 `String` 값을 만들려면 빈 문자열 리터럴을 변수에 할당하거나 초기화 문법을 사용하여 새 `String` 인스턴스를 초기화합니다.
 
-```
+```swift
 var emptyString = ""               // 빈 문자열 리터럴
 var anotherEmptyString = String()  // 초기화 문법
 // 두 문자열 모두 비어있으며 서로 똑같다.
@@ -55,7 +55,7 @@ var anotherEmptyString = String()  // 초기화 문법
 ```
 
 `isEmpty`의 불리언 속성을 체크하여 문자열 값이 비어있는지 여부를 확인할 수 있습니다.
-```
+```swift
 if emptyString.isEmpty {
     println("여기엔 아무것도 보이지 않습니다.")
 }
@@ -65,7 +65,7 @@ if emptyString.isEmpty {
 ## 문자열 가변성
 
 특정 `String`을 변수에 할당하여(수정될 수 있는 경우) 수정(또는 변경)할 수 있는지를 나타내거나 상수(수정될 수 없는 경우)를 말합니다.
-```
+```swift
 var variableString = "Horse"
 variableString += " and carriage"
 // variableString 은 "Horse and carriage" 입니다.
@@ -93,7 +93,7 @@ Swift의 `String` 기본 복사 동작(copy-by-default)은 문자열 값이 함�
 
 Swift의 `String` 타입은 지정된 순서로 `Character` 값의 컬렉션을 나타냅니다. 각 `Character`의 값은 하나의 유니코드 문자를 나타냅니다. 각 `Character`에 대해 `for-in` 루프의 문자 반복을 사용하여 각각의 문자의 값에 접근할 수 있습니다.
 
-```
+```swift
 for character in "Dog!🐶"{
 	println(character)
 }
@@ -108,14 +108,14 @@ for character in "Dog!🐶"{
 
 또한, `Character` 타입 표시를 제공하여 단일 문자열 리터럴에서 독립(stand-alone) `Character` 상수나 변수를 만들 수 있습니다.
 
-```
+```swift
 let yenSign: Character = "¥"
 ```
 
 ## 문자 세기 (Counting Characters)
 문자열의 문자의 수를 검색하려면 전역 함수인 `countElements`를 호출하여 함수의 유일한 매개변수인 문자열을 전달합니다.
 
-```
+```swift
 let unusualMenagerie = "Koala 🐨, Snail 🐌, Penguin 🐧, Dromedary 🐪"
 println("unusualMenagerie has \(countElements(unusualMenagerie)) characters")
 // prints "unusualMenagerie has 40 characters"
@@ -130,7 +130,7 @@ println("unusualMenagerie has \(countElements(unusualMenagerie)) characters")
 
 `String` 및 `Character`를 덧셈 연산자(`+`)와 함께 추가하여 새로운 문자열(또는 연결된) 값을 만들 수 있습니다.
 
-```
+```swift
 let string1 = "hello"
 let string2 = "there"
 let character1: Character = "!"
@@ -142,7 +142,7 @@ let characterPlusString = character1 + string1        // equals "!hello"
 let characterPlusCharacter = character1 + character2  // equals "!?"
 ```
 또한 덧셈 할당연산자(+=)로 기존의 `String` 변수에 `String`이나 `Character` 값을 추가할 수 있습니다.
-```
+```swift
 var instruction = "look over"
 instruction += sting2
 // instriction 은 "look over there" 와 같습니다.
@@ -158,7 +158,7 @@ welcome += character1
 ## 문자열 삽입
 
 문자열 삽입은 상수, 변수, 리터럴 그리고 표현식을 혼합하여 이용 및 문자열 안에 문자 값을 포함하여 새로운 `String` 값을 만드는 방법입니다. 문자열 리터럴에 삽입된 각 항목은 백슬래시가 앞에 있으며 한 쌍의 괄호로 싸여있습니다.
-```
+```swift
 let multiplier = 3
 let message = "\(multiplier) times 2.5 is \(Double(multiplier) * 2.5)"
 // message is "3 times 2.5 is 7.5"
@@ -177,7 +177,7 @@ Swift는 `String` 값을 비교하는 세가지 방법을 제공합니다 : 문�
 ### String Equality 
 두개의 `String` 값이 동일한 순서로 포함되어 있는 경우 두개의 문자열 값이 동일한 것으로 간주됩니다.
 
-```
+```swift
 let quotation = "We're a lot alike, you and I."
 let sameQuotation = "We're a lot alike, you and I."
 if quotation == sameQuotation {
@@ -194,7 +194,7 @@ if quotation == sameQuotation {
 
 아래의 예는 _셰익스피어의 로미오와 줄리엣_ 의 처음 두 액트인 장면의 위치를 나타내는 문자열의 배열을 고려하였습니다.
 
-```
+```swift
 let romeoAndJuliet = [
     "Act 1 Scene 1: Verona, A public place",
     "Act 1 Scene 2: Capulet's mansion",
@@ -211,7 +211,7 @@ let romeoAndJuliet = [
 ```
 Act 1의 장면의 수를 `romeoAndJuliet` 배열에 `hasPrefix`를 사용하여 계산할 수 있습니다.
 
-```
+```swift
 var act1SceneCount = 0
 for scene in romeoAndJuliet {
     if scene.hasPrefix("Act 1 ") {
@@ -224,7 +224,7 @@ println("There are \(act1SceneCount) scenes in Act 1")
 
 마찬가지로 `hasSiffix` 메소드를 사용하여 Capulet's mansion and Friar Lawrence's cell의 장면의 수를 계산합니다.
 
-```
+```swift
 var mansionCount = 0
 var cellCount = 0
 for scene in romeoAndJuliet {
@@ -241,7 +241,7 @@ println("\(mansionCount) mansion scenes; \(cellCount) cell scenes")
 ## 대문자와 소문자 문자열
 `uppercaseString` 과 `lowercaseString` 속성을 가진 문자열에 대문자와 소문자 버전에 접근할 수 있습니다.
 
-```
+```swift
 let normal = "Could you help me, please?"
 let shouty = normal.uppercaseString
 // shouty is equal to "COULD YOU HELP ME, PLEASE?"
@@ -274,7 +274,7 @@ Swift는 문자열의 유니코드 표현에 접근할 수 있는 여러 가지 
 
 아래의 각 예제에서는 D,O,G,! 및 (DOG FACE) 문자로 구성되어 있으며 문자열은 다른 표현을 보여줍니다. (`DOG FACE` 또는 `유니코드 스칼라 U+1F436)
 
-```
+```swift
 let dogString = "Dog!🐶"
 ```
 
@@ -283,7 +283,7 @@ let dogString = "Dog!🐶"
 문자열의 UTF-8 속성을 반복하여 `String`의 `UTF-8` 표현에 접근할 수 있습니다.
 `UTF8View` 타입의 속성은 부호 없는 8 bit(`UInt8`) 값의 모음이며 문자열의 UTF-8 의 각 바이트 문자열 표현입니다.:
 
-```
+```swift
 for codeUnit in dogString.utf8 {
     print("\(codeUnit) ")
 }
@@ -297,7 +297,7 @@ print("\n")
 
 UTF-16 속성에 반복하여 UTF-16 표현에 접근할수 있습니다. `UTF16View` 타입의 속성은  부호 없는 16 bit(`UInt16`)값의 모음이며 문자열의 UTF-16의 각 바이트 문자열 표현입니다.:
 
-```
+```swift
 for codeUnit in dogString.utf16 {
     print("\(codeUnit) ")
 }
@@ -316,7 +316,7 @@ print("\n")
 
 각 `UnicodeScalar`는 값 속성(value property)이 있으며 이것은 스칼라의 21bit 값을 반환합니다. `UInt32` 안의 값을 표현한 것입니다.:
 
-```
+```swift
 for scalar in dogString.unicodeScalars {
     print("\(scalar.value) ")
 }
@@ -329,7 +329,7 @@ print("\n")
 
 `Value` 속성들을 쿼리하는 대신 각 `UnicodeScalar` 값은 또한 문자열 삽입으로 새로운 `String` 값을 생성하는데 사용될 수 있습니다.
 
-```
+```swift
 for scalar in dogString.unicodeScalars {
     println("\(scalar) ")
 }
