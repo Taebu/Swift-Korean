@@ -20,7 +20,7 @@ C언어의 `switch`문과 비교했을 때, Swift의 `switch`문은 훨씬 더 �
 여러 항목이 들어 있는 컬렉션(collection)이나, 어떤 범위, 배열 안에 들어 있는 항목(item)에 대해서, 또는 문자열에 들어 있는 각 문자에 대해서 iteration을 할 때 `for-in` loop를 사용합니다. 
 
 다음의 예는 구구단의 5단에서 처음 몇 개를 출력해 줍니다: 
-```
+```swift
 for index in  1...5 {       
 	println("\(index) times 5 is \(index * 5)") 
  } 
@@ -242,7 +242,7 @@ Swift는 `for-in`루프 말고도 C언어에서 쓰는, 조건부와 증가부�
 
 게임을 시작할 때, 참가자는 “0번 칸”에 있습니다. `board[0]`의 값은 항상 0이며, 이 값이 가지는 효과는 없습니다: 
 
-```
+```swift
 do { 
      // move up or down for a snake or ladder square += board[square] 
 // 주사위를 던진다
@@ -392,7 +392,7 @@ C언어의 `switch`문에서는 anotherCharacter가 `“a”`와 `“A”` 경�
 
 한 경우에 해당하는 매치를 여러 개 쓸 때에는 콤마`,`로 구분합니다. 그리고 길어지면 줄을 바꾸어 써도 됩니다:
 
-```
+```swift
 switch   some value  to consider  { 
         case   value  1 , 
          value 2  : 
@@ -571,7 +571,7 @@ case 본문에 주석만 있는 경우에도 컴파일 에러가 납니다. 주�
 
 다음의 예제는 `Character`변수의 값(Character value)이 무엇인가에 따라서, 이 값이 네 개 언어 중 하나에서 숫자를 나타내는지 여부를 판단합니다. 과감하게 몇 가지 값은 하나의 case와 매치되도록 했습니다: 
 
-```
+```swift
 let numberSymbol: Character = "三"  // Simplified Chinese for the number 3
 var possibleIntegerValue: Int?
 switch numberSymbol {
@@ -607,7 +607,7 @@ Swift에서 `switch`문은 한 case와 매치한 후에, 다음 case로 넘어�
 
 C언어에서 일어나는 fallthrough를 꼭 사용해야 한다면, `fallthrough` 키워드를 사용해서 필요할 때 사용할 수도 있습니다. 다음 예제는 어떤 수를 묘사하는 데에 `fallthrough`를 사용합니다. 
 
-```
+```swift
 let integerToDescribe  = 5 
   var description  = "수 \(integerToDescribe) 는" 
   switch integerToDescribe { 
