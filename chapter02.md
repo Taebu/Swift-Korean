@@ -684,5 +684,6 @@ anyCommonElements 함수를 공통적으로 두개의 연속값을 갖는 배열
 
 간단한 경우에는 where을 생략하고 프로토콜과 클래스 이름을 콜론뒤에 바로 쓸 수 있습니다. `<T:Equatable>`과 `<T where T: Equatable>`은 동일합니다.
 
-[Chapter01 Swift에 대해서 (About Swift)](https://github.com/Taebu/Swift-Korean/blob/master/chapter01.md)
-[Chapter03 기초 다지기 (The Basics)](https://github.com/Taebu/Swift-Korean/blob/master/chapter03.md)
+> [Chapter01 Swift에 대해서 (About Swift)](https://github.com/Taebu/Swift-Korean/blob/master/chapter01.md)
+> 
+> [Chapter03 기초 다지기 (The Basics)](https://github.com/Taebu/Swift-Korean/blob/master/chapter03.md)
