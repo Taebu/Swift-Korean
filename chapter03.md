@@ -595,7 +595,7 @@ assert(age >= 0)
 - 함수로 넘긴 어떤 값이 함수에서 작업을 진행하는데 적합하지 않은 값일때.
 - 옵셔널 값이 현재 `nil`인데 추후의 코드 실행을 위해서 `nil`이 아닌 값이 필요할때.
 
-이에 관해서는 [Subscripts]()와 [Functions]()을 참고하시기 바랍니다.
+이에 관해서는 [Subscripts](https://github.com/Taebu/Swift-Korean/blob/master/chapter14.md)와 [Functions](https://github.com/Taebu/Swift-Korean/blob/master/chapter08.md)을 참고하시기 바랍니다.
 
 >NOTE
 >
